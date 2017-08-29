@@ -3,16 +3,51 @@ package main
 // TODO change the grounded regex to respond to any form of dad
 // TODO initialize all regexp values as global variables and pass those instead of regex strings
 // TODO add check for grounded users to TestMessage once implemented
+// TODO there needs to be a way to determine which one to follow through on if multiple triggers are activated
+	// TODO only allow one response per 10 seconds
+	// TODO maybe add a send queue that collects replies (each having a specific priority)
+	// and then only sending the one with highest priority and then clearing out the rest
+	// (race condition will emerge)
+// TODO asking a question/saying good morning shouldn't be triggered unless dad is mentioned in the question
 
 import (
 	"flag"
 	"fmt"
 	// "errors"
 	"regexp"
+	"encoding/json"
+	"os"
 
 	"github.com/whyrusleeping/hellabot"
 	log "gopkg.in/inconshreveable/log15.v2"
 )
+
+type Configuration struct {
+	Admin 		string
+	Channels 	[]string
+	DadName		string
+	Debug		string
+	Grounded	[]string
+	Ip 			string
+	MessageRate int // Using 1 reply per x seconds instead of y per x seconds
+	MomName		string
+	Timeout		int
+}
+
+type Joke struct {
+	Setup string
+	Punch string
+	Count int
+}
+
+// Initialize bot config
+file, _ := os.Open("conf.json")
+decoder := json.NewDecoder(file)
+conf := Configuration{}
+err := decoder.Decode(&conf)
+if err != nil {
+	panic(err)
+}
 
 var serv = flag.String("server", "localhost:6667", "hostname and port for irc server to connect to")
 var nick = flag.String("nick", "dad", "nickname for the bot")
@@ -32,13 +67,10 @@ func main() {
 	}
 
 	irc.AddTrigger(HiImDadTrigger)
+	irc.AddTrigger(GroundedListTrigger)
 	irc.AddTrigger(GoodMorningTrigger)
+	irc.AddTrigger(QuestionTrigger)
 	irc.Logger.SetHandler(log.StdoutHandler)
-	// logHandler := log.LvlFilterHandler(log.LvlInfo, log.StdoutHandler)
-	// or
-	// irc.Logger.SetHandler(logHandler)
-	// or
-	// irc.Logger.SetHandler(log.StreamHandler(os.Stdout, log.JsonFormat()))
 
 	// Start up bot (this blocks until we disconnect)
 	irc.Run()
@@ -65,13 +97,14 @@ var HiImDadTrigger = hbot.Trigger {
 		return testMessage([]string {`(?i)(^|\W+)i(')?m(\s\w.*$)`}, m)
 	},
 	func (irc *hbot.Bot, m *hbot.Message) bool {
-		r := regexp.MustCompile(`(?i)(?:^|\W+)(i'?m)\W+`).Split(m.Content, 2)
-		irc.Reply(m, fmt.Sprintf("Hi %s, I'm dad.", r[1]))
+		r := regexp.MustCompile(`(?i)(?:^|\W+)(i'?m)\W+`)
+		reply := r.Split(m.Content, 2)
+		r = regexp.MustCompile(`(?i)\s*(a|an)\s+`)
+		reply = r.Split(reply[len(reply) - 1], 2)
+		irc.Reply(m, fmt.Sprintf("Hi %s, I'm dad.", reply[len(reply) - 1]))
 		return false
 	},
 }
-
-// TODO there needs to be a way to determine which one to follow through on if multiple triggers are activated
 
 var GroundedListTrigger = hbot.Trigger {
 	func (bot *hbot.Bot, m *hbot.Message) bool {
@@ -94,8 +127,15 @@ var GoodMorningTrigger = hbot.Trigger {
 	},
 }
 
-// var QuestionTrigger = hbot.Trigger {
-// }
+var QuestionTrigger = hbot.Trigger {
+	func (bot *hbot.Bot, m *hbot.Message) bool {
+		return testMessage([]string {`(?i)\?$`}, m)
+	},
+	func (irc *hbot.Bot, m *hbot.Message) bool {
+		irc.Reply(m, "Ask your mother.")
+		return false
+	},
+}
 
 // var JokeTrigger = hbot.Trigger {
 // }
