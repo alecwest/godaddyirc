@@ -1,22 +1,18 @@
 package main
 
-// TODO change the grounded regex to respond to any form of dad
-// TODO initialize all regexp values as global variables and pass those instead of regex strings
 // TODO add check for grounded users to TestMessage once implemented
-// TODO there needs to be a way to determine which one to follow through on if multiple triggers are activated
-	// TODO only allow one response per 10 seconds
-	// TODO maybe add a send queue that collects replies (each having a specific priority)
-	// and then only sending the one with highest priority and then clearing out the rest
-	// (race condition will emerge)
-// TODO asking a question/saying good morning shouldn't be triggered unless dad is mentioned in the question
+// TODO only allow one response per 10 seconds
+// TODO finish format of replies. Probably need to edit some existing regex so it can also be used to split the string apart from the part that needs formatting
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
-	// "errors"
-	"regexp"
-	"encoding/json"
+	"math/rand"
 	"os"
+	"regexp"
+	"strings"
+	"time"
 
 	"github.com/whyrusleeping/hellabot"
 	log "gopkg.in/inconshreveable/log15.v2"
@@ -26,50 +22,49 @@ type Configuration struct {
 	Admin 		string
 	Channels 	[]string
 	DadName		string
-	Debug		string
+	Debug		bool
 	Grounded	[]string
 	Ip 			string
 	MessageRate int // Using 1 reply per x seconds instead of y per x seconds
 	MomName		string
+	Speak 		[]SpeakData
 	Timeout		int
 }
 
-type Joke struct {
-	Setup string
-	Punch string
-	Count int
+type SpeakData struct {
+	Regex 		string
+	Response	[]ResponseData
 }
 
-// Initialize bot config
-file, _ := os.Open("conf.json")
-decoder := json.NewDecoder(file)
-conf := Configuration{}
-err := decoder.Decode(&conf)
-if err != nil {
-	panic(err)
+type ResponseData struct {
+	Message 	string
+	Count 		int
 }
 
-var serv = flag.String("server", "localhost:6667", "hostname and port for irc server to connect to")
-var nick = flag.String("nick", "dad", "nickname for the bot")
+var conf = initConfig()
+var serv = flag.String("server", conf.Ip + ":6667", "hostname and port for irc server to connect to")
+var nick = flag.String("nick", conf.DadName, "nickname for the bot")
 
 func main() {
+	rand.Seed(time.Now().Unix())
 	flag.Parse()
 
 	hijackSession := func(bot *hbot.Bot) {
 		bot.HijackSession = true
 	}
 	channels := func(bot *hbot.Bot) {
-		bot.Channels = []string{"#main"}
+		bot.Channels = conf.Channels
 	}
 	irc, err := hbot.NewBot(*serv, *nick, hijackSession, channels)
 	if err != nil {
 		panic(err)
 	}
 
-	irc.AddTrigger(HiImDadTrigger)
-	irc.AddTrigger(GroundedListTrigger)
-	irc.AddTrigger(GoodMorningTrigger)
-	irc.AddTrigger(QuestionTrigger)
+	irc.AddTrigger(GlobalTrigger)
+	// irc.AddTrigger(HiImDadTrigger)
+	// irc.AddTrigger(GroundedListTrigger)
+	// irc.AddTrigger(GoodMorningTrigger)
+	// irc.AddTrigger(QuestionTrigger)
 	irc.Logger.SetHandler(log.StdoutHandler)
 
 	// Start up bot (this blocks until we disconnect)
@@ -77,77 +72,56 @@ func main() {
 	fmt.Println("Bot shutting down.")
 }
 
-func testMessage(regexList []string, message *hbot.Message) bool {
+func initConfig () Configuration {
+	// Initialize bot config
+	file, _ := os.Open("conf.json")
+	decoder := json.NewDecoder(file)
+	conf := Configuration{}
+	err := decoder.Decode(&conf)
+	if err != nil {
+		panic(err)
+	}
+	return conf
+}
+
+func testMessage (regex string, message *hbot.Message) bool {
 	match := false
 	// err = errors.New("Forgot to include who the message was from")
-	for _, regex := range regexList {
-		r := regexp.MustCompile(regex)
-		if (r.MatchString(message.Content)) {
-			match = true
-			break
-		}
+	r := regexp.MustCompile(regex)
+	if (r.MatchString(message.Content)) {
+		match = true
 	}
 	return match
 }
 
-var HiImDadTrigger = hbot.Trigger {
+
+func formatReply (m *hbot.Message, r []ResponseData) []string {
+	reply := r[rand.Intn(len(r))]
+	reply.Message = strings.Replace(reply.Message, "[from]", m.From, -1)
+	// reply.Message = strings.Replace(reply.Message, "[user]", fill_this_in)
+	reply.Message = strings.Replace(reply.Message, "[repeat]", m.Content, -1)
+	reply.Message = strings.Replace(reply.Message, "[grounded]", strings.Join(conf.Grounded, ", "), -1)
+	formattedReply := strings.Split(reply.Message, "\n")
+	return formattedReply
+}
+
+var GlobalTrigger = hbot.Trigger {
 	func (bot *hbot.Bot, m *hbot.Message) bool {
-		// test := []string{"yeet", "a"}
-		// return m.Command == "PRIVMSG" && m.Content == "yeet"
-		return testMessage([]string {`(?i)(^|\W+)i(')?m(\s\w.*$)`}, m)
+		return true
 	},
 	func (irc *hbot.Bot, m *hbot.Message) bool {
-		r := regexp.MustCompile(`(?i)(?:^|\W+)(i'?m)\W+`)
-		reply := r.Split(m.Content, 2)
-		r = regexp.MustCompile(`(?i)\s*(a|an)\s+`)
-		reply = r.Split(reply[len(reply) - 1], 2)
-		irc.Reply(m, fmt.Sprintf("Hi %s, I'm dad.", reply[len(reply) - 1]))
+		for _, r := range conf.Speak {
+			if (testMessage(r.Regex, m)) {
+				reply := formatReply(m, r.Response)
+				for _, line := range reply {
+					irc.Reply(m, fmt.Sprintf(line))
+					if (len(reply) > 1) {
+						time.Sleep(time.Duration(conf.Timeout) * time.Second)
+					}	
+				}
+				break
+			}
+		}
 		return false
 	},
 }
-
-var GroundedListTrigger = hbot.Trigger {
-	func (bot *hbot.Bot, m *hbot.Message) bool {
-		return testMessage([]string {`(?i)dad, grounded`}, m)
-	},
-	func (irc *hbot.Bot, m *hbot.Message) bool {
-		irc.Reply(m, "Here is a list of grounded users:")
-		irc.Reply(m, "//TODO fill this in")
-		return false
-	},
-}
-
-var GoodMorningTrigger = hbot.Trigger {
-	func (bot *hbot.Bot, m *hbot.Message) bool {
-		return testMessage([]string {`(?i)^(good)?\s?mornin(g)?(,)?`}, m)
-	},
-	func (irc *hbot.Bot, m *hbot.Message) bool {
-		irc.Reply(m, fmt.Sprintf("good morning %s!", m.From))
-		return false
-	},
-}
-
-var QuestionTrigger = hbot.Trigger {
-	func (bot *hbot.Bot, m *hbot.Message) bool {
-		return testMessage([]string {`(?i)\?$`}, m)
-	},
-	func (irc *hbot.Bot, m *hbot.Message) bool {
-		irc.Reply(m, "Ask your mother.")
-		return false
-	},
-}
-
-// var JokeTrigger = hbot.Trigger {
-// }
-
-/*
-	Copy as needed
-
-	func (bot *hbot.Bot, m *hbot.Message) bool {
-	
-	},
-	func (irc *hbot.Bot, m *hbot.Message) bool {
-		return false
-	},
-
-*/
