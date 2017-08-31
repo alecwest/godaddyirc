@@ -46,14 +46,14 @@
             }]
         },
         {
-            "Regex": "(?i)(^|\\W+)i(')?m(\\s\\w.*$)",
+            "Regex": "(?i)(^|\\W+)i(')?m ",
             "Response": [{
                 "Message": "Hi [mock], I'm dad",
                 "Count": 0
             }]
         },
         {
-            "Regex": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), say .+",
+            "Regex": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), say ",
             "Response": [{
                 "Message": "[repeat]",
                 "Count": 0

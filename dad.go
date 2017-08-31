@@ -2,7 +2,8 @@ package main
 
 // TODO add check for grounded users to TestMessage once implemented
 // TODO only allow one response per 10 seconds
-// TODO finish format of replies. Probably need to edit some existing regex so it can also be used to split the string apart from the part that needs formatting
+// TODO add some check to block attempts at blank responses ("dad, ground " breaks it, "im ." breaks it too)
+// TODO in formatReply, if the [] block gets replaced with an empty or non-character string, make the entire reply empty so a check later on doesn't allow it to send.
 
 import (
 	"encoding/json"
@@ -28,7 +29,7 @@ type Configuration struct {
 	MessageRate int // Using 1 reply per x seconds instead of y per x seconds
 	MomName		string
 	Speak 		[]SpeakData
-	Timeout		int
+	Timeout		int // Timeout between multi-lined reply
 }
 
 type SpeakData struct {
@@ -84,28 +85,46 @@ func testMessage (regex string, message *hbot.Message) bool {
 	match := false
 	// err = errors.New("Forgot to include who the message was from")
 	r := regexp.MustCompile(regex)
-	if (r.MatchString(message.Content)) {
+	if (r.MatchString(message.Content) && !stringInSlice(message.From, conf.Grounded)) {
 		match = true
 	}
 	return match
 }
 
+func stringInSlice (a string, s []string) bool {
+	for _, b := range s {
+		if (a == b) {
+			return true
+		}
+	}
+	return false
+}
 
 func formatReply (m *hbot.Message, s SpeakData) []string {
 	reply := s.Response[rand.Intn(len(s.Response))]
 	if (strings.Contains(reply.Message, "[from]")) {
 		reply.Message = strings.Replace(reply.Message, "[from]", m.From, -1)
 	}
-	if (strings.Contains(reply.Message, "[user]")) {
-		r := regexp.MustCompile(s.Regex)
-		user := r.Split(m.Content, -1)[len(m.Content) - 1]
-		reply.Message = strings.Replace(reply.Message, "[user]", user, -1)
-	}
-	if (strings.Contains(reply.Message, "[repeat]")) {
-		reply.Message = strings.Replace(reply.Message, "[repeat]", m.Content, -1)
-	}
 	if (strings.Contains(reply.Message, "[grounded]")) {
 		reply.Message = strings.Replace(reply.Message, "[grounded]", strings.Join(conf.Grounded, ", "), -1)
+	}
+	if (strings.Contains(reply.Message, "[mock]")) {
+		r := regexp.MustCompile(s.Regex)
+		temp := r.Split(m.Content, -1)
+		mock := temp[len(temp) - 1]
+		reply.Message = strings.Replace(reply.Message, "[mock]", mock, -1)
+	}
+	if (strings.Contains(reply.Message, "[repeat]")) {
+		r := regexp.MustCompile(s.Regex)
+		temp := r.Split(m.Content, -1)
+		repeat := temp[len(temp) - 1]
+		reply.Message = strings.Replace(reply.Message, "[repeat]", repeat, -1)
+	}
+	if (strings.Contains(reply.Message, "[user]")) {
+		r := regexp.MustCompile(s.Regex)
+		temp := r.Split(m.Content, -1)
+		user := temp[len(temp) - 1]
+		reply.Message = strings.Replace(reply.Message, "[user]", user, -1)
 	}
 	formattedReply := strings.Split(reply.Message, "\n")
 	return formattedReply
@@ -118,10 +137,15 @@ var GlobalTrigger = hbot.Trigger {
 	func (irc *hbot.Bot, m *hbot.Message) bool {
 		for _, r := range conf.Speak {
 			if (testMessage(r.Regex, m)) {
+				// TODO add line here to record time of last reply for MessageRate
 				reply := formatReply(m, r)
+				sent := 0
 				for _, line := range reply {
-					irc.Reply(m, fmt.Sprintf(line))
-					if (len(reply) > 1) {
+					if (len(line) > 0) {
+						irc.Reply(m, fmt.Sprintf(line))
+						sent++
+					}
+					if (len(reply) > 1 && sent > 0) {
 						time.Sleep(time.Duration(conf.Timeout) * time.Second)
 					}	
 				}
