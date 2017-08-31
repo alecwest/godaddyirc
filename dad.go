@@ -61,10 +61,6 @@ func main() {
 	}
 
 	irc.AddTrigger(GlobalTrigger)
-	// irc.AddTrigger(HiImDadTrigger)
-	// irc.AddTrigger(GroundedListTrigger)
-	// irc.AddTrigger(GoodMorningTrigger)
-	// irc.AddTrigger(QuestionTrigger)
 	irc.Logger.SetHandler(log.StdoutHandler)
 
 	// Start up bot (this blocks until we disconnect)
@@ -95,12 +91,22 @@ func testMessage (regex string, message *hbot.Message) bool {
 }
 
 
-func formatReply (m *hbot.Message, r []ResponseData) []string {
-	reply := r[rand.Intn(len(r))]
-	reply.Message = strings.Replace(reply.Message, "[from]", m.From, -1)
-	// reply.Message = strings.Replace(reply.Message, "[user]", fill_this_in)
-	reply.Message = strings.Replace(reply.Message, "[repeat]", m.Content, -1)
-	reply.Message = strings.Replace(reply.Message, "[grounded]", strings.Join(conf.Grounded, ", "), -1)
+func formatReply (m *hbot.Message, s SpeakData) []string {
+	reply := s.Response[rand.Intn(len(s.Response))]
+	if (strings.Contains(reply.Message, "[from]")) {
+		reply.Message = strings.Replace(reply.Message, "[from]", m.From, -1)
+	}
+	if (strings.Contains(reply.Message, "[user]")) {
+		r := regexp.MustCompile(s.Regex)
+		user := r.Split(m.Content, -1)[len(m.Content) - 1]
+		reply.Message = strings.Replace(reply.Message, "[user]", user, -1)
+	}
+	if (strings.Contains(reply.Message, "[repeat]")) {
+		reply.Message = strings.Replace(reply.Message, "[repeat]", m.Content, -1)
+	}
+	if (strings.Contains(reply.Message, "[grounded]")) {
+		reply.Message = strings.Replace(reply.Message, "[grounded]", strings.Join(conf.Grounded, ", "), -1)
+	}
 	formattedReply := strings.Split(reply.Message, "\n")
 	return formattedReply
 }
@@ -112,7 +118,7 @@ var GlobalTrigger = hbot.Trigger {
 	func (irc *hbot.Bot, m *hbot.Message) bool {
 		for _, r := range conf.Speak {
 			if (testMessage(r.Regex, m)) {
-				reply := formatReply(m, r.Response)
+				reply := formatReply(m, r)
 				for _, line := range reply {
 					irc.Reply(m, fmt.Sprintf(line))
 					if (len(reply) > 1) {

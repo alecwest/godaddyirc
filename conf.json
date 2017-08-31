@@ -25,7 +25,7 @@
             }]
         },
         {
-            "Regex": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), ground \\S+$",
+            "Regex": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), ground ",
             "Response": [{
                 "Message": "That's it, you're grounded [user]!",
                 "Count": 0
@@ -60,7 +60,7 @@
             }]
         },
         {
-            "Regex": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), unground \\S+$",
+            "Regex": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), unground ",
             "Response": [{
                 "Message": "[user], you're now ungrounded. Don't let me catch you misbehaving again.",
                 "Count": 0
