@@ -42,9 +42,15 @@ type ResponseData struct {
 	Count 		int
 }
 
+type Reply struct {
+	Content		[]string
+	Sent 		time.Time
+}
+
 var conf = initConfig()
 var serv = flag.String("server", conf.Ip + ":6667", "hostname and port for irc server to connect to")
 var nick = flag.String("nick", conf.DadName, "nickname for the bot")
+var lastReply Reply
 
 func main() {
 	rand.Seed(time.Now().Unix())
@@ -100,34 +106,27 @@ func stringInSlice (a string, s []string) bool {
 	return false
 }
 
-func formatReply (m *hbot.Message, s SpeakData) []string {
-	reply := s.Response[rand.Intn(len(s.Response))]
-	if (strings.Contains(reply.Message, "[from]")) {
-		reply.Message = strings.Replace(reply.Message, "[from]", m.From, -1)
+func formatReply (m *hbot.Message, s SpeakData) Reply {
+	var reply Reply
+	response := s.Response[rand.Intn(len(s.Response))]
+	if (strings.Contains(response.Message, "[from]")) {
+		response.Message = strings.Replace(response.Message, "[from]", m.From, -1)
 	}
-	if (strings.Contains(reply.Message, "[grounded]")) {
-		reply.Message = strings.Replace(reply.Message, "[grounded]", strings.Join(conf.Grounded, ", "), -1)
+	if (strings.Contains(response.Message, "[grounded]")) {
+		response.Message = strings.Replace(response.Message, "[grounded]", strings.Join(conf.Grounded, ", "), -1)
 	}
-	if (strings.Contains(reply.Message, "[mock]")) {
-		r := regexp.MustCompile(s.Regex)
-		temp := r.Split(m.Content, -1)
-		mock := temp[len(temp) - 1]
-		reply.Message = strings.Replace(reply.Message, "[mock]", mock, -1)
+
+	// Manages all responses that reuse any content from the original message
+	for _, replace := range ([]string {"[mock]", "[repeat]", "[user]"}) {
+		if (strings.Contains(response.Message, replace)) {
+			r := regexp.MustCompile(s.Regex)
+			temp := r.Split(m.Content, -1)
+			newStr := temp[len(temp) - 1]
+			response.Message = strings.Replace(response.Message, replace, newStr, -1)
+		}
 	}
-	if (strings.Contains(reply.Message, "[repeat]")) {
-		r := regexp.MustCompile(s.Regex)
-		temp := r.Split(m.Content, -1)
-		repeat := temp[len(temp) - 1]
-		reply.Message = strings.Replace(reply.Message, "[repeat]", repeat, -1)
-	}
-	if (strings.Contains(reply.Message, "[user]")) {
-		r := regexp.MustCompile(s.Regex)
-		temp := r.Split(m.Content, -1)
-		user := temp[len(temp) - 1]
-		reply.Message = strings.Replace(reply.Message, "[user]", user, -1)
-	}
-	formattedReply := strings.Split(reply.Message, "\n")
-	return formattedReply
+	reply.Content = strings.Split(response.Message, "\n")
+	return reply
 }
 
 var GlobalTrigger = hbot.Trigger {
@@ -137,15 +136,15 @@ var GlobalTrigger = hbot.Trigger {
 	func (irc *hbot.Bot, m *hbot.Message) bool {
 		for _, r := range conf.Speak {
 			if (testMessage(r.Regex, m)) {
-				// TODO add line here to record time of last reply for MessageRate
 				reply := formatReply(m, r)
-				sent := 0
-				for _, line := range reply {
+				reply.Sent = time.Now()
+				numSent := 0
+				for _, line := range reply.Content {
 					if (len(line) > 0) {
 						irc.Reply(m, fmt.Sprintf(line))
-						sent++
+						numSent++
 					}
-					if (len(reply) > 1 && sent > 0) {
+					if (len(reply.Content) > 1 && numSent > 0) {
 						time.Sleep(time.Duration(conf.Timeout) * time.Second)
 					}	
 				}
