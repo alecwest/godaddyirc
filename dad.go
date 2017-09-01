@@ -3,7 +3,6 @@ package main
 // TODO add check for grounded users to TestMessage once implemented
 // TODO only allow one response per 10 seconds
 // TODO add some check to block attempts at blank responses ("dad, ground " breaks it, "im ." breaks it too)
-// TODO in formatReply, if the [] block gets replaced with an empty or non-character string, make the entire reply empty so a check later on doesn't allow it to send.
 
 import (
 	"encoding/json"
@@ -122,7 +121,12 @@ func formatReply (m *hbot.Message, s SpeakData) Reply {
 			r := regexp.MustCompile(s.Regex)
 			temp := r.Split(m.Content, -1)
 			newStr := temp[len(temp) - 1]
-			response.Message = strings.Replace(response.Message, replace, newStr, -1)
+			nonWord := regexp.MustCompile("^\\W+$")
+			if (len(newStr) == 0 || nonWord.MatchString(newStr)) {
+				response.Message = "" // Delete response if newStr is empty
+			} else {
+				response.Message = strings.Replace(response.Message, replace, newStr, -1)
+			}
 		}
 	}
 	reply.Content = strings.Split(response.Message, "\n")
