@@ -143,17 +143,20 @@ func formatReply (m *hbot.Message, s SpeakData) Reply {
 		if (strings.Contains(response.Message, replace)) {
 			
 			// Modify who the message is sent to if it includes "user:" before the command
-			strWithoutCommand := removeRegex(m.Content, s.Regex)
-			strWithoutName := removeRegex(strWithoutCommand, ".*#?\\w+:\\s+")
-			if (strWithoutCommand != strWithoutName) {
-				reply.To = removeRegex(strWithoutCommand, ":.*")
+			m.Content = removeRegex(m.Content, s.Regex)
+			if (replace == "[repeat]") {
+				strWithoutName := removeRegex(m.Content, ".*#?\\w+:\\s+")
+				if (m.Content != strWithoutName) {
+					reply.To = removeRegex(m.Content, ":.*")
+					m.Content = strWithoutName
+				}
 			}
 
 			nonWord := regexp.MustCompile("^\\W+$")
-			if (len(strWithoutCommand) == 0 || nonWord.MatchString(strWithoutCommand)) {
-				response.Message = "" // Delete response if newStr is empty
+			if (len(m.Content) == 0 || nonWord.MatchString(m.Content)) {
+				response.Message = "" // Delete response if m.Content is empty
 			} else {
-				response.Message = strings.Replace(response.Message, replace, strWithoutName, -1)
+				response.Message = strings.Replace(response.Message, replace, m.Content, -1)
 			}
 		}
 	}
