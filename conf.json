@@ -1,5 +1,27 @@
 {
     "Admin": "awest",
+    "AdminSpeak": [{
+            "Regex": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), ground ",
+            "Response": [{
+                "Message": "That's it, you're grounded [user]!",
+                "Count": 0
+            }]
+        },
+        {
+            "Regex": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), say ",
+            "Response": [{
+                "Message": "[repeat]",
+                "Count": 0
+            }]
+        },
+        {
+            "Regex": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), unground ",
+            "Response": [{
+                "Message": "[user], you're now ungrounded. Don't let me catch you misbehaving again.",
+                "Count": 0
+            }]
+        }
+    ],
     "Channels": [
         "#main"
     ],
@@ -25,13 +47,6 @@
             }]
         },
         {
-            "Regex": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), ground ",
-            "Response": [{
-                "Message": "That's it, you're grounded [user]!",
-                "Count": 0
-            }]
-        },
-        {
             "Regex": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), grounded",
             "Response": [{
                 "Message": "Here is a list of grounded users:\n[grounded]",
@@ -49,20 +64,6 @@
             "Regex": "(?i)(^|\\W+)i(')?m ",
             "Response": [{
                 "Message": "Hi [mock], I'm dad",
-                "Count": 0
-            }]
-        },
-        {
-            "Regex": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), say ",
-            "Response": [{
-                "Message": "[repeat]",
-                "Count": 0
-            }]
-        },
-        {
-            "Regex": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), unground ",
-            "Response": [{
-                "Message": "[user], you're now ungrounded. Don't let me catch you misbehaving again.",
                 "Count": 0
             }]
         },

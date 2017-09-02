@@ -1,7 +1,6 @@
 package main
 
 // TODO add option for where dad should talk with the say command
-// TODO Restrict certain commands for admin only
 
 import (
 	"encoding/json"
@@ -19,6 +18,7 @@ import (
 
 type Configuration struct {
 	Admin 		string
+	AdminSpeak	[]SpeakData
 	Channels 	[]string
 	DadName		string
 	Debug		bool
@@ -65,7 +65,8 @@ func main() {
 		panic(err)
 	}
 
-	irc.AddTrigger(GlobalTrigger)
+	irc.AddTrigger(UserTrigger)
+	irc.AddTrigger(AdminTrigger)
 	irc.Logger.SetHandler(log.StdoutHandler)
 
 	// Start up bot (this blocks until we disconnect)
@@ -91,10 +92,14 @@ func testMessage (regex string, message *hbot.Message) bool {
 	r := regexp.MustCompile(regex)
 	if (r.MatchString(message.Content) && 
 		!stringInSlice(message.From, conf.Grounded) &&
-		time.Since(lastReply.Sent) > (time.Duration(conf.MessageRate) * time.Second)) {
+		messageRate(message)) {
 		match = true
 	}
 	return match
+}
+
+func messageRate (m *hbot.Message) bool {
+	return (time.Since(lastReply.Sent) > (time.Duration(conf.MessageRate) * time.Second) || m.From == conf.Admin)
 }
 
 func stringInSlice (a string, s []string) bool {
@@ -134,31 +139,54 @@ func formatReply (m *hbot.Message, s SpeakData) Reply {
 	return reply
 }
 
-var GlobalTrigger = hbot.Trigger {
+func performAction (irc *hbot.Bot, m *hbot.Message, speak []SpeakData) bool {
+	for _, r := range speak {
+		if (testMessage(r.Regex, m)) {
+			reply := formatReply(m, r)
+			reply.Sent = time.Now()
+			numSent := 0
+			for _, line := range reply.Content {
+				// Make sure line is non-empty before sending
+				if (len(line) > 0) {
+					irc.Reply(m, fmt.Sprintf(line))
+					numSent++
+				}
+				// Make sure there is a timeout between multiple lines in a reply
+				if (len(reply.Content) > 1 && numSent > 0) {
+					time.Sleep(time.Duration(conf.Timeout) * time.Second)
+				}
+			}
+			if (numSent > 0) {
+				// Record last sent message
+				lastReply = reply
+				return true
+			}
+			// If a regex statement passed but nothing was sent, 
+			// the loop should not continue trying to match the reply to others.
+			break 
+		}
+	}
+	return false
+}
+
+var UserTrigger = hbot.Trigger {
 	func (bot *hbot.Bot, m *hbot.Message) bool {
-		return true
+		return (m.From != conf.Admin)
 	},
 	func (irc *hbot.Bot, m *hbot.Message) bool {
-		for _, r := range conf.Speak {
-			if (testMessage(r.Regex, m)) {
-				reply := formatReply(m, r)
-				reply.Sent = time.Now()
-				numSent := 0
-				for _, line := range reply.Content {
-					if (len(line) > 0) {
-						irc.Reply(m, fmt.Sprintf(line))
-						numSent++
-					}
-					if (len(reply.Content) > 1 && numSent > 0) {
-						time.Sleep(time.Duration(conf.Timeout) * time.Second)
-					}
-				}
-				if (numSent > 0) {
-					// Record last sent message
-					lastReply = reply
-				}
-				break
-			}
+		performAction(irc, m, conf.Speak)
+		return false
+	},
+}
+
+var AdminTrigger = hbot.Trigger {
+	func (bot *hbot.Bot, m *hbot.Message) bool {
+		return (m.From == conf.Admin)
+	},
+	func (irc *hbot.Bot, m *hbot.Message) bool {
+		responded := performAction(irc, m, conf.AdminSpeak)
+		if (!responded) {
+			performAction(irc, m, conf.Speak)
 		}
 		return false
 	},
