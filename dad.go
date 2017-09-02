@@ -1,8 +1,9 @@
 package main
 
-// TODO format recipient sends message to my user when there's a ":" but an invalid location before it ("dad, say noone: yeet" and "dad, say : yeet" don't work)
-
 // TODO implement stuff that modifies conf file (grounding, count increments)
+// TODO "I love ____.", "Well then why don't you marry it?"
+
+
 // TODO add attribute for responses that involve reuse (ReuseContent bool)
 // TODO replace [...] blocks with %s and put them in a separate attribute (Format string)
 
@@ -91,6 +92,14 @@ func initConfig () Configuration {
 	return conf
 }
 
+// func updateConfig () {
+	// marshalledJson, err := json.Marshal(conf)
+	// if (err != nil) {
+		// panic(err)
+	// }
+	// os.Stdout.Write()
+// }
+
 func testMessage (regex string, message *hbot.Message) bool {
 	match := false
 	// err = errors.New("Forgot to include who the message was from")
@@ -121,10 +130,26 @@ func removeRegex (s string, regex string) string {
 	return r.ReplaceAllLiteralString(s, "")
 }
 
+// Remove both the command and the person/channel to respond to 
+func setRecipient (m *hbot.Message, s SpeakData) string {
+	to := ""
+	strWithoutCommand = removeRegex(m.Content, s.Regex)
+	strWithoutName := removeRegex(m.Content, ".*#?\\w+:\\s+")
+	if (strWithoutCommand != strWithoutName) {
+		to = removeRegex(m.Content, ":.*")
+		m.Content = strWithoutName
+	} else {
+		m.Content = strWithoutCommand
+	}
+	return to
+}
+
 func formatReply (m *hbot.Message, s SpeakData) Reply {
 	var reply Reply
 	// Choose random response from list of responses (mostly used for jokes)
 	response := s.Response[rand.Intn(len(s.Response))]
+	
+	// Stolen from Bot.Reply to init reply.To
 	if strings.Contains(m.To, "#") {
 		reply.To = m.To
 	} else {
@@ -141,15 +166,14 @@ func formatReply (m *hbot.Message, s SpeakData) Reply {
 	// Manages all responses that reuse any content from the original message
 	for _, replace := range ([]string {"[mock]", "[repeat]", "[user]"}) {
 		if (strings.Contains(response.Message, replace)) {
-			
 			// Modify who the message is sent to if it includes "user:" before the command
-			m.Content = removeRegex(m.Content, s.Regex)
 			if (replace == "[repeat]") {
-				strWithoutName := removeRegex(m.Content, ".*#?\\w+:\\s+")
-				if (m.Content != strWithoutName) {
-					reply.To = removeRegex(m.Content, ":.*")
-					m.Content = strWithoutName
+				to := setRecipient(m, s)
+				if (len(to) > 0) {
+					reply.To = to
 				}
+			} else {
+				m.Content = removeRegex(m.Content, s.Regex)
 			}
 
 			nonWord := regexp.MustCompile("^\\W+$")
