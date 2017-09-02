@@ -1,7 +1,6 @@
 package main
 
 // TODO format recipient sends message to my user when there's a ":" but an invalid location before it ("dad, say noone: yeet" and "dad, say : yeet" don't work)
-// TODO modify removeRegexPrefix so it can remove regex from any part of the string
 
 // TODO implement stuff that modifies conf file (grounding, count increments)
 // TODO add attribute for responses that involve reuse (ReuseContent bool)
@@ -47,6 +46,7 @@ type ResponseData struct {
 
 type Reply struct {
 	Content		[]string
+	To 			string
 	Sent 		time.Time
 }
 
@@ -116,28 +116,20 @@ func stringInSlice (a string, s []string) bool {
 	return false
 }
 
-func removeRegexPrefix (s string, regex string) string {
+func removeRegex (s string, regex string) string {
 	r := regexp.MustCompile(regex)
-	temp := r.Split(s, -1)
-	return temp[len(temp) - 1]
+	return r.ReplaceAllLiteralString(s, "")
 }
-
-// if message includes "name:" at beginning of repeated text, 
-// send the message to "name"
-// func formatRecipient (m *hbot.Message, s SpeakData) {
-// 	newStr := removeRegexPrefix(m.Content, s.Regex)
-// 	firstWord := strings.Split(newStr, " ")[0]
-// 	if (strings.Contains(firstWord, ":")) {
-// 		m.Content = strings.Replace(m.Content, firstWord + " ", "", 1)
-// 		m.To = strings.Split(firstWord, ":")[0] // tricks Reply method into sending to specified user/channel
-// 	}
-// }
 
 func formatReply (m *hbot.Message, s SpeakData) Reply {
 	var reply Reply
 	// Choose random response from list of responses (mostly used for jokes)
 	response := s.Response[rand.Intn(len(s.Response))]
-	// formatRecipient(m, s)
+	if strings.Contains(m.To, "#") {
+		reply.To = m.To
+	} else {
+		reply.To = m.From
+	}
 
 	if (strings.Contains(response.Message, "[from]")) {
 		response.Message = strings.Replace(response.Message, "[from]", m.From, -1)
@@ -149,12 +141,19 @@ func formatReply (m *hbot.Message, s SpeakData) Reply {
 	// Manages all responses that reuse any content from the original message
 	for _, replace := range ([]string {"[mock]", "[repeat]", "[user]"}) {
 		if (strings.Contains(response.Message, replace)) {
-			newStr := removeRegexPrefix(m.Content, s.Regex)
+			
+			// Modify who the message is sent to if it includes "user:" before the command
+			strWithoutCommand := removeRegex(m.Content, s.Regex)
+			strWithoutName := removeRegex(strWithoutCommand, ".*#?\\w+:\\s+")
+			if (strWithoutCommand != strWithoutName) {
+				reply.To = removeRegex(strWithoutCommand, ":.*")
+			}
+
 			nonWord := regexp.MustCompile("^\\W+$")
-			if (len(newStr) == 0 || nonWord.MatchString(newStr)) {
+			if (len(strWithoutCommand) == 0 || nonWord.MatchString(strWithoutCommand)) {
 				response.Message = "" // Delete response if newStr is empty
 			} else {
-				response.Message = strings.Replace(response.Message, replace, newStr, -1)
+				response.Message = strings.Replace(response.Message, replace, strWithoutName, -1)
 			}
 		}
 	}
@@ -171,7 +170,7 @@ func performAction (irc *hbot.Bot, m *hbot.Message, speak []SpeakData) bool {
 			for _, line := range reply.Content {
 				// Make sure line is non-empty before sending
 				if (len(line) > 0) {
-					irc.Reply(m, fmt.Sprintf(line))
+					irc.Msg(reply.To, fmt.Sprintf(line))
 					numSent++
 				}
 				// Make sure there is a timeout between multiple lines in a reply
