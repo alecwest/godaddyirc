@@ -1,8 +1,7 @@
 package main
 
-// TODO add check for grounded users to TestMessage once implemented
-// TODO only allow one response per 10 seconds
-// TODO add some check to block attempts at blank responses ("dad, ground " breaks it, "im ." breaks it too)
+// TODO add option for where dad should talk with the say command
+// TODO Restrict certain commands for admin only
 
 import (
 	"encoding/json"
@@ -90,7 +89,9 @@ func testMessage (regex string, message *hbot.Message) bool {
 	match := false
 	// err = errors.New("Forgot to include who the message was from")
 	r := regexp.MustCompile(regex)
-	if (r.MatchString(message.Content) && !stringInSlice(message.From, conf.Grounded)) {
+	if (r.MatchString(message.Content) && 
+		!stringInSlice(message.From, conf.Grounded) &&
+		time.Since(lastReply.Sent) > (time.Duration(conf.MessageRate) * time.Second)) {
 		match = true
 	}
 	return match
@@ -150,7 +151,11 @@ var GlobalTrigger = hbot.Trigger {
 					}
 					if (len(reply.Content) > 1 && numSent > 0) {
 						time.Sleep(time.Duration(conf.Timeout) * time.Second)
-					}	
+					}
+				}
+				if (numSent > 0) {
+					// Record last sent message
+					lastReply = reply
 				}
 				break
 			}
