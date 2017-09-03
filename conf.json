@@ -68,6 +68,13 @@
             }]
         },
         {
+            "Regex": "(?i)(^|\\W+)i love \\w+\\W*$",
+            "Response": [{
+                "Message": "Well then why don't you marry it?",
+                "Count": 0
+            }]
+        },
+        {
             "Regex": "(?i)(^|\\s+)(mom(my|ma)?|mother|(ma){1,2}).*\\?\\s$",
             "Response": [{
                 "Message": "Ask your father.",

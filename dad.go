@@ -11,6 +11,7 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"math/rand"
 	"os"
 	"regexp"
@@ -83,6 +84,7 @@ func main() {
 func initConfig () Configuration {
 	// Initialize bot config
 	file, _ := os.Open("conf.json")
+	defer file.Close()
 	decoder := json.NewDecoder(file)
 	conf := Configuration{}
 	err := decoder.Decode(&conf)
@@ -92,13 +94,13 @@ func initConfig () Configuration {
 	return conf
 }
 
-// func updateConfig () {
-	// marshalledJson, err := json.Marshal(conf)
-	// if (err != nil) {
-		// panic(err)
-	// }
-	// os.Stdout.Write()
-// }
+func updateConfig () {
+	jsonData, err := json.MarshalIndent(conf, "", "    ")
+	if (err != nil) {
+		panic(err)
+	}
+	ioutil.WriteFile("conf_test.json", jsonData, 0644)
+}
 
 func testMessage (regex string, message *hbot.Message) bool {
 	match := false
@@ -133,7 +135,7 @@ func removeRegex (s string, regex string) string {
 // Remove both the command and the person/channel to respond to 
 func setRecipient (m *hbot.Message, s SpeakData) string {
 	to := ""
-	strWithoutCommand = removeRegex(m.Content, s.Regex)
+	strWithoutCommand := removeRegex(m.Content, s.Regex)
 	strWithoutName := removeRegex(m.Content, ".*#?\\w+:\\s+")
 	if (strWithoutCommand != strWithoutName) {
 		to = removeRegex(m.Content, ":.*")
@@ -208,6 +210,7 @@ func performAction (irc *hbot.Bot, m *hbot.Message, speak []SpeakData) bool {
 			if (numSent > 0) {
 				// Record last sent message
 				lastReply = reply
+				updateConfig()
 				return true
 			}
 			// If a regex statement passed but nothing was sent, 
