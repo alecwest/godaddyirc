@@ -1,9 +1,8 @@
 package main
 
-// TODO implement stuff that modifies conf file (grounding, count increments)
-// TODO "I love ____.", "Well then why don't you marry it?"
-
-
+// TODO implement stuff that modifies conf file (grounding)
+// TODO move last reply to config
+// TODO refactor stuff that manages the config (make a config navigation struct or something)
 // TODO add attribute for responses that involve reuse (ReuseContent bool)
 // TODO replace [...] blocks with %s and put them in a separate attribute (Format string)
 
@@ -94,12 +93,12 @@ func initConfig () Configuration {
 	return conf
 }
 
-func updateConfig () {
+func updateConfig (conf Configuration) {
 	jsonData, err := json.MarshalIndent(conf, "", "    ")
 	if (err != nil) {
 		panic(err)
 	}
-	ioutil.WriteFile("conf_test.json", jsonData, 0644)
+	ioutil.WriteFile("conf.json", jsonData, 0644)
 }
 
 func testMessage (regex string, message *hbot.Message) bool {
@@ -146,10 +145,18 @@ func setRecipient (m *hbot.Message, s SpeakData) string {
 	return to
 }
 
-func formatReply (m *hbot.Message, s SpeakData) Reply {
+func formatReply (m *hbot.Message, conf Configuration, admin_speak bool, s_index int) Reply {
+	var s SpeakData
 	var reply Reply
+	if (admin_speak) {
+		s = conf.AdminSpeak[s_index]
+	} else {
+		s = conf.Speak[s_index]
+	}
+
 	// Choose random response from list of responses (mostly used for jokes)
-	response := s.Response[rand.Intn(len(s.Response))]
+	var rand_index = rand.Intn(len(s.Response))
+	response := s.Response[rand_index]
 	
 	// Stolen from Bot.Reply to init reply.To
 	if strings.Contains(m.To, "#") {
@@ -186,14 +193,29 @@ func formatReply (m *hbot.Message, s SpeakData) Reply {
 			}
 		}
 	}
+	if (response.Message != "") {
+		log.Debug(fmt.Sprintf("updating responses count to %d", response.Count + 1))
+		response.Count++
+		if (admin_speak) {
+			conf.AdminSpeak[s_index].Response[rand_index].Count++
+		} else {
+			conf.Speak[s_index].Response[rand_index].Count++
+		}
+	}
 	reply.Content = strings.Split(response.Message, "\n")
 	return reply
 }
 
-func performAction (irc *hbot.Bot, m *hbot.Message, speak []SpeakData) bool {
-	for _, r := range speak {
-		if (testMessage(r.Regex, m)) {
-			reply := formatReply(m, r)
+func performAction (irc *hbot.Bot, m *hbot.Message, conf Configuration, admin_speak bool) bool {
+	var speak []SpeakData
+	if (admin_speak) {
+		speak = conf.AdminSpeak
+	} else {
+		speak = conf.Speak
+	}
+	for i, s := range speak {
+		if (testMessage(s.Regex, m)) {
+			reply := formatReply(m, conf, admin_speak, i)
 			reply.Sent = time.Now()
 			numSent := 0
 			for _, line := range reply.Content {
@@ -210,7 +232,7 @@ func performAction (irc *hbot.Bot, m *hbot.Message, speak []SpeakData) bool {
 			if (numSent > 0) {
 				// Record last sent message
 				lastReply = reply
-				updateConfig()
+				updateConfig(conf)
 				return true
 			}
 			// If a regex statement passed but nothing was sent, 
@@ -226,7 +248,7 @@ var UserTrigger = hbot.Trigger {
 		return (m.From != conf.Admin)
 	},
 	func (irc *hbot.Bot, m *hbot.Message) bool {
-		performAction(irc, m, conf.Speak)
+		performAction(irc, m, conf, false)
 		return false
 	},
 }
@@ -236,9 +258,9 @@ var AdminTrigger = hbot.Trigger {
 		return (m.From == conf.Admin)
 	},
 	func (irc *hbot.Bot, m *hbot.Message) bool {
-		responded := performAction(irc, m, conf.AdminSpeak)
+		responded := performAction(irc, m, conf, true)
 		if (!responded) {
-			performAction(irc, m, conf.Speak)
+			performAction(irc, m, conf, false)
 		}
 		return false
 	},
