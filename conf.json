@@ -46,6 +46,17 @@
     "Ip": "localhost",
     "MessageRate": 10,
     "MomName": "mom",
+    "MomSpeak": [
+        {
+            "Regex": "(?i)(^|\\s+)(mom(my|ma)?|mother|(ma){1,2}).*\\?\\s*$",
+            "Response": [
+                {
+                    "Message": "Ask your father.",
+                    "Count": 3
+                }
+            ]
+        }
+    ],
     "Speak": [
         {
             "Regex": "(?i)^(good)?\\s?mornin(g|')?(,)?\\s+(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})($|\\W+)",
@@ -89,15 +100,6 @@
                 {
                     "Message": "Well then why don't you marry it?",
                     "Count": 1
-                }
-            ]
-        },
-        {
-            "Regex": "(?i)(^|\\s+)(mom(my|ma)?|mother|(ma){1,2}).*\\?\\s$",
-            "Response": [
-                {
-                    "Message": "Ask your father.",
-                    "Count": 0
                 }
             ]
         },
@@ -304,7 +306,7 @@
                 },
                 {
                     "Message": "Where do you learn to make ice cream?\nSunday school",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Where does Fonzie like to go for lunch?\nChick-Fil-Eyyyyyyyy",
@@ -468,7 +470,7 @@
                 },
                 {
                     "Message": "Do I enjoy making courthouse puns?\nGuilty.",
-                    "Count": 1
+                    "Count": 2
                 },
                 {
                     "Message": "How do you know an egg is bad?\nWhen it's past the eggsperation date.",
@@ -820,7 +822,7 @@
                 },
                 {
                     "Message": "Why do sharks swim in salt water?\nBecause pepper water makes them sneeze.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Did you hear the good news about O.J.?\nIt is part of a complete breakfast",
