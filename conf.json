@@ -1,26 +1,33 @@
 {
     "Admin": "awest",
-    "AdminSpeak": [{
+    "AdminSpeak": [
+        {
             "Regex": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), ground ",
-            "Response": [{
-                "Message": "That's it, you're grounded [user]!",
-                "Count": 0
-            }]
+            "Response": [
+                {
+                    "Message": "That's it, you're grounded [ground]!",
+                    "Count": 13
+                }
+            ]
         },
         {
             "Regex": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), say ",
-            "Response": [{
-                "Message": "[repeat]",
-                "Count": 0
-            }]
+            "Response": [
+                {
+                    "Message": "[repeat]",
+                    "Count": 7
+                }
+            ]
         },
         {
             "Regex": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), unground ",
-            "Response": [{
-                "Message": "[user], you're now ungrounded. Don't let me catch you misbehaving again.",
-                "Count": 0
-            }]
-        }
+            "Response": [
+                {
+                    "Message": "[unground], you're now ungrounded. Don't let me catch you misbehaving again.",
+                    "Count": 2
+                }
+            ]
+        },
     ],
     "Channels": [
         "#main"
@@ -39,58 +46,83 @@
     "Ip": "localhost",
     "MessageRate": 10,
     "MomName": "mom",
-    "Speak": [{
+    "Speak": [
+        {
             "Regex": "(?i)^(good)?\\s?mornin(g|')?(,)?\\s+(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})($|\\W+)",
-            "Response": [{
-                "Message": "good morning [from]!",
-                "Count": 0
-            }]
+            "Response": [
+                {
+                    "Message": "good morning [from]!",
+                    "Count": 1
+                }
+            ]
         },
         {
             "Regex": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), grounded",
-            "Response": [{
-                "Message": "Here is a list of grounded users:\n[grounded]",
-                "Count": 0
-            }]
+            "Response": [
+                {
+                    "Message": "Here is a list of grounded users:\n[grounded]",
+                    "Count": 4
+                }
+            ]
         },
         {
             "Regex": "(?i)(^|\\W+)i(')?m\\s+(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})",
-            "Response": [{
-                "Message": "mmmmmmmmmm... no",
-                "Count": 0
-            }]
+            "Response": [
+                {
+                    "Message": "mmmmmmmmmm... no",
+                    "Count": 1
+                }
+            ]
         },
         {
             "Regex": "(?i)(^|\\W+)i(')?m ",
-            "Response": [{
-                "Message": "Hi [mock], I'm dad",
-                "Count": 0
-            }]
+            "Response": [
+                {
+                    "Message": "Hi [mock], I'm dad",
+                    "Count": 3
+                }
+            ]
         },
         {
             "Regex": "(?i)(^|\\W+)i love \\w+\\W*$",
-            "Response": [{
-                "Message": "Well then why don't you marry it?",
-                "Count": 0
-            }]
+            "Response": [
+                {
+                    "Message": "Well then why don't you marry it?",
+                    "Count": 0
+                }
+            ]
         },
         {
             "Regex": "(?i)(^|\\s+)(mom(my|ma)?|mother|(ma){1,2}).*\\?\\s$",
-            "Response": [{
-                "Message": "Ask your father.",
-                "Count": 0
-            }]
+            "Response": [
+                {
+                    "Message": "Ask your father.",
+                    "Count": 0
+                }
+            ]
         },
         {
             "Regex": "(?i)(^|\\s+)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}).*\\?\\s*$",
-            "Response": [{
-                "Message": "Ask your mother.",
-                "Count": 0
-            }]
+            "Response": [
+                {
+                    "Message": "Ask your mother.",
+                    "Count": 0
+                }
+            ]
+        },
+        {
+            "Regex": "(?i)(^|\\s+)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})(,)? make me ",
+            "Response": [
+                {
+                    "Message": "Poof, you're [mock]!",
+                    "Count": 1
+                }
+            ]
         },
         {
             "Regex": "(?i)(^|\\s+)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})($|\\W+)",
-            "Response": [{
+            "Response": [
+                {
                     "Message": "\"I'll call you later.\"\nDon't call me later, call me Dad",
                     "Count": 0
                 },
@@ -108,7 +140,7 @@
                 },
                 {
                     "Message": "Dad, did you get a haircut?\nNo I got them all cut",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Did you hear about the cheese factory that exploded in France?\nThere was nothing left but de Brie",
@@ -168,7 +200,7 @@
                 },
                 {
                     "Message": "I'm not addicted to brake fluid\nI can stop whenever I want",
-                    "Count": 0
+                    "Count": 2
                 },
                 {
                     "Message": "I'm reading a book on the history of glue\nI just can't seem to put it down",
@@ -220,7 +252,7 @@
                 },
                 {
                     "Message": "What did the officer molecule say to the suspect molecule?\nI've got my ion you",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What do prisoners use to call each other?\nCell phones",
@@ -252,11 +284,11 @@
                 },
                 {
                     "Message": "What do you call cheese that isn't yours?\nNacho Cheese",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What do you call somebody with no body and no nose?\nNobody knows",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What do you get when you cross a snowman with a vampire\nFrostbite",
@@ -308,7 +340,7 @@
                 },
                 {
                     "Message": "Why do crabs never give to charity?\nBecause they're shellfish.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Why don't skeletons ever go trick or treating?\nBecause they have no body to go with",
@@ -320,11 +352,11 @@
                 },
                 {
                     "Message": "Singing in the shower is all fun and games until you get shampoo in your mouth...\nThen it becomes a soap opera...",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "I have no children but I still tell dad jokes\nhe loves them",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What's brown and sticky?\nA stick.",
@@ -344,7 +376,7 @@
                 },
                 {
                     "Message": "I got a haircut last week...\nAt first I didn't like it, but it's growing on me",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Wanna hear a little pickle joke?\n.....it's not that big of dill.",
@@ -384,11 +416,11 @@
                 },
                 {
                     "Message": "How do you feel?\nWith your hands",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Did you hear about the guy thrown in jail for not taking a nap?\nHe was refusing a rest",
-                    "Count": 0
+                    "Count": 2
                 },
                 {
                     "Message": "I love ruining the plot of Dorian Gray for people\nNever gets old.",
@@ -400,7 +432,7 @@
                 },
                 {
                     "Message": "Took my kids out to a Plane Factory for a tour.\nThey said it was Boeing.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Buddhist monk walks into a pizza parlor...\nSays, \"Make me one with everything.\"",
@@ -412,7 +444,7 @@
                 },
                 {
                     "Message": "Why did the first shoemaker go to hell?\nBecause he sold his sole to the devil.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What does an oyster wear into battle?\nClamouflage",
@@ -436,7 +468,7 @@
                 },
                 {
                     "Message": "Do I enjoy making courthouse puns?\nGuilty.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "How do you know an egg is bad?\nWhen it's past the eggsperation date.",
@@ -448,7 +480,7 @@
                 },
                 {
                     "Message": "My friend threatened to turn me into the police for bludgeoning his wife to death with a Super Nintendo\nSo I had to console him as well.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Why do so many people invest in Ireland?\nBecause the capital is always Dublin!",
@@ -480,7 +512,7 @@
                 },
                 {
                     "Message": "Why is Cyclops in charge of the X-Men?\nBecause Prof. X made him a supervisor.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What would Forrest Gumps email password be?\n1Forrest1",
@@ -492,7 +524,7 @@
                 },
                 {
                     "Message": "What type of dog can do magic tricks?\nA labracadabrador",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "I used to collect cacti...\nbut agave that up years ago.",
@@ -580,7 +612,7 @@
                 },
                 {
                     "Message": "I once started a hotdog business...\nIt was the wurst thing I ever did.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "I tried to catch clouds yesterday.\nMist. Guess i'll have to fog-et about it.",
@@ -600,7 +632,7 @@
                 },
                 {
                     "Message": "My Dad and I sighed at the same time today.\nHe said \"Wow, that was sighmultaneous.\"",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What did the waning full moon say to his girlfriend?\nAt least gibbous a kiss goodbye.",
@@ -612,11 +644,11 @@
                 },
                 {
                     "Message": "If you need to start a fire by rubbing sticks together, make sure they are the same.\nThen you'll have a match.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Why do med students use books to study anatomy?\nBecause books have spines.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "I just invented a machine that trims window coverings.\nPrepare to have your blinds mowed.",
@@ -632,7 +664,7 @@
                 },
                 {
                     "Message": "What do you call a van on fire?\nA vanpyre.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "I'm not huge into puns.\nSometimes eye roll with it.",
@@ -668,7 +700,7 @@
                 },
                 {
                     "Message": "I had to take down some scaffold that was in the way at work.\nIt held me up long enough.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "I broke my finger today..\n..but on the other hand I'm completely fine.",
@@ -676,10 +708,6 @@
                 },
                 {
                     "Message": "Have you heard the rumor going around about butter?\nNevermind, I really shouldn't spread it.",
-                    "Count": 0
-                },
-                {
-                    "Message": "What is your favorite month?\nNo it's not. July!",
                     "Count": 0
                 },
                 {
@@ -704,7 +732,7 @@
                 },
                 {
                     "Message": "Do you want me to call you an uber?\nYou're an uber.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What do you call Mr. Bean on a boat?\nRowing Atkinson",
@@ -716,7 +744,7 @@
                 },
                 {
                     "Message": "I tell Dad Jokes but I'm not a dad..\nI'm a faux pa.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "I went to the seafood disco last night...\nI pulled a muscle!",
@@ -740,7 +768,7 @@
                 },
                 {
                     "Message": "Have you heard about the guy who had his whole left side chopped off?\nYeah he's all right now",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Why do cows have hooves instead of feet?\nBecause they lactose.",
@@ -756,7 +784,7 @@
                 },
                 {
                     "Message": "In the annual scientistific track and field meet, the geologists always lose\nProving once again that gneiss guys finish last.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Your argument is like a naked banana\nIt simply lacks a peel",
@@ -836,7 +864,7 @@
                 },
                 {
                     "Message": "One time I ate a whole bunch of cheese in one sitting....\nWhere there's a wheel there's a way.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "I don't think I can trust my pillow.\nIt's always lying behind my back.",
@@ -848,7 +876,7 @@
                 },
                 {
                     "Message": "Did you know that Abraham Lincoln was wrongly accused?\nTurns out he was in a cent.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What did the man say when he finished cutting up a green citrus fruit?\nWell, I guess that's the end of the lime",
@@ -856,7 +884,7 @@
                 },
                 {
                     "Message": "My jar of Miracle Whip tasted funny.\nLMAYO",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What's the best thing about living in Switzerland?\nI don't know but the flag is a big plus",
