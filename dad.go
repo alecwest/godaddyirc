@@ -1,9 +1,9 @@
 package main
 
 import (
-  "github.com/alecwest/godaddyirc/dadbot"
+	"github.com/alecwest/godaddyirc/dadbot"
 )
 
 func main() {
-  dad.Run(true)
+	dad.Run(true)
 }
