@@ -65,7 +65,7 @@ func Run(dad bool) {
 	var nickStr string
 	rand.Seed(time.Now().Unix())
 	flag.Parse()
-	dbot.Conf = initConfig()
+	dbot.Conf = InitConfig()
 	dbot.Dad = dad
 	if dbot.Dad {
 		nickStr = dbot.Conf.DadName
@@ -123,7 +123,7 @@ func UpdateConfig() {
 // command specifies whether the action being performed is ground or unground
 // passing anything other than "[ground]" or "[unground]" will do nothing
 func UpdateGrounding(content string, command string) {
-	i := stringInSlice(content, dbot.Conf.Grounded)
+	i := StringInSlice(content, dbot.Conf.Grounded)
 
 	// log.Debug(fmt.Sprintf("index: %d, grounding/ungrounding: %s", i, content))
 	if command == "[ground]" && i == -1 {
@@ -325,8 +325,8 @@ var UserTrigger = hbot.Trigger{
 		return (m.From != dbot.Conf.Admin)
 	},
 	func(irc *hbot.Bot, m *hbot.Message) bool {
-		performAction(irc, m, false)
-		updateConfig()
+		PerformAction(irc, m, false)
+		UpdateConfig()
 		return false
 	},
 }
@@ -338,11 +338,11 @@ var AdminTrigger = hbot.Trigger{
 		return (m.From == dbot.Conf.Admin)
 	},
 	func(irc *hbot.Bot, m *hbot.Message) bool {
-		responded := performAction(irc, m, true)
+		responded := PerformAction(irc, m, true)
 		if !responded {
-			performAction(irc, m, false)
+			PerformAction(irc, m, false)
 		}
-		updateConfig()
+		UpdateConfig()
 		return false
 	},
 }
