@@ -1,5 +1,8 @@
+// Package dad is an extension of hellabot that plays the role of an IRC
+// chat bot, either as a mom or a dad
 package dad
 
+// TODO separate UpdateGrounding into two functions
 // TODO refactor stuff that manages the config (make a config navigation struct or something)
 // TODO add attribute for responses that involve reuse (ReuseContent bool)
 // TODO replace [...] blocks with %s and put them in a separate attribute (Format string)
@@ -19,6 +22,7 @@ import (
 	log "gopkg.in/inconshreveable/log15.v2"
 )
 
+// Configuration lists all the high-level content of the config file
 type Configuration struct {
 	Admin       string
 	AdminSpeak  []SpeakData
@@ -27,29 +31,39 @@ type Configuration struct {
 	Debug       bool
 	Grounded    []string
 	Ip          string
-	MessageRate int // Using 1 reply per x seconds instead of y per x seconds
+	MessageRate int // Using 1 reply per x seconds
 	MomName     string
 	MomSpeak    []SpeakData
 	Speak       []SpeakData
 	Timeout     int // Timeout between multi-lined reply
 }
 
+// SpeakData is the regex-to-response pairing for each possible response.
+// There can be more than one response, and it will be chosen semi-randomly.
 type SpeakData struct {
 	Regex    string
 	Response []ResponseData
 }
 
+// ResponseData contains the bot's reply and the number of times the reply
+// has been sent. Message may contain [...] blocks for different types of
+// text replacement/manipulation.
 type ResponseData struct {
 	Message string
 	Count   int
 }
 
+// Reply includes the final formatted response (all text replacement blocks
+// dealt with), the destination, and the time the message was sent at.
 type Reply struct {
 	Content []string
 	To      string
 	Sent    time.Time
 }
 
+// IRCBot is an extension of hellabot's Bot that includes an indicator for
+// whether the bot is acting as mom or dad, the config information, and the
+// last reply sent by the bot
 type IRCBot struct {
 	Bot       *hbot.Bot
 	Dad       bool
@@ -57,22 +71,24 @@ type IRCBot struct {
 	LastReply Reply
 }
 
-var dbot IRCBot
+// Dbot is the global variable that primarily allows for the config information
+// to be smoothly passed around and updated properly.
+var Dbot IRCBot
 
-// dad indicates whether the bot being run is a dad-bot or a mom-bot
-// starts up an instance of the bot
+// Run starts an instance of the bot, with variable dad indicating whether
+// the bot should behave like a dad or a mom
 func Run(dad bool) {
 	var nickStr string
 	rand.Seed(time.Now().Unix())
 	flag.Parse()
-	dbot.Conf = InitConfig()
-	dbot.Dad = dad
-	if dbot.Dad {
-		nickStr = dbot.Conf.DadName
+	Dbot.Conf = InitConfig()
+	Dbot.Dad = dad
+	if Dbot.Dad {
+		nickStr = Dbot.Conf.DadName
 	} else {
-		nickStr = dbot.Conf.MomName
+		nickStr = Dbot.Conf.MomName
 	}
-	serv := flag.String("server", dbot.Conf.Ip+
+	serv := flag.String("server", Dbot.Conf.Ip+
 		":6667", "hostname and port for irc server to connect to")
 	nick := flag.String("nick", nickStr, "nickname for the bot")
 
@@ -80,24 +96,24 @@ func Run(dad bool) {
 		bot.HijackSession = false
 	}
 	channels := func(bot *hbot.Bot) {
-		bot.Channels = dbot.Conf.Channels
+		bot.Channels = Dbot.Conf.Channels
 	}
 	bot, err := hbot.NewBot(*serv, *nick, hijackSession, channels)
-	dbot.Bot = bot
+	Dbot.Bot = bot
 	if err != nil {
 		panic(err)
 	}
 
-	dbot.Bot.AddTrigger(UserTrigger)
-	dbot.Bot.AddTrigger(AdminTrigger)
-	dbot.Bot.Logger.SetHandler(log.StdoutHandler)
+	Dbot.Bot.AddTrigger(UserTrigger)
+	Dbot.Bot.AddTrigger(AdminTrigger)
+	Dbot.Bot.Logger.SetHandler(log.StdoutHandler)
 
 	// Start up bot (this blocks until we disconnect)
-	dbot.Bot.Run()
+	Dbot.Bot.Run()
 	fmt.Println("Bot shutting down.")
 }
 
-// It returns an initialized config
+// InitConfig returns an initialized config.
 func InitConfig() Configuration {
 	file, _ := os.Open("conf.json")
 	defer file.Close()
@@ -110,35 +126,35 @@ func InitConfig() Configuration {
 	return conf
 }
 
-// It parses the current config information and rewrites it to the config file
+// UpdateConfig parses the current config information and rewrites it to
+// the config file.
 func UpdateConfig() {
-	jsonData, err := json.MarshalIndent(dbot.Conf, "", "    ")
+	jsonData, err := json.MarshalIndent(Dbot.Conf, "", "    ")
 	if err != nil {
 		panic(err)
 	}
 	ioutil.WriteFile("conf.json", jsonData, 0644)
 }
 
-// content should be a user name that is to be grounded or ungrounded
-// command specifies whether the action being performed is ground or unground
-// passing anything other than "[ground]" or "[unground]" will do nothing
+// UpdateGrounding checks the content string for a grounded user and ungrounds
+// them if the passed command is "[unground]". If the passed command is
+// "[ground]" then the user inside the content string is grounded.
 func UpdateGrounding(content string, command string) {
-	i := StringInSlice(content, dbot.Conf.Grounded)
+	i := StringInSlice(content, Dbot.Conf.Grounded)
 
 	// log.Debug(fmt.Sprintf("index: %d, grounding/ungrounding: %s", i, content))
 	if command == "[ground]" && i == -1 {
-		dbot.Conf.Grounded = append(dbot.Conf.Grounded, content)
+		Dbot.Conf.Grounded = append(Dbot.Conf.Grounded, content)
 	} else if command == "[unground]" && i != -1 {
-		dbot.Conf.Grounded[len(dbot.Conf.Grounded)-1],
-			dbot.Conf.Grounded[i] = dbot.Conf.Grounded[i],
-			dbot.Conf.Grounded[len(dbot.Conf.Grounded)-1]
-		dbot.Conf.Grounded = dbot.Conf.Grounded[:len(dbot.Conf.Grounded)-1]
+		Dbot.Conf.Grounded[len(Dbot.Conf.Grounded)-1],
+			Dbot.Conf.Grounded[i] = Dbot.Conf.Grounded[i],
+			Dbot.Conf.Grounded[len(Dbot.Conf.Grounded)-1]
+		Dbot.Conf.Grounded = Dbot.Conf.Grounded[:len(Dbot.Conf.Grounded)-1]
 	}
 }
 
-// regex contains the regex statement to test on the message's content
-// message contains the message that was sent
-// It returns true if the message matches the regex
+// TestMessage tests the passed message against the passed regex and returns
+// whether or not a match was found
 func TestMessage(regex string, message *hbot.Message) bool {
 	match := false
 	// err = errors.New("Forgot to include who the message was from")
@@ -149,15 +165,15 @@ func TestMessage(regex string, message *hbot.Message) bool {
 	return match
 }
 
-// m contains the message that was sent
-// It returns true if enough time has passed since the last reply was given or if the message was from the bot's admin
-func MessageRateMet(m *hbot.Message) bool {
-	return (time.Since(dbot.LastReply.Sent) > (time.Duration(dbot.Conf.MessageRate)*time.Second) || m.From == dbot.Conf.Admin)
+// MessageRateMet checks whether or not enough time has passed since the Last
+// reply was sent. If the message just sent was from an admin, ignore
+// time passed.
+func MessageRateMet(message *hbot.Message) bool {
+	return (time.Since(Dbot.LastReply.Sent) > (time.Duration(Dbot.Conf.MessageRate)*time.Second) || message.From == Dbot.Conf.Admin)
 }
 
-// a contains string to check for
-// s contains slice to check in
-// It returns the index the string was found in, and -1 otherwise
+// StringInSlice checks slice s for string a and returns the first matching
+// index, and -1 otherwise
 func StringInSlice(a string, s []string) int {
 	for i, b := range s {
 		if a == b {
@@ -167,44 +183,43 @@ func StringInSlice(a string, s []string) int {
 	return -1
 }
 
-// s contains the string to work with
-// regex contains the regex for what to remove from s
-// It returns the new string
+// RemoveRegex removes the substring matching the passed regex from the passed
+// string, s, and returns the result.
 func RemoveRegex(s string, regex string) string {
 	r := regexp.MustCompile(regex)
 	return r.ReplaceAllLiteralString(s, "")
 }
 
-// m contains the message received
-// s contains the SpeakData for removing the command portion from the content
-// It modifies m's Content to no longer contain the command or recipient
-// It returns the targeted recipient, or the primary channel if not specified
+// SetRecipient modifies m's Content to no longer contain the regex command
+// match in s as well as removes the recipient of the bot's reply (formatted
+// as <cmd> <recipient>: <rest>). It returns the recipient, or the bot's
+// primary channel if a recipient was not specified.
 func SetRecipient(m *hbot.Message, s SpeakData) string {
 	to := ""
 	strWithoutCommand := RemoveRegex(m.Content, s.Regex)
 	log.Debug(strWithoutCommand)
 	to = RemoveRegex(strWithoutCommand, ":.*")
 	if to == strWithoutCommand {
-		to = dbot.Conf.Channels[0]
+		to = Dbot.Conf.Channels[0]
 	}
 	m.Content = strWithoutCommand
 	m.Content = RemoveRegex(m.Content, ".*:\\s")
 	return to
 }
 
-// m contains the message received
-// admin_speak indicates where to pull the response from (false = non admin)
-// s_index indicates the index within admin/non-admin responses to use
-// It returns a Reply with content and destination filled out (not time sent)
+// FormatReply formulates the bot's response given the message (m), whether or
+// not the sender was an admin (admin_speak), and the index of the SpeakData
+// to format the reply to (s_index). It returns the reply with set content and
+// destination (but not the time).
 func FormatReply(m *hbot.Message, admin_speak bool, s_index int) Reply {
 	var s SpeakData
 	var reply Reply
-	if dbot.Dad == false {
-		s = dbot.Conf.MomSpeak[s_index]
+	if Dbot.Dad == false {
+		s = Dbot.Conf.MomSpeak[s_index]
 	} else if admin_speak {
-		s = dbot.Conf.AdminSpeak[s_index]
+		s = Dbot.Conf.AdminSpeak[s_index]
 	} else {
-		s = dbot.Conf.Speak[s_index]
+		s = Dbot.Conf.Speak[s_index]
 	}
 
 	// Choose random response from list of responses (mostly used for jokes)
@@ -223,7 +238,7 @@ func FormatReply(m *hbot.Message, admin_speak bool, s_index int) Reply {
 	}
 	if strings.Contains(response.Message, "[grounded]") {
 		response.Message = strings.Replace(response.Message, "[grounded]",
-			strings.Join(dbot.Conf.Grounded, ", "),
+			strings.Join(Dbot.Conf.Grounded, ", "),
 			-1)
 	}
 
@@ -257,36 +272,36 @@ func FormatReply(m *hbot.Message, admin_speak bool, s_index int) Reply {
 		}
 	}
 	if response.Message != "" {
-		if dbot.Dad == false {
-			dbot.Conf.MomSpeak[s_index].Response[rand_index].Count++
+		if Dbot.Dad == false {
+			Dbot.Conf.MomSpeak[s_index].Response[rand_index].Count++
 		} else if admin_speak {
-			dbot.Conf.AdminSpeak[s_index].Response[rand_index].Count++
+			Dbot.Conf.AdminSpeak[s_index].Response[rand_index].Count++
 		} else {
-			dbot.Conf.Speak[s_index].Response[rand_index].Count++
+			Dbot.Conf.Speak[s_index].Response[rand_index].Count++
 		}
 	}
 	reply.Content = strings.Split(response.Message, "\n")
 	return reply
 }
 
-// irc is the bot
-// m contains the message that was sent
-// admin_speak indicates where to pull the response from (false = non admin)
-// It returns true if a reply is needed and false otherwise
+// PerformAction determines whether or not a reply should be formulated and then
+// performs it by passing it the bot in use (irc), the message just sent (m),
+// and whether or not the sender was the admin (admin_speak). If an action
+// was performed, return true.
 func PerformAction(irc *hbot.Bot, m *hbot.Message, admin_speak bool) bool {
 	var speak []SpeakData
-	if dbot.Dad == false {
-		speak = dbot.Conf.MomSpeak
+	if Dbot.Dad == false {
+		speak = Dbot.Conf.MomSpeak
 	} else if admin_speak {
-		speak = dbot.Conf.AdminSpeak
+		speak = Dbot.Conf.AdminSpeak
 	} else {
-		speak = dbot.Conf.Speak
+		speak = Dbot.Conf.Speak
 	}
 	// Do not perform an action if either the sender is grounded, sufficient time
 	// has not passed, or the message is from the irc's IP
-	if StringInSlice(m.From, dbot.Conf.Grounded) != -1 ||
+	if StringInSlice(m.From, Dbot.Conf.Grounded) != -1 ||
 		MessageRateMet(m) == false ||
-		StringInSlice(m.From, []string{dbot.Conf.Ip, "irc.awest.com"}) != -1 {
+		StringInSlice(m.From, []string{Dbot.Conf.Ip, "irc.awest.com"}) != -1 {
 		return false
 	}
 	for i, s := range speak {
@@ -302,12 +317,12 @@ func PerformAction(irc *hbot.Bot, m *hbot.Message, admin_speak bool) bool {
 				}
 				// Make sure there is a timeout between multiple lines in a reply
 				if len(reply.Content) > 1 && numSent > 0 {
-					time.Sleep(time.Duration(dbot.Conf.Timeout) * time.Second)
+					time.Sleep(time.Duration(Dbot.Conf.Timeout) * time.Second)
 				}
 			}
 			if numSent > 0 {
 				// Record last sent message
-				dbot.LastReply = reply
+				Dbot.LastReply = reply
 				UpdateConfig()
 				return true
 			}
@@ -319,10 +334,10 @@ func PerformAction(irc *hbot.Bot, m *hbot.Message, admin_speak bool) bool {
 	return false
 }
 
-// Trigger for all non-admin users
+// UserTrigger is for all non-admin users.
 var UserTrigger = hbot.Trigger{
 	func(bot *hbot.Bot, m *hbot.Message) bool {
-		return (m.From != dbot.Conf.Admin)
+		return (m.From != Dbot.Conf.Admin)
 	},
 	func(irc *hbot.Bot, m *hbot.Message) bool {
 		PerformAction(irc, m, false)
@@ -331,11 +346,11 @@ var UserTrigger = hbot.Trigger{
 	},
 }
 
-// Trigger for admin user.
-// If no admin response is found, a user reponse is attempted
+// AdminTrigger is for the admin user. If no admin response is performed,
+// a user reponse is attempted.
 var AdminTrigger = hbot.Trigger{
 	func(bot *hbot.Bot, m *hbot.Message) bool {
-		return (m.From == dbot.Conf.Admin)
+		return (m.From == Dbot.Conf.Admin)
 	},
 	func(irc *hbot.Bot, m *hbot.Message) bool {
 		responded := PerformAction(irc, m, true)
