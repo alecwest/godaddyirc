@@ -2,7 +2,7 @@
 // chat bot, either as a mom or a dad
 package dad
 
-// TODO separate UpdateGrounding into two functions
+// TODO add readme and button link to godocs on github (https://godoc.org/github.com/alecwest/godaddyirc/dadbot)
 // TODO refactor stuff that manages the config (make a config navigation struct or something)
 // TODO add attribute for responses that involve reuse (ReuseContent bool)
 // TODO replace [...] blocks with %s and put them in a separate attribute (Format string)
@@ -12,6 +12,7 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
+	"math"
 	"math/rand"
 	"os"
 	"regexp"
@@ -103,11 +104,9 @@ func Run(dad bool) {
 	if err != nil {
 		panic(err)
 	}
-
 	Dbot.Bot.AddTrigger(UserTrigger)
 	Dbot.Bot.AddTrigger(AdminTrigger)
 	Dbot.Bot.Logger.SetHandler(log.StdoutHandler)
-
 	// Start up bot (this blocks until we disconnect)
 	Dbot.Bot.Run()
 	fmt.Println("Bot shutting down.")
@@ -136,21 +135,22 @@ func UpdateConfig() {
 	ioutil.WriteFile("conf.json", jsonData, 0644)
 }
 
-// UpdateGrounding checks the content string for a grounded user and ungrounds
-// them if the passed command is "[unground]". If the passed command is
-// "[ground]" then the user inside the content string is grounded.
-func UpdateGrounding(content string, command string) {
-	i := StringInSlice(content, Dbot.Conf.Grounded)
+// Ground checks the list of currently grounded users and adds the name if
+// it has not yet been added.
+func Ground(name string) {
+	i := StringInSlice(name, Dbot.Conf.Grounded)
+	if i != -1 { return }
+	Dbot.Conf.Grounded = append(Dbot.Conf.Grounded, name)
+}
 
-	// log.Debug(fmt.Sprintf("index: %d, grounding/ungrounding: %s", i, content))
-	if command == "[ground]" && i == -1 {
-		Dbot.Conf.Grounded = append(Dbot.Conf.Grounded, content)
-	} else if command == "[unground]" && i != -1 {
-		Dbot.Conf.Grounded[len(Dbot.Conf.Grounded)-1],
-			Dbot.Conf.Grounded[i] = Dbot.Conf.Grounded[i],
-			Dbot.Conf.Grounded[len(Dbot.Conf.Grounded)-1]
-		Dbot.Conf.Grounded = Dbot.Conf.Grounded[:len(Dbot.Conf.Grounded)-1]
-	}
+// Unground checks the list of grounded users for the requested name and
+// removes it if it is found.
+func Unground(name string) {
+	i := StringInSlice(name, Dbot.Conf.Grounded)
+	if i == -1 { return }
+	Dbot.Conf.Grounded[len(Dbot.Conf.Grounded) - 1], Dbot.Conf.Grounded[i] =
+		Dbot.Conf.Grounded[i], Dbot.Conf.Grounded[len(Dbot.Conf.Grounded) - 1]
+	Dbot.Conf.Grounded = Dbot.Conf.Grounded[:len(Dbot.Conf.Grounded) - 1]
 }
 
 // TestMessage tests the passed message against the passed regex and returns
@@ -212,27 +212,18 @@ func SetRecipient(m *hbot.Message, s SpeakData) string {
 // to format the reply to (s_index). It returns the reply with set content and
 // destination (but not the time).
 func FormatReply(m *hbot.Message, admin_speak bool, s_index int) Reply {
-	var s SpeakData
+	s := getSpeakData(admin_speak)[s_index]
 	var reply Reply
-	if Dbot.Dad == false {
-		s = Dbot.Conf.MomSpeak[s_index]
-	} else if admin_speak {
-		s = Dbot.Conf.AdminSpeak[s_index]
-	} else {
-		s = Dbot.Conf.Speak[s_index]
-	}
-
 	// Choose random response from list of responses (mostly used for jokes)
 	var rand_index = rand.Intn(len(s.Response))
+	rand_index = GetRandomLeastUsedResponseIndex(s)
 	response := s.Response[rand_index]
-
 	// Stolen from Bot.Reply to init reply.To
 	if strings.Contains(m.To, "#") {
 		reply.To = m.To
 	} else {
 		reply.To = m.From
 	}
-
 	if strings.Contains(response.Message, "[from]") {
 		response.Message = strings.Replace(response.Message, "[from]", m.From, -1)
 	}
@@ -241,7 +232,6 @@ func FormatReply(m *hbot.Message, admin_speak bool, s_index int) Reply {
 			strings.Join(Dbot.Conf.Grounded, ", "),
 			-1)
 	}
-
 	// Manages all responses that reuse any content from the original message
 	for _, replace := range []string{"[mock]", "[repeat]", "[ground]",
 		"[unground]"} {
@@ -249,7 +239,6 @@ func FormatReply(m *hbot.Message, admin_speak bool, s_index int) Reply {
 			// Modify who the message is sent to if it includes "user:" before the cmd
 			if replace == "[repeat]" {
 				to := SetRecipient(m, s)
-				log.Debug(fmt.Sprintf("TESTING:: to: %s", to))
 				if len(to) > 0 {
 					reply.To = to
 				}
@@ -257,10 +246,11 @@ func FormatReply(m *hbot.Message, admin_speak bool, s_index int) Reply {
 				// Remove the part that the regex matched to
 				m.Content = RemoveRegex(m.Content, s.Regex)
 			}
-
-			// Manage grounding/ungrounding
-			UpdateGrounding(m.Content, replace)
-
+			if replace == "[ground]" {
+				Ground(m.Content)
+			} else if replace == "[unground]" {
+				Unground(m.Content)
+			}
 			// Replace [...] element with what remains in the Content of the message
 			nonWord := regexp.MustCompile("^\\W+$")
 			if len(m.Content) == 0 || nonWord.MatchString(m.Content) {
@@ -271,14 +261,9 @@ func FormatReply(m *hbot.Message, admin_speak bool, s_index int) Reply {
 			}
 		}
 	}
+	// If message is non-empty, then bot will send it, so increment response count
 	if response.Message != "" {
-		if Dbot.Dad == false {
-			Dbot.Conf.MomSpeak[s_index].Response[rand_index].Count++
-		} else if admin_speak {
-			Dbot.Conf.AdminSpeak[s_index].Response[rand_index].Count++
-		} else {
-			Dbot.Conf.Speak[s_index].Response[rand_index].Count++
-		}
+		s.Response[rand_index].Count++
 	}
 	reply.Content = strings.Split(response.Message, "\n")
 	return reply
@@ -289,14 +274,7 @@ func FormatReply(m *hbot.Message, admin_speak bool, s_index int) Reply {
 // and whether or not the sender was the admin (admin_speak). If an action
 // was performed, return true.
 func PerformAction(irc *hbot.Bot, m *hbot.Message, admin_speak bool) bool {
-	var speak []SpeakData
-	if Dbot.Dad == false {
-		speak = Dbot.Conf.MomSpeak
-	} else if admin_speak {
-		speak = Dbot.Conf.AdminSpeak
-	} else {
-		speak = Dbot.Conf.Speak
-	}
+	speak := getSpeakData(admin_speak)
 	// Do not perform an action if either the sender is grounded, sufficient time
 	// has not passed, or the message is from the irc's IP
 	if StringInSlice(m.From, Dbot.Conf.Grounded) != -1 ||
@@ -332,6 +310,36 @@ func PerformAction(irc *hbot.Bot, m *hbot.Message, admin_speak bool) bool {
 		}
 	}
 	return false
+}
+
+// GetRandomLeastUsedResponseIndex chooses a random response among all
+// within the given speak data, giving priority to responses that have not
+// yet been used as much. It returns the index of the response it chose
+func GetRandomLeastUsedResponseIndex(speak SpeakData) int {
+	var minCount = math.MaxUint32
+	chosenIndex := rand.Intn(len(speak.Response))
+	for _, response := range speak.Response {
+		if response.Count < minCount {
+			minCount = response.Count
+		}
+	}
+	for speak.Response[chosenIndex].Count > minCount {
+		chosenIndex = rand.Intn(len(speak.Response))
+	}
+	log.Debug(fmt.Sprintf("Chosen response %d : %s", chosenIndex, speak.Response[chosenIndex].Message))
+	return chosenIndex
+}
+
+func getSpeakData(admin_speak bool) []SpeakData {
+	var s []SpeakData
+	if Dbot.Dad == false {
+		s = Dbot.Conf.MomSpeak
+	} else if admin_speak {
+		s = Dbot.Conf.AdminSpeak
+	} else {
+		s = Dbot.Conf.Speak
+	}
+	return s;
 }
 
 // UserTrigger is for all non-admin users.

@@ -6,7 +6,7 @@
             "Response": [
                 {
                     "Message": "That's it, you're grounded [ground]!",
-                    "Count": 14
+                    "Count": 15
                 }
             ]
         },
@@ -24,7 +24,7 @@
             "Response": [
                 {
                     "Message": "[unground], you're now ungrounded. Don't let me catch you misbehaving again.",
-                    "Count": 4
+                    "Count": 5
                 }
             ]
         }
@@ -72,7 +72,7 @@
             "Response": [
                 {
                     "Message": "Here is a list of grounded users:\n[grounded]",
-                    "Count": 7
+                    "Count": 9
                 }
             ]
         },
@@ -214,7 +214,7 @@
                 },
                 {
                     "Message": "If prisoners could take their own mug shots,\nthey'd be called cellfies",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Is this pool safe for diving?\nIt deep ends",
@@ -382,7 +382,7 @@
                 },
                 {
                     "Message": "Wanna hear a little pickle joke?\n.....it's not that big of dill.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Say, Ernie? Would you like some ice cream?\nYes, sherbert.",
@@ -442,7 +442,7 @@
                 },
                 {
                     "Message": "Mums trying to stop me eating as she reckons its getting out of hand.\nLuckily, I've got a few Twix up my sleeve.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Why did the first shoemaker go to hell?\nBecause he sold his sole to the devil.",
@@ -454,7 +454,7 @@
                 },
                 {
                     "Message": "My daughter kept complaining that it was too cold.\nI told her to go stand in the corner, it's 90 degrees there.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "A dentist is working on a judge and promises one thing....\n....to take the tooth, the whole tooth, and nothing but the tooth.",
@@ -534,7 +534,7 @@
                 },
                 {
                     "Message": "I heard a beaver lost its home today.\nDam shame, too.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Two guys are sitting in a boat.\nThey have a bunch of cigarettes, but neither of them brought any matches to light them. So one of the guys throws one cigarette off the boat, and the boat becomes a cigarette lighter.",
@@ -850,7 +850,7 @@
                 },
                 {
                     "Message": "Why isn't a koala bear a real bear\nBecause they aren't koala-fied",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What do you call a minister that does shoe repair?\nPreach Cobbler",
