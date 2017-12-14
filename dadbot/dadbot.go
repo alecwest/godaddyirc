@@ -2,7 +2,6 @@
 // chat bot, either as a mom or a dad
 package dad
 
-// TODO add readme and button link to godocs on github (https://godoc.org/github.com/alecwest/godaddyirc/dadbot)
 // TODO refactor stuff that manages the config (make a config navigation struct or something)
 // TODO add attribute for responses that involve reuse (ReuseContent bool)
 // TODO replace [...] blocks with %s and put them in a separate attribute (Format string)
@@ -234,7 +233,7 @@ func FormatReply(m *hbot.Message, admin_speak bool, s_index int) Reply {
 	}
 	// Manages all responses that reuse any content from the original message
 	for _, replace := range []string{"[mock]", "[repeat]", "[ground]",
-		"[unground]"} {
+		"[unground]", "[poof]"} {
 		if strings.Contains(response.Message, replace) {
 			// Modify who the message is sent to if it includes "user:" before the cmd
 			if replace == "[repeat]" {
@@ -250,6 +249,8 @@ func FormatReply(m *hbot.Message, admin_speak bool, s_index int) Reply {
 				Ground(m.Content)
 			} else if replace == "[unground]" {
 				Unground(m.Content)
+			} else if replace == "[poof]" {
+				m.Content = AddArticle(m.Content)
 			}
 			// Replace [...] element with what remains in the Content of the message
 			nonWord := regexp.MustCompile("^\\W+$")
@@ -328,6 +329,17 @@ func GetRandomLeastUsedResponseIndex(speak SpeakData) int {
 	}
 	log.Debug(fmt.Sprintf("Chosen response %d : %s", chosenIndex, speak.Response[chosenIndex].Message))
 	return chosenIndex
+}
+
+// Prepand the given string with an "a" or "an" based on the first word and
+// return the result
+func AddArticle(s string) string {
+	for _, vowel := range []string{"a", "e", "i", "o", "u"} {
+		if strings.Contains(vowel, string(s[0])) {
+			return "an " + s
+		}
+	}
+	return "a " + s
 }
 
 func getSpeakData(admin_speak bool) []SpeakData {

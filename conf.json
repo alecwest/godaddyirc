@@ -48,7 +48,7 @@
     "MomName": "mom",
     "MomSpeak": [
         {
-            "Regex": "(?i)(^|\\s+)(mom(my|ma)?|mother|(ma){1,2}).*\\?\\s*$",
+            "Regex": "(?i)(.*\\s+)?(mom(my|ma)?|mother|(ma){1,2}).*\\?\\s*$",
             "Response": [
                 {
                     "Message": "Ask your father.",
@@ -59,11 +59,11 @@
     ],
     "Speak": [
         {
-            "Regex": "(?i)^(good)?\\s?mornin(g|')?(,)?\\s+(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})($|\\W+)",
+            "Regex": "(?i)^(good\\s+)?mornin(g|')?(,)?\\s+(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})($|\\W+)",
             "Response": [
                 {
                     "Message": "good morning [from]!",
-                    "Count": 1
+                    "Count": 4
                 }
             ]
         },
@@ -77,7 +77,7 @@
             ]
         },
         {
-            "Regex": "(?i)(^|\\W+)i(')?m\\s+(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})",
+            "Regex": "(?i)(.*\\s+)?i(')?m\\s+(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})",
             "Response": [
                 {
                     "Message": "mmmmmmmmmm... no",
@@ -86,16 +86,16 @@
             ]
         },
         {
-            "Regex": "(?i)(^|\\W+)i(')?m ",
+            "Regex": "(?i)(.*\\s+)?i(')?m(\\s+a|\\s+an)?\\s+",
             "Response": [
                 {
                     "Message": "Hi [mock], I'm dad",
-                    "Count": 6
+                    "Count": 10
                 }
             ]
         },
         {
-            "Regex": "(?i)(^|\\W+)i love \\w+\\W*$",
+            "Regex": "(?i)(.*\\s+)?i love(\\s+\\w+\\W*$)",
             "Response": [
                 {
                     "Message": "Well then why don't you marry it?",
@@ -104,7 +104,7 @@
             ]
         },
         {
-            "Regex": "(?i)(^|\\s+)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}).*\\?\\s*$",
+            "Regex": "(?i)(.*\\s+)?(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}).*\\?\\s*$",
             "Response": [
                 {
                     "Message": "Ask your mother.",
@@ -113,16 +113,16 @@
             ]
         },
         {
-            "Regex": "(?i)(^|\\s+)(dad(dy|a|dio|'o)?|father|(pop){1,2}(s)?|(pa){1,2})(,)? make me ",
+            "Regex": "(?i)(.*\\s+)?make\\s+me(\\s+a|\\s+an)\\s+",
             "Response": [
                 {
-                    "Message": "Poof, you're [mock]!",
-                    "Count": 2
+                    "Message": "Poof, you're [poof]!",
+                    "Count": 5
                 }
             ]
         },
         {
-            "Regex": "(?i)(^|\\s+)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})($|\\W+)",
+            "Regex": "(?i)(.*\\s+)?(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})($|\\W+)",
             "Response": [
                 {
                     "Message": "\"I'll call you later.\"\nDon't call me later, call me Dad",
@@ -758,7 +758,7 @@
                 },
                 {
                     "Message": "6 was afraid of 7 because 7, 8, 9, but why did 7 eat 9?\nBecause you're supposed to eat 3 squared meals a day.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "I don't know why Euthanasia is so controversial.\nI personally don't mind Asian kids.",
