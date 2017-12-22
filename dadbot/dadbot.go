@@ -5,6 +5,14 @@ package dad
 // TODO refactor stuff that manages the config (make a config navigation struct or something)
 // TODO add attribute for responses that involve reuse (ReuseContent bool)
 // TODO replace [...] blocks with %s and put them in a separate attribute (Format string)
+/*
+    TODO to add to test strings:
+	ssssshhhhhuuuuttttt     uuuuuupppp dad
+	shutup dad
+	ffffuuuuccckkk     yyyyoooouuu dad
+	fuckyou dad
+	ddaaadd
+*/
 
 import (
 	"encoding/json"
@@ -196,7 +204,7 @@ func RemoveRegex(s string, regex string) string {
 func SetRecipient(m *hbot.Message, s SpeakData) string {
 	to := ""
 	strWithoutCommand := RemoveRegex(m.Content, s.Regex)
-	log.Debug(strWithoutCommand)
+	// log.Debug(strWithoutCommand)
 	to = RemoveRegex(strWithoutCommand, ":.*")
 	if to == strWithoutCommand {
 		to = Dbot.Conf.Channels[0]

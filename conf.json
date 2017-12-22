@@ -15,7 +15,7 @@
             "Response": [
                 {
                     "Message": "[repeat]",
-                    "Count": 37
+                    "Count": 40
                 }
             ]
         },
@@ -63,7 +63,7 @@
             "Response": [
                 {
                     "Message": "good morning [from]!",
-                    "Count": 4
+                    "Count": 5
                 }
             ]
         },
@@ -86,11 +86,11 @@
             ]
         },
         {
-            "Regex": "(?i)(.*\\s+)?i(')?m(\\s+a|\\s+an)?\\s+",
+            "Regex": "(?i)(.*\\s+)?i(')?m(\\s+a(n)?)?\\s*",
             "Response": [
                 {
                     "Message": "Hi [mock], I'm dad",
-                    "Count": 10
+                    "Count": 36
                 }
             ]
         },
@@ -122,6 +122,15 @@
             ]
         },
         {
+            "Regex": "(?i)(.*\\s+)?(([s]+[h]+[u]+[t]+\\s*[u]+[p]+|[f]+[u]+[c]+[k]+\\s*[y]+[o]+[u]+)\\s*(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})|[d]+[a]{2,}[d]+)",
+            "Response": [
+                {
+                    "Message": ":v)",
+                    "Count": 7
+                }
+            ]
+        },
+        {
             "Regex": "(?i)(.*\\s+)?(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})($|\\W+)",
             "Response": [
                 {
@@ -138,7 +147,7 @@
                 },
                 {
                     "Message": "Dad, can you put the cat out?\nI didn't know it was on fire",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Dad, did you get a haircut?\nNo I got them all cut",
@@ -610,7 +619,7 @@
                 },
                 {
                     "Message": "Why did my TV start looking so good this year?\nIt was his new years resolution",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "I once started a hotdog business...\nIt was the wurst thing I ever did.",
@@ -858,7 +867,7 @@
                 },
                 {
                     "Message": "My wife asked \"What's your favorite vegetable.\"\nBeets me!",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What do you call a tree who's limbs fell off in a storm?\nAn amputree",
