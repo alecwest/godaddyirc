@@ -13,6 +13,7 @@ import (
 	"regexp"
 	"strings"
 	"time"
+	"unicode"
 
 	"github.com/whyrusleeping/hellabot"
 	log "gopkg.in/inconshreveable/log15.v2"
@@ -160,6 +161,16 @@ func TestMessage(regex string, message *hbot.Message) bool {
 	return match
 }
 
+// StripWhitespace removes all whitespace from the given string and returns it
+func StripWhitespace(str string) string {
+	return strings.Map(func(r rune) rune {
+		if unicode.IsSpace(r) {
+			return -1
+		}
+		return r
+	}, str)
+}
+
 // MessageRateMet checks whether or not enough time has passed since the Last
 // reply was sent. If the message just sent was from an admin, ignore
 // time passed.
@@ -239,7 +250,7 @@ func FormatReply(m *hbot.Message, admin_speak bool, s_index int) Reply {
 				}
 			} else {
 				// Remove the part that the regex matched to
-				m.Content = RemoveRegex(m.Content, s.Regex)
+				m.Content = StripWhitespace(RemoveRegex(m.Content, s.Regex))
 			}
 			if replace == "[ground]" {
 				Ground(m.Content)

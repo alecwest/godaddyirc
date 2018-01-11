@@ -6,7 +6,7 @@
             "Response": [
                 {
                     "Message": "That's it, you're grounded [ground]!",
-                    "Count": 16
+                    "Count": 18
                 }
             ]
         },
@@ -15,7 +15,7 @@
             "Response": [
                 {
                     "Message": "[repeat]",
-                    "Count": 43
+                    "Count": 45
                 }
             ]
         },
@@ -24,13 +24,13 @@
             "Response": [
                 {
                     "Message": "[unground], you're now ungrounded. Don't let me catch you misbehaving again.",
-                    "Count": 8
+                    "Count": 10
                 }
             ]
         }
     ],
     "Channels": [
-        "#main"
+        "#rents"
     ],
     "DadName": "dad",
     "Debug": false,
@@ -71,7 +71,7 @@
             "Response": [
                 {
                     "Message": "Here is a list of grounded users:\n[grounded]",
-                    "Count": 11
+                    "Count": 14
                 }
             ]
         },
@@ -89,7 +89,7 @@
             "Response": [
                 {
                     "Message": "Hi [mock], I'm dad",
-                    "Count": 49
+                    "Count": 48
                 }
             ]
         },
@@ -214,7 +214,7 @@
                 },
                 {
                     "Message": "I'm reading a book on the history of glue\nI just can't seem to put it down",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "I've just been diagnosed as colorblind\nI know, it certainly has come out of the purple",
@@ -342,7 +342,7 @@
                 },
                 {
                     "Message": "Why did the scarecrow win an award?\nBecause he was outstanding in his field",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Why do bees hum?\nBecause they don't know the words",
@@ -458,7 +458,7 @@
                 },
                 {
                     "Message": "What does an oyster wear into battle?\nClamouflage",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "My daughter kept complaining that it was too cold.\nI told her to go stand in the corner, it's 90 degrees there.",
@@ -474,7 +474,7 @@
                 },
                 {
                     "Message": "My wife visited a holy city\nShe completely fell through it all.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Do I enjoy making courthouse puns?\nGuilty.",
@@ -550,7 +550,7 @@
                 },
                 {
                     "Message": "How come everyone in history has always settled for Shampoo?\nStop the madness! Demand Realpoo!",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Know why the native Americans were here first?\n...because they had reservations.",
@@ -610,7 +610,7 @@
                 },
                 {
                     "Message": "I can understand 4 feet, 5 feet, 7 feet and 8 feet\nBut I can't fathom",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "How do you make holy water?\nYou boil the hell out of it",
@@ -734,7 +734,7 @@
                 },
                 {
                     "Message": "I've said it before and I'll say it again\nI've said it before",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What did the cookie say to the browser while running away?\n\"Cache me if you can!\"",
@@ -762,7 +762,7 @@
                 },
                 {
                     "Message": "I was surprised to hear that Adele uses a MacBook\nI always thought she'd use a Dell.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "6 was afraid of 7 because 7, 8, 9, but why did 7 eat 9?\nBecause you're supposed to eat 3 squared meals a day.",

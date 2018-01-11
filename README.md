@@ -20,7 +20,6 @@
 - Command to change channels
 
 #### ISSUES
-- Doesn't strip whitespace from captured text... yet
 - Doesn't strip channel/user names from say command
 - Doesn't ignore each other by default (shouldn't have to include both bots in grounded list)
 
