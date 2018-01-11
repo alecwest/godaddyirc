@@ -2,18 +2,6 @@
 // chat bot, either as a mom or a dad
 package dad
 
-// TODO refactor stuff that manages the config (make a config navigation struct or something)
-// TODO add attribute for responses that involve reuse (ReuseContent bool)
-// TODO replace [...] blocks with %s and put them in a separate attribute (Format string)
-/*
-    TODO to add to test strings:
-	ssssshhhhhuuuuttttt     uuuuuupppp dad
-	shutup dad
-	ffffuuuuccckkk     yyyyoooouuu dad
-	fuckyou dad
-	ddaaadd
-*/
-
 import (
 	"encoding/json"
 	"flag"

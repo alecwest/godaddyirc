@@ -1,0 +1,50 @@
+(grounding)
+dad, ground yeet
+dad, grounded
+dad, unground yeet
+dad, grounded
+
+(say commands)
+dad, say yeet
+dad, say awest: yeet
+/msg dad dad, say yeet
+/msg dad dad, say #main: yeet
+
+(good morning)
+good morning dad
+mornin, dad
+good mornin' dad
+
+(i'm ___)
+im yeet
+I'm yeet
+im .yeet
+
+(i'm ___ denial response)
+im dad
+
+(i love ___)
+i love yeet
+
+(i love ____ no response)
+i love yeet yeet
+
+(dad ___?)
+dad yeet?
+yeet dad?
+
+(dad joke response)
+dad
+pops
+papa
+poppop
+daddy
+daddio
+dad'o
+
+(:v))
+ssssshhhhhuuuuttttt     uuuuuupppp dad
+shutup dad
+ffffuuuuccckkk     yyyyoooouuu dad
+fuckyou dad
+ddaaadd

@@ -13,6 +13,11 @@
 - Has least favorite kids
 - Loves telling jokes\*
 
+#### PLANNED
+- Refactor config or how config is passed through bot
+- Change how certain messages recycle message content
+- Replace [...] blocks with something that can better capture target content
+
 #### CONFIG
 - All responses and corresponding regex can be found in conf.json
 - All regex is tested with the case-insensitive flag
