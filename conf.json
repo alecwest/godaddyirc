@@ -39,8 +39,7 @@
         "Doge",
         "Magic_Conch",
         "Seahorse",
-        "l",
-        "mom"
+        "l"
     ],
     "Ip": "coop.test.adtran.com",
     "MessageRate": 10,
@@ -51,7 +50,7 @@
             "Response": [
                 {
                     "Message": "Ask your father.",
-                    "Count": 11
+                    "Count": 12
                 }
             ]
         }
@@ -402,7 +401,7 @@
                 },
                 {
                     "Message": "What's the difference between a coyote and a flea?\nOne howls on the prairie and the other prowls on the hairy.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "A judge sentenced me to take a guy out to dinner.\nIt was a court mandate",
@@ -722,7 +721,7 @@
                 },
                 {
                     "Message": "The people at my hair salon make me wanna..\nCurl up and dye.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "My dad said if I use a hashtag one more time, he'd pound the sh*t out of me. I said #YOLO and woke up to this text the next morning...\n####################",

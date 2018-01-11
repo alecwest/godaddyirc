@@ -21,7 +21,6 @@
 
 #### ISSUES
 - Doesn't strip channel/user names from say command
-- Doesn't ignore each other by default (shouldn't have to include both bots in grounded list)
 
 #### CONFIG
 - All responses and corresponding regex can be found in conf.json

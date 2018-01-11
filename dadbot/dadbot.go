@@ -283,9 +283,10 @@ func FormatReply(m *hbot.Message, admin_speak bool, s_index int) Reply {
 // was performed, return true.
 func PerformAction(irc *hbot.Bot, m *hbot.Message, admin_speak bool) bool {
 	speak := getSpeakData(admin_speak)
-	// Do not perform an action if either the sender is grounded, sufficient time
-	// has not passed, or the message is from the irc's IP
+	// Do not perform an action if either the sender is grounded, is mom/dad,
+	// sufficient time has not passed, or the message is from the irc's IP
 	if StringInSlice(m.From, Dbot.Conf.Grounded) != -1 ||
+	  StringInSlice(m.From, []string{Dbot.Conf.MomName, Dbot.Conf.DadName}) != -1 ||
 		MessageRateMet(m) == false ||
 		StringInSlice(m.From, []string{Dbot.Conf.Ip, "irc.awest.com"}) != -1 {
 		return false
