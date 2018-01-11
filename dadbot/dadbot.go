@@ -37,7 +37,7 @@ type Configuration struct {
 // SpeakData is the regex-to-response pairing for each possible response.
 // There can be more than one response, and it will be chosen semi-randomly.
 type SpeakData struct {
-	Regex    string
+	Regex    RegexData
 	Response []ResponseData
 }
 
@@ -47,6 +47,18 @@ type SpeakData struct {
 type ResponseData struct {
 	Message string
 	Count   int
+}
+
+// RegexData makes it a little easier to capture text by having
+// regex that seperates the message content into three sections. In the
+// Before and After sections, you'd specify any triggers that are generally
+// pretty constant, while Repeat is the variable part that would be repeated
+// by the bot. For a simple trigger, just fill in Before and leave
+// Repeat and After blank
+type RegexData struct {
+	Before 		string
+	Repeat 		string
+	After 		string
 }
 
 // Reply includes the final formatted response (all text replacement blocks
@@ -70,6 +82,7 @@ type IRCBot struct {
 // Dbot is the global variable that primarily allows for the config information
 // to be smoothly passed around and updated properly.
 var Dbot IRCBot
+var configFile = "test.json"
 
 // Run starts an instance of the bot, with variable dad indicating whether
 // the bot should behave like a dad or a mom
@@ -109,7 +122,7 @@ func Run(dad bool) {
 
 // InitConfig returns an initialized config.
 func InitConfig() Configuration {
-	file, _ := os.Open("conf.json")
+	file, _ := os.Open(configFile)
 	defer file.Close()
 	decoder := json.NewDecoder(file)
 	conf := Configuration{}
@@ -127,7 +140,7 @@ func UpdateConfig() {
 	if err != nil {
 		panic(err)
 	}
-	ioutil.WriteFile("conf.json", jsonData, 0644)
+	ioutil.WriteFile(configFile, jsonData, 0644)
 }
 
 // Ground checks the list of currently grounded users and adds the name if
@@ -150,12 +163,26 @@ func Unground(name string) {
 
 // TestMessage tests the passed message against the passed regex and returns
 // whether or not a match was found
-func TestMessage(regex string, message *hbot.Message) bool {
+func TestMessage(regex RegexData, message *hbot.Message) bool {
+	var substring string
 	match := false
-	// err = errors.New("Forgot to include who the message was from")
-	r := regexp.MustCompile(regex)
-	if r.MatchString(message.Content) {
+	b := regexp.MustCompile(regex.Before)
+	r := regexp.MustCompile(regex.Repeat)
+	a := regexp.MustCompile(regex.After)
+	if b.FindString(message.Content) != "" {
 		match = true
+	}
+	if match && regex.Repeat != "" {
+		substring = r.ReplaceAllLiteralString(message.Content, "")
+		if r.FindString(substring) == "" {
+			match = false
+		}
+	}
+	if match && regex.After != "" {
+		substring = a.ReplaceAllLiteralString(substring, "")
+		if a.FindString(substring) == "" {
+			match = false
+		}
 	}
 	return match
 }
@@ -178,11 +205,25 @@ func StringInSlice(a string, s []string) int {
 	return -1
 }
 
-// RemoveRegex removes the substring matching the passed regex from the passed
-// string, s, and returns the result.
-func RemoveRegex(s string, regex string) string {
+// RemoveRegex removes the substring matching the passed RegexData from the
+// passed string, s, and returns the result.
+func RemoveRegex(s string, regex RegexData) string {
+	var substring string
+	b, _, a := MustCompileRegexData(regex)
+	substring = b.ReplaceAllLiteralString(s, "")
+	substring = a.ReplaceAllLiteralString(substring, "")
+	return substring
+}
+
+// RemoveLiteralRegex removes a matching literal that is passed as regex from
+// the given string, s, and returns the result.
+func RemoveLiteralRegex(s string, regex string) string {
 	r := regexp.MustCompile(regex)
 	return r.ReplaceAllLiteralString(s, "")
+}
+
+func MustCompileRegexData(regex RegexData) (*regexp.Regexp, *regexp.Regexp, *regexp.Regexp) {
+	return regexp.MustCompile(regex.Before), regexp.MustCompile(regex.Repeat), regexp.MustCompile(regex.After)
 }
 
 // SetRecipient modifies m's Content to no longer contain the regex command
@@ -193,12 +234,12 @@ func SetRecipient(m *hbot.Message, s SpeakData) string {
 	to := ""
 	strWithoutCommand := RemoveRegex(m.Content, s.Regex)
 	// log.Debug(strWithoutCommand)
-	to = RemoveRegex(strWithoutCommand, ":.*")
+	to = RemoveLiteralRegex(strWithoutCommand, ":.*")
 	if to == strWithoutCommand {
 		to = Dbot.Conf.Channels[0]
 	}
 	m.Content = strWithoutCommand
-	m.Content = RemoveRegex(m.Content, ".*:\\s")
+	m.Content = RemoveLiteralRegex(m.Content, ".*:\\s")
 	return to
 }
 

@@ -1,0 +1,38 @@
+{
+    "Admin": "awest",
+    "AdminSpeak": [
+        {
+            "Regex": {
+                "Before": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), ground ",
+                "Repeat": "(?i)\\S+",
+                "After": "(?i)$"
+            },
+            "Response": [
+                {
+                    "Message": "That's it, you're grounded [ground]!",
+                    "Count": 15
+                }
+            ]
+        }
+    ],
+    "Channels": [
+        "#main"
+    ],
+    "DadName": "dad",
+    "Debug": false,
+    "Grounded": [
+        "theCount",
+        "Doge",
+        "Magic_Conch",
+        "Seahorse",
+        "l",
+        "jlong",
+        "noahsiano"
+    ],
+    "Ip": "localhost",
+    "MessageRate": 10,
+    "MomName": "mom",
+    "MomSpeak": [],
+    "Speak": [],
+    "Timeout": 4
+}
