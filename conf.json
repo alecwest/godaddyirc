@@ -6,7 +6,7 @@
             "Response": [
                 {
                     "Message": "That's it, you're grounded [ground]!",
-                    "Count": 15
+                    "Count": 16
                 }
             ]
         },
@@ -15,7 +15,7 @@
             "Response": [
                 {
                     "Message": "[repeat]",
-                    "Count": 40
+                    "Count": 43
                 }
             ]
         },
@@ -24,7 +24,7 @@
             "Response": [
                 {
                     "Message": "[unground], you're now ungrounded. Don't let me catch you misbehaving again.",
-                    "Count": 5
+                    "Count": 8
                 }
             ]
         }
@@ -40,19 +40,18 @@
         "Magic_Conch",
         "Seahorse",
         "l",
-        "jlong",
-        "noahsiano"
+        "mom"
     ],
-    "Ip": "localhost",
+    "Ip": "coop.test.adtran.com",
     "MessageRate": 10,
     "MomName": "mom",
     "MomSpeak": [
         {
-            "Regex": "(?i)(.*\\s+)?(mom(my|ma)?|mother|(ma){1,2}).*\\?\\s*$",
+            "Regex": "(?i)(^|.*\\s+)(mom(my|ma)?|mother|(ma){1,2})(\\s+.*)?\\?\\s*$",
             "Response": [
                 {
                     "Message": "Ask your father.",
-                    "Count": 3
+                    "Count": 11
                 }
             ]
         }
@@ -63,7 +62,7 @@
             "Response": [
                 {
                     "Message": "good morning [from]!",
-                    "Count": 5
+                    "Count": 6
                 }
             ]
         },
@@ -72,66 +71,66 @@
             "Response": [
                 {
                     "Message": "Here is a list of grounded users:\n[grounded]",
-                    "Count": 9
+                    "Count": 11
                 }
             ]
         },
         {
-            "Regex": "(?i)(.*\\s+)?i(')?m\\s+(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})",
+            "Regex": "(?i)(^|.*\\s+)i(')?m\\s+(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})",
             "Response": [
                 {
                     "Message": "mmmmmmmmmm... no",
+                    "Count": 3
+                }
+            ]
+        },
+        {
+            "Regex": "(?i)(^|.*\\s+)i(')?m(\\s+)(a(n)?\\s+|\\s*)",
+            "Response": [
+                {
+                    "Message": "Hi [mock], I'm dad",
+                    "Count": 49
+                }
+            ]
+        },
+        {
+            "Regex": "(?i)(^|.*\\s+)i love(\\s+\\w+\\W*$)",
+            "Response": [
+                {
+                    "Message": "Well then why don't you marry it?",
                     "Count": 2
                 }
             ]
         },
         {
-            "Regex": "(?i)(.*\\s+)?i(')?m(\\s+a(n)?)?\\s*",
-            "Response": [
-                {
-                    "Message": "Hi [mock], I'm dad",
-                    "Count": 36
-                }
-            ]
-        },
-        {
-            "Regex": "(?i)(.*\\s+)?i love(\\s+\\w+\\W*$)",
-            "Response": [
-                {
-                    "Message": "Well then why don't you marry it?",
-                    "Count": 1
-                }
-            ]
-        },
-        {
-            "Regex": "(?i)(.*\\s+)?(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}).*\\?\\s*$",
+            "Regex": "(?i)(^|.*\\s+)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})(\\s+.*)?\\?\\s*$",
             "Response": [
                 {
                     "Message": "Ask your mother.",
-                    "Count": 5
+                    "Count": 11
                 }
             ]
         },
         {
-            "Regex": "(?i)(.*\\s+)?make\\s+me(\\s+a|\\s+an)\\s+",
+            "Regex": "(?i)(^|.*\\s+)make\\s+me(\\s+a|\\s+an)\\s+",
             "Response": [
                 {
                     "Message": "Poof, you're [poof]!",
-                    "Count": 5
-                }
-            ]
-        },
-        {
-            "Regex": "(?i)(.*\\s+)?(([s]+[h]+[u]+[t]+\\s*[u]+[p]+|[f]+[u]+[c]+[k]+\\s*[y]+[o]+[u]+)\\s*(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})|[d]+[a]{2,}[d]+)",
-            "Response": [
-                {
-                    "Message": ":v)",
                     "Count": 7
                 }
             ]
         },
         {
-            "Regex": "(?i)(.*\\s+)?(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})($|\\W+)",
+            "Regex": "(?i)(^|.*\\s+)(([s]+[h]+[u]+[t]+\\s*[u]+[p]+|[f]+[u]+[c]+[k]+\\s*[y]+[o]+[u]+)\\s*(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})|[d]+[a]{2,}[d]+)",
+            "Response": [
+                {
+                    "Message": ":v)",
+                    "Count": 8
+                }
+            ]
+        },
+        {
+            "Regex": "(?i)(^|.*\\s+)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})($|\\W+)",
             "Response": [
                 {
                     "Message": "\"I'll call you later.\"\nDon't call me later, call me Dad",
@@ -155,7 +154,7 @@
                 },
                 {
                     "Message": "Did you hear about the cheese factory that exploded in France?\nThere was nothing left but de Brie",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Did you hear about the guy who invented the knock knock joke?\nHe won the 'no-bell' prize",
@@ -163,7 +162,7 @@
                 },
                 {
                     "Message": "Did you hear about the restaurant on the moon?\nGreat food, no atmosphere",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Don't trust atoms\nThey make up everything",
@@ -195,7 +194,7 @@
                 },
                 {
                     "Message": "I knew I shouldn't have had the seafood\nI'm feeling a little eel",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "I used to hate facial hair,\nbut then it grew on me",
@@ -207,7 +206,7 @@
                 },
                 {
                     "Message": "I'd like to give a big shout out to all the sidewalks\nfor keeping me off the streets",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "I'm not addicted to brake fluid\nI can stop whenever I want",
@@ -251,7 +250,7 @@
                 },
                 {
                     "Message": "Wanna hear a joke about paper?\nNevermind, it's tearable",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What did the buffalo say to his son when he left for college?\nBison",
@@ -339,7 +338,7 @@
                 },
                 {
                     "Message": "Why did the coffee file a police report?\nIt got mugged",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Why did the scarecrow win an award?\nBecause he was outstanding in his field",
@@ -359,7 +358,7 @@
                 },
                 {
                     "Message": "The Norwegian navy has started putting bar codes on their ships...\nSo they can scan da navy in...",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Singing in the shower is all fun and games until you get shampoo in your mouth...\nThen it becomes a soap opera...",
@@ -395,7 +394,7 @@
                 },
                 {
                     "Message": "Say, Ernie? Would you like some ice cream?\nYes, sherbert.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Why did the old lady fall in the well?\nShe couldn't see that well",
@@ -407,7 +406,7 @@
                 },
                 {
                     "Message": "A judge sentenced me to take a guy out to dinner.\nIt was a court mandate",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "How do you shoot a rocket?\nFire works",
@@ -467,7 +466,7 @@
                 },
                 {
                     "Message": "A dentist is working on a judge and promises one thing....\n....to take the tooth, the whole tooth, and nothing but the tooth.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What did the green grape say to the purple grape?\nBREATHE!",
@@ -511,7 +510,7 @@
                 },
                 {
                     "Message": "My gf told me she gets weirded out when I'm too literal.\nSo I gave her a piece of my mind.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What is the difference between a fly and a bird?\nA bird can fly but a fly can't bird",
@@ -547,7 +546,7 @@
                 },
                 {
                     "Message": "Two guys are sitting in a boat.\nThey have a bunch of cigarettes, but neither of them brought any matches to light them. So one of the guys throws one cigarette off the boat, and the boat becomes a cigarette lighter.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "How come everyone in history has always settled for Shampoo?\nStop the madness! Demand Realpoo!",
@@ -567,7 +566,7 @@
                 },
                 {
                     "Message": "What happened when the crustacean was late to work?\nShe LOBSTER job!",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Why is fatty acid the coolest carbon chain?\nBecause it's fat with a pH",
@@ -587,7 +586,7 @@
                 },
                 {
                     "Message": "Why did the melons have a formal wedding?\nBecause they cantaloupe.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Was Noah an...\n...ark-itect?",
@@ -615,7 +614,7 @@
                 },
                 {
                     "Message": "How do you make holy water?\nYou boil the hell out of it",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Why did my TV start looking so good this year?\nIt was his new years resolution",
@@ -683,7 +682,7 @@
                 },
                 {
                     "Message": "How do subatomic pirates mutiny?\nThey make the captain walk the planck.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What happens on a clear day in Los Angeles?\nUCLA.",
@@ -703,7 +702,7 @@
                 },
                 {
                     "Message": "I was arrested for telling my dad the best joke ever...\nPolice said manslaughter was illegal",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Dentist: Open up please\nMe: sometime I get sad and I don't know why",
@@ -747,11 +746,11 @@
                 },
                 {
                     "Message": "What do you call Mr. Bean on a boat?\nRowing Atkinson",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "My friend keeps telling me to stop making Rogue One puns.\nShe's told me that like 10 Erso times.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "I tell Dad Jokes but I'm not a dad..\nI'm a faux pa.",
@@ -759,7 +758,7 @@
                 },
                 {
                     "Message": "I went to the seafood disco last night...\nI pulled a muscle!",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "I was surprised to hear that Adele uses a MacBook\nI always thought she'd use a Dell.",
@@ -771,7 +770,7 @@
                 },
                 {
                     "Message": "I don't know why Euthanasia is so controversial.\nI personally don't mind Asian kids.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "And the Lord said unto John; \"Come forth and receive eternal life!\nBut John came fifth and won a toaster.",
@@ -787,7 +786,7 @@
                 },
                 {
                     "Message": "Do you know what the first thing a couple says when they're married?\nI do",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "I'd love to get into gardening...\n...now that I have more thyme on my hands.",
@@ -803,7 +802,7 @@
                 },
                 {
                     "Message": "Got the perfect title for the 10th fast and furious movie.\nFast 10: your seatbelts",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "How do porn actors say goodbye to each other?\nSo long.",
@@ -811,7 +810,7 @@
                 },
                 {
                     "Message": "What country is next to USA\nUSB",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "It's hard to lose a radish.\nBecause a lot of the time they'll turn up",
@@ -851,7 +850,7 @@
                 },
                 {
                     "Message": "Why was the energizer bunny put in jail?\nHe was charged with battery",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "I was recently in a boating accident...\nIt was quite an oar-deal.",
@@ -863,7 +862,7 @@
                 },
                 {
                     "Message": "What do you call a minister that does shoe repair?\nPreach Cobbler",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "My wife asked \"What's your favorite vegetable.\"\nBeets me!",
@@ -871,7 +870,7 @@
                 },
                 {
                     "Message": "What do you call a tree who's limbs fell off in a storm?\nAn amputree",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "One time I ate a whole bunch of cheese in one sitting....\nWhere there's a wheel there's a way.",
@@ -891,7 +890,7 @@
                 },
                 {
                     "Message": "What did the man say when he finished cutting up a green citrus fruit?\nWell, I guess that's the end of the lime",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "My jar of Miracle Whip tasted funny.\nLMAYO",

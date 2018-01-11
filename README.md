@@ -17,6 +17,12 @@
 - Refactor config or how config is passed through bot
 - Change how certain messages recycle message content
 - Replace [...] blocks with something that can better capture target content
+- Command to change channels
+
+#### ISSUES
+- Doesn't strip whitespace from captured text... yet
+- Doesn't strip channel/user names from say command
+- Doesn't ignore each other by default (shouldn't have to include both bots in grounded list)
 
 #### CONFIG
 - All responses and corresponding regex can be found in conf.json
