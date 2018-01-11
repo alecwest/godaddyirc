@@ -57,7 +57,7 @@ type ResponseData struct {
 // Repeat and After blank
 type RegexData struct {
 	Before 		string
-	Repeat 		string
+	Variable 	string
 	After 		string
 }
 
@@ -166,20 +166,22 @@ func Unground(name string) {
 func TestMessage(regex RegexData, message *hbot.Message) bool {
 	var substring string
 	match := false
-	b := regexp.MustCompile(regex.Before)
-	r := regexp.MustCompile(regex.Repeat)
-	a := regexp.MustCompile(regex.After)
+	b, v, a := MustCompileRegexData(regex)
+	log.Debug(fmt.Sprintf("Before regex matched '%s' from '%s'", b.FindString(message.Content), message.Content))
+
 	if b.FindString(message.Content) != "" {
 		match = true
 	}
-	if match && regex.Repeat != "" {
-		substring = r.ReplaceAllLiteralString(message.Content, "")
-		if r.FindString(substring) == "" {
+	if match && regex.Variable != "" {
+		substring = b.ReplaceAllLiteralString(message.Content, "")
+		log.Debug(fmt.Sprintf("Repeat regex matched '%s' from '%s'", v.FindString(substring), substring))
+		if v.FindString(substring) == "" {
 			match = false
 		}
 	}
 	if match && regex.After != "" {
-		substring = a.ReplaceAllLiteralString(substring, "")
+		substring = v.ReplaceAllLiteralString(substring, "")
+		log.Debug(fmt.Sprintf("After regex matched '%s' from '%s'", a.FindString(message.Content), substring))
 		if a.FindString(substring) == "" {
 			match = false
 		}
@@ -205,14 +207,22 @@ func StringInSlice(a string, s []string) int {
 	return -1
 }
 
-// RemoveRegex removes the substring matching the passed RegexData from the
-// passed string, s, and returns the result.
+// RemoveRegex removes all before/after matching substrings from
+// the given string
 func RemoveRegex(s string, regex RegexData) string {
 	var substring string
 	b, _, a := MustCompileRegexData(regex)
 	substring = b.ReplaceAllLiteralString(s, "")
 	substring = a.ReplaceAllLiteralString(substring, "")
 	return substring
+}
+
+// GetVariableRegex returns only the part of the string that matches the
+// Variable portion of RegexData
+func GetVariableRegex(s string, regex RegexData) string {
+	v := regexp.MustCompile(regex.Variable)
+	log.Debug(fmt.Sprintf("Variable regex matched '%s' from '%s'", v.FindString(s), s))
+	return v.FindString(s)
 }
 
 // RemoveLiteralRegex removes a matching literal that is passed as regex from
@@ -223,7 +233,7 @@ func RemoveLiteralRegex(s string, regex string) string {
 }
 
 func MustCompileRegexData(regex RegexData) (*regexp.Regexp, *regexp.Regexp, *regexp.Regexp) {
-	return regexp.MustCompile(regex.Before), regexp.MustCompile(regex.Repeat), regexp.MustCompile(regex.After)
+	return regexp.MustCompile(regex.Before), regexp.MustCompile(regex.Variable), regexp.MustCompile(regex.After)
 }
 
 // SetRecipient modifies m's Content to no longer contain the regex command
@@ -279,8 +289,9 @@ func FormatReply(m *hbot.Message, admin_speak bool, s_index int) Reply {
 					reply.To = to
 				}
 			} else {
-				// Remove the part that the regex matched to
+				// Remove all non-variable parts of message content
 				m.Content = RemoveRegex(m.Content, s.Regex)
+				m.Content = GetVariableRegex(m.Content, s.Regex)
 			}
 			if replace == "[ground]" {
 				Ground(m.Content)

@@ -4,19 +4,45 @@
         {
             "Regex": {
                 "Before": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), ground ",
-                "Repeat": "(?i)\\S+",
-                "After": "(?i)$"
+                "Variable": "\\S+",
+                "After": ""
             },
             "Response": [
                 {
                     "Message": "That's it, you're grounded [ground]!",
-                    "Count": 15
+                    "Count": 22
+                }
+            ]
+        },
+        {
+            "Regex": {
+                "Before": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), say ",
+                "Variable": ".*",
+                "After": ""
+            },
+            "Response": [
+                {
+                    "Message": "[repeat]",
+                    "Count": 40
+                }
+            ]
+        },
+        {
+            "Regex": {
+                "Before": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), unground ",
+                "Variable": "\\S+",
+                "After": ""
+            },
+            "Response": [
+                {
+                    "Message": "[unground], you're now ungrounded. Don't let me catch you misbehaving again.",
+                    "Count": 6
                 }
             ]
         }
     ],
     "Channels": [
-        "#main"
+        "#rents"
     ],
     "DadName": "dad",
     "Debug": false,
@@ -26,13 +52,26 @@
         "Magic_Conch",
         "Seahorse",
         "l",
-        "jlong",
         "noahsiano"
     ],
-    "Ip": "localhost",
+    "Ip": "coop.test.adtran.com",
     "MessageRate": 10,
     "MomName": "mom",
-    "MomSpeak": [],
+    "MomSpeak": [
+        {
+            "Regex": {
+                "Before": "(?i)(.*\\s+)?(mom(my|ma)?|mother|(ma){1,2}),?\\s*",
+                "Variable": "[^?]*",
+                "After": "\\?\\s*"
+            },
+            "Response": [
+                {
+                    "Message": "Ask your father.",
+                    "Count": 7
+                }
+            ]
+        }
+    ],
     "Speak": [],
     "Timeout": 4
 }

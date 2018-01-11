@@ -17,6 +17,7 @@
 - Refactor config or how config is passed through bot
 - Change how certain messages recycle message content
 - Replace [...] blocks with something that can better capture target content
+- Determine whether dad/mom should respond to "dad?" or "mom?" since there's no actual question
 
 #### CONFIG
 - All responses and corresponding regex can be found in conf.json
