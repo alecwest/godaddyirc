@@ -15,7 +15,7 @@
             "Response": [
                 {
                     "Message": "[repeat]",
-                    "Count": 45
+                    "Count": 47
                 }
             ]
         },
@@ -661,7 +661,7 @@
                 },
                 {
                     "Message": "I just invented a machine that trims window coverings.\nPrepare to have your blinds mowed.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "To the mathematicians who thought of the idea of zero...\nThanks for nothing.",
@@ -729,7 +729,7 @@
                 },
                 {
                     "Message": "I spent a whole day making a belt with my old watches\nIt was a waist of time",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "I've said it before and I'll say it again\nI've said it before",

@@ -13,6 +13,12 @@
 - Has least favorite kids
 - Loves telling jokes\*
 
+#### ADMIN FEATURES
+- Dad will say what you want it to, who you want it to
+  - Just say "dad, say <target user/channel>: <message>"
+- "Ground/Unground" users so dad won't respond to them
+-
+
 #### PLANNED
 - Refactor config or how config is passed through bot
 - Change how certain messages recycle message content
@@ -20,7 +26,7 @@
 - Command to change channels
 
 #### ISSUES
-- Doesn't strip channel/user names from say command
+- none known... for now
 
 #### CONFIG
 - All responses and corresponding regex can be found in conf.json
