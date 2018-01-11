@@ -26,7 +26,7 @@
 - Command to change channels
 
 #### ISSUES
-- none known... for now
+- Dad shouldn't tell jokes in response to IRC entry messages
 
 #### CONFIG
 - All responses and corresponding regex can be found in conf.json
