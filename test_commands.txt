@@ -1,39 +1,79 @@
-(grounding)
-dad, ground yeet
-dad, grounded
-dad, unground yeet
-dad, grounded
+dad, say speaking to current channel and expecting message to current channel
+dad, say Hello current channel!
 
-(say commands)
-dad, say yeet
-dad, say awest: yeet
-/msg dad dad, say yeet
-/msg dad dad, say #main: yeet
+dad, say speaking to awest privately and expecting a private greeting
+dad, say awest: Hello awest!
 
-(good morning)
+dad, say receiving a private say command and expecting response through private message
+/msg dad dad, say jlong sucks
+
+dad, say receiving a private say command and expecting response through main channel
+/msg dad dad, say #main: jlong sucks
+
+dad, say saying good morning and expecting good morning in return
 good morning dad
+
+dad, say saying mornin and expecting good morning in return
 mornin, dad
+
+dad, say saying good mornin' and expecting good morning in return
 good mornin' dad
 
-(i'm ___)
-im yeet
-I'm yeet
-im .yeet
+dad, say saying im cooler than jlong and expecting mocking response
+im cooler than jlong
 
-(i'm ___ denial response)
+dad, say saying him cooler than jlong and expecting nothing back
+him cooler than jlong
+
+dad, say saying hello im and expecting nothing back
+hello im
+
+dad, say saying hello i'mj long and expecting nothing back
+hello i'mj long
+
+dad, say saying I'm cooler than jlong and expecting mocking response
+I'm cooler than jlong
+
+dad, say saying im .cooler than jlong and expecting nothing back
+im .cooler than jlong
+
+dad, say saying im dad and expecting denial
 im dad
 
-(i love ___)
-i love yeet
+dad, say saying im .dad and expecting a joke
+im .dad
 
-(i love ____ no response)
-i love yeet yeet
+dad, say saying i love jlong and expecting a marry response
+i love jlong
 
-(dad ___?)
-dad yeet?
-yeet dad?
+dad, say saying i love jlong and jnguyen and expecting nothing back
+i love jlong and jnguyen
 
-(dad joke response)
+dad, say asking a question and expecting ask your mother response
+dad am I cooler than jlong?
+
+dad, say asking another question and expecting ask your mother response
+am I cooler than jlong, dad?
+
+dad, say asking another question with dad misspelled and expecting no response
+hdadh am I cooler than jlong?
+
+dad, say asking a question without punctuation and expecting a joke
+dad am I cooler than jlong
+
+dad, say test grounding a user and expecting grounded message
+dad, ground jlong
+
+dad, say checking for grounded user and expecting list of users with grounded user
+dad, grounded
+
+dad, say ungrounding user and expecting a ungrounded message
+dad, unground jlong
+
+dad, say checking for ungrounded user and expecting list of users without grounded user
+dad, grounded
+
+dad, say saying dad, pops, papa, poppop, daddy, daddio, and dad'o and expecting 7 jokes
 dad
 pops
 papa
@@ -42,9 +82,17 @@ daddy
 daddio
 dad'o
 
-(:v))
+dad, say saying long shut up and expecting a :v) response
 ssssshhhhhuuuuttttt     uuuuuupppp dad
+
+dad, say saying short shut up and expecting a :v) response
 shutup dad
+
+dad, say saying long fuck you and expecting a :v) response
 ffffuuuuccckkk     yyyyoooouuu dad
+
+dad, say saying short fuck you and expecting a :v) response
 fuckyou dad
+
+dad, say saying long dad and expecting a :v) response
 ddaaadd

@@ -13,14 +13,21 @@
 - Has least favorite kids
 - Loves telling jokes\*
 
+#### ADMIN FEATURES
+- Dad will say what you want it to, who you want it to
+  - Just say "dad, say <target user/channel>: <message>"
+- "Ground/Unground" users so dad won't respond to them
+
 #### PLANNED
 - Refactor config or how config is passed through bot
 - Change how certain messages recycle message content
 - Replace [...] blocks with something that can better capture target content
 - Determine whether dad/mom should respond to "dad?" or "mom?" since there's no actual question
+- Command to change channels
 
 #### ISSUES
 - You can ~probably~ get around the "Im dad" denial response by adding punctuations in weird places.
+- Dad shouldn't tell jokes in response to IRC entry messages
 
 #### CONFIG
 - All responses and corresponding regex can be found in conf.json
@@ -51,4 +58,4 @@
     - If on windows, you'll get an additional error about some code in hellabot, which should just need a modification to recon_windows.go (lowercase the HijackSession function)
     - After making sure Dad Bot conf.json is set up to point to the right server and channel, run "go run dad.go" or "go run mom.go"
 
-    \* At a limited rate. Dad can only tell so many jokes at one time.
+\* At a limited rate. Dad can only tell so many jokes at one time.

@@ -23,7 +23,7 @@
             "Response": [
                 {
                     "Message": "[repeat]",
-                    "Count": 40
+                    "Count": 140
                 }
             ]
         },
@@ -36,7 +36,7 @@
             "Response": [
                 {
                     "Message": "[unground], you're now ungrounded. Don't let me catch you misbehaving again.",
-                    "Count": 6
+                    "Count": 12
                 }
             ]
         }
@@ -81,7 +81,7 @@
             "Response": [
                 {
                     "Message": "good morning [from]!",
-                    "Count": 5
+                    "Count": 12
                 }
             ]
         },
@@ -94,7 +94,7 @@
             "Response": [
                 {
                     "Message": "Here is a list of grounded users:\n[grounded]",
-                    "Count": 9
+                    "Count": 18
                 }
             ]
         },
@@ -107,7 +107,7 @@
             "Response": [
                 {
                     "Message": "mmmmmmmmmm... no",
-                    "Count": 2
+                    "Count": 5
                 }
             ]
         },
@@ -120,7 +120,7 @@
             "Response": [
                 {
                     "Message": "Hi [mock], I'm dad",
-                    "Count": 36
+                    "Count": 56
                 }
             ]
         },
@@ -133,7 +133,7 @@
             "Response": [
                 {
                     "Message": "Well then why don't you marry it?",
-                    "Count": 1
+                    "Count": 4
                 }
             ]
         },
@@ -146,7 +146,7 @@
             "Response": [
                 {
                     "Message": "Ask your mother.",
-                    "Count": 5
+                    "Count": 15
                 }
             ]
         },
@@ -159,7 +159,7 @@
             "Response": [
                 {
                     "Message": "Poof, you're [poof]!",
-                    "Count": 5
+                    "Count": 7
                 }
             ]
         },
@@ -172,7 +172,7 @@
             "Response": [
                 {
                     "Message": ":v)",
-                    "Count": 7
+                    "Count": 23
                 }
             ]
         },
@@ -193,7 +193,7 @@
                 },
                 {
                     "Message": "Dad, can you put my shoes on?\nI don't think they'll fit me",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Dad, can you put the cat out?\nI didn't know it was on fire",
@@ -205,7 +205,7 @@
                 },
                 {
                     "Message": "Did you hear about the cheese factory that exploded in France?\nThere was nothing left but de Brie",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Did you hear about the guy who invented the knock knock joke?\nHe won the 'no-bell' prize",
@@ -213,7 +213,7 @@
                 },
                 {
                     "Message": "Did you hear about the restaurant on the moon?\nGreat food, no atmosphere",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Don't trust atoms\nThey make up everything",
@@ -225,7 +225,7 @@
                 },
                 {
                     "Message": "How many apples grow on a tree?\nAll of them",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "I am terrified of elevators,\nI'm going to start taking steps to avoid them",
@@ -245,7 +245,7 @@
                 },
                 {
                     "Message": "I knew I shouldn't have had the seafood\nI'm feeling a little eel",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "I used to hate facial hair,\nbut then it grew on me",
@@ -257,7 +257,7 @@
                 },
                 {
                     "Message": "I'd like to give a big shout out to all the sidewalks\nfor keeping me off the streets",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "I'm not addicted to brake fluid\nI can stop whenever I want",
@@ -265,7 +265,7 @@
                 },
                 {
                     "Message": "I'm reading a book on the history of glue\nI just can't seem to put it down",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "I've just been diagnosed as colorblind\nI know, it certainly has come out of the purple",
@@ -297,11 +297,11 @@
                 },
                 {
                     "Message": "Two satellites decided to get married\nThe wedding wasn't much, but the reception was incredible",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Wanna hear a joke about paper?\nNevermind, it's tearable",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What did the buffalo say to his son when he left for college?\nBison",
@@ -389,11 +389,11 @@
                 },
                 {
                     "Message": "Why did the coffee file a police report?\nIt got mugged",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Why did the scarecrow win an award?\nBecause he was outstanding in his field",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Why do bees hum?\nBecause they don't know the words",
@@ -409,7 +409,7 @@
                 },
                 {
                     "Message": "The Norwegian navy has started putting bar codes on their ships...\nSo they can scan da navy in...",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Singing in the shower is all fun and games until you get shampoo in your mouth...\nThen it becomes a soap opera...",
@@ -425,7 +425,7 @@
                 },
                 {
                     "Message": "What do you call crystal clear urine?\n1080pee",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Today I found out that someone has been adding fertilizer to my front lawn.\nThe plot thickens...",
@@ -445,7 +445,7 @@
                 },
                 {
                     "Message": "Say, Ernie? Would you like some ice cream?\nYes, sherbert.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Why did the old lady fall in the well?\nShe couldn't see that well",
@@ -453,11 +453,11 @@
                 },
                 {
                     "Message": "What's the difference between a coyote and a flea?\nOne howls on the prairie and the other prowls on the hairy.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "A judge sentenced me to take a guy out to dinner.\nIt was a court mandate",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "How do you shoot a rocket?\nFire works",
@@ -473,7 +473,7 @@
                 },
                 {
                     "Message": "If anybody knows any salad jokes.\nLettuce know......",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "How do you feel?\nWith your hands",
@@ -485,7 +485,7 @@
                 },
                 {
                     "Message": "I love ruining the plot of Dorian Gray for people\nNever gets old.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Where do belly buttons go to college\nNaval Academy",
@@ -509,7 +509,7 @@
                 },
                 {
                     "Message": "What does an oyster wear into battle?\nClamouflage",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "My daughter kept complaining that it was too cold.\nI told her to go stand in the corner, it's 90 degrees there.",
@@ -517,7 +517,7 @@
                 },
                 {
                     "Message": "A dentist is working on a judge and promises one thing....\n....to take the tooth, the whole tooth, and nothing but the tooth.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What did the green grape say to the purple grape?\nBREATHE!",
@@ -525,7 +525,7 @@
                 },
                 {
                     "Message": "My wife visited a holy city\nShe completely fell through it all.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Do I enjoy making courthouse puns?\nGuilty.",
@@ -533,7 +533,7 @@
                 },
                 {
                     "Message": "How do you know an egg is bad?\nWhen it's past the eggsperation date.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What do you call a genie made of asbestos?\nA carcinojinn.",
@@ -561,7 +561,7 @@
                 },
                 {
                     "Message": "My gf told me she gets weirded out when I'm too literal.\nSo I gave her a piece of my mind.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What is the difference between a fly and a bird?\nA bird can fly but a fly can't bird",
@@ -597,11 +597,11 @@
                 },
                 {
                     "Message": "Two guys are sitting in a boat.\nThey have a bunch of cigarettes, but neither of them brought any matches to light them. So one of the guys throws one cigarette off the boat, and the boat becomes a cigarette lighter.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "How come everyone in history has always settled for Shampoo?\nStop the madness! Demand Realpoo!",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Know why the native Americans were here first?\n...because they had reservations.",
@@ -609,7 +609,7 @@
                 },
                 {
                     "Message": "I saw an article about people snorting chocolate powder for a rush.\nThey wanted a Quik high.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What nationality are you when you're in the bathroom?\nEuropean.",
@@ -617,7 +617,7 @@
                 },
                 {
                     "Message": "What happened when the crustacean was late to work?\nShe LOBSTER job!",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Why is fatty acid the coolest carbon chain?\nBecause it's fat with a pH",
@@ -637,7 +637,7 @@
                 },
                 {
                     "Message": "Why did the melons have a formal wedding?\nBecause they cantaloupe.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Was Noah an...\n...ark-itect?",
@@ -657,15 +657,15 @@
                 },
                 {
                     "Message": "How do you fight off the flu?\nWith kung-flu",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "I can understand 4 feet, 5 feet, 7 feet and 8 feet\nBut I can't fathom",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "How do you make holy water?\nYou boil the hell out of it",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Why did my TV start looking so good this year?\nIt was his new years resolution",
@@ -677,7 +677,7 @@
                 },
                 {
                     "Message": "I tried to catch clouds yesterday.\nMist. Guess i'll have to fog-et about it.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Did you hear about the man who got hit in the head by a can of soda?\nDon't worry, he's fine. It was a soft drink.",
@@ -713,7 +713,7 @@
                 },
                 {
                     "Message": "I just invented a machine that trims window coverings.\nPrepare to have your blinds mowed.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "To the mathematicians who thought of the idea of zero...\nThanks for nothing.",
@@ -733,7 +733,7 @@
                 },
                 {
                     "Message": "How do subatomic pirates mutiny?\nThey make the captain walk the planck.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What happens on a clear day in Los Angeles?\nUCLA.",
@@ -753,7 +753,7 @@
                 },
                 {
                     "Message": "I was arrested for telling my dad the best joke ever...\nPolice said manslaughter was illegal",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Dentist: Open up please\nMe: sometime I get sad and I don't know why",
@@ -773,7 +773,7 @@
                 },
                 {
                     "Message": "The people at my hair salon make me wanna..\nCurl up and dye.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "My dad said if I use a hashtag one more time, he'd pound the sh*t out of me. I said #YOLO and woke up to this text the next morning...\n####################",
@@ -781,15 +781,15 @@
                 },
                 {
                     "Message": "I spent a whole day making a belt with my old watches\nIt was a waist of time",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "I've said it before and I'll say it again\nI've said it before",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What did the cookie say to the browser while running away?\n\"Cache me if you can!\"",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Do you want me to call you an uber?\nYou're an uber.",
@@ -797,11 +797,11 @@
                 },
                 {
                     "Message": "What do you call Mr. Bean on a boat?\nRowing Atkinson",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "My friend keeps telling me to stop making Rogue One puns.\nShe's told me that like 10 Erso times.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "I tell Dad Jokes but I'm not a dad..\nI'm a faux pa.",
@@ -809,11 +809,11 @@
                 },
                 {
                     "Message": "I went to the seafood disco last night...\nI pulled a muscle!",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "I was surprised to hear that Adele uses a MacBook\nI always thought she'd use a Dell.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "6 was afraid of 7 because 7, 8, 9, but why did 7 eat 9?\nBecause you're supposed to eat 3 squared meals a day.",
@@ -821,11 +821,11 @@
                 },
                 {
                     "Message": "I don't know why Euthanasia is so controversial.\nI personally don't mind Asian kids.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "And the Lord said unto John; \"Come forth and receive eternal life!\nBut John came fifth and won a toaster.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Have you heard about the guy who had his whole left side chopped off?\nYeah he's all right now",
@@ -837,7 +837,7 @@
                 },
                 {
                     "Message": "Do you know what the first thing a couple says when they're married?\nI do",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "I'd love to get into gardening...\n...now that I have more thyme on my hands.",
@@ -853,7 +853,7 @@
                 },
                 {
                     "Message": "Got the perfect title for the 10th fast and furious movie.\nFast 10: your seatbelts",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "How do porn actors say goodbye to each other?\nSo long.",
@@ -861,7 +861,7 @@
                 },
                 {
                     "Message": "What country is next to USA\nUSB",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "It's hard to lose a radish.\nBecause a lot of the time they'll turn up",
@@ -885,7 +885,7 @@
                 },
                 {
                     "Message": "Did you hear the good news about O.J.?\nIt is part of a complete breakfast",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Why does everybody hate averages?\nBecause they're mean",
@@ -901,7 +901,7 @@
                 },
                 {
                     "Message": "Why was the energizer bunny put in jail?\nHe was charged with battery",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "I was recently in a boating accident...\nIt was quite an oar-deal.",
@@ -913,7 +913,7 @@
                 },
                 {
                     "Message": "What do you call a minister that does shoe repair?\nPreach Cobbler",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "My wife asked \"What's your favorite vegetable.\"\nBeets me!",
@@ -921,7 +921,7 @@
                 },
                 {
                     "Message": "What do you call a tree who's limbs fell off in a storm?\nAn amputree",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "One time I ate a whole bunch of cheese in one sitting....\nWhere there's a wheel there's a way.",
@@ -933,7 +933,7 @@
                 },
                 {
                     "Message": "What's red and smells like green paint\nRed paint",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Did you know that Abraham Lincoln was wrongly accused?\nTurns out he was in a cent.",
@@ -941,7 +941,7 @@
                 },
                 {
                     "Message": "What did the man say when he finished cutting up a green citrus fruit?\nWell, I guess that's the end of the lime",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "My jar of Miracle Whip tasted funny.\nLMAYO",

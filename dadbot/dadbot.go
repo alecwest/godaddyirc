@@ -13,6 +13,7 @@ import (
 	"regexp"
 	"strings"
 	"time"
+	"unicode"
 
 	"github.com/whyrusleeping/hellabot"
 	log "gopkg.in/inconshreveable/log15.v2"
@@ -257,11 +258,11 @@ func SetRecipient(m *hbot.Message, s SpeakData) string {
 	return to
 }
 
-// FormatReply formulates the bot's response given the message (m), whether or
+// FormatReply formulates the bot's response given the message, whether or
 // not the sender was an admin (admin_speak), and the index of the SpeakData
 // to format the reply to (s_index). It returns the reply with set content and
 // destination (but not the time).
-func FormatReply(m *hbot.Message, admin_speak bool, s_index int) Reply {
+func FormatReply(message *hbot.Message, admin_speak bool, s_index int) Reply {
 	s := getSpeakData(admin_speak)[s_index]
 	var reply Reply
 	// Choose random response from list of responses (mostly used for jokes)
@@ -269,13 +270,13 @@ func FormatReply(m *hbot.Message, admin_speak bool, s_index int) Reply {
 	rand_index = GetRandomLeastUsedResponseIndex(s)
 	response := s.Response[rand_index]
 	// Stolen from Bot.Reply to init reply.To
-	if strings.Contains(m.To, "#") {
-		reply.To = m.To
+	if strings.Contains(message.To, "#") {
+		reply.To = message.To
 	} else {
-		reply.To = m.From
+		reply.To = message.From
 	}
 	if strings.Contains(response.Message, "[from]") {
-		response.Message = strings.Replace(response.Message, "[from]", m.From, -1)
+		response.Message = strings.Replace(response.Message, "[from]", message.From, -1)
 	}
 	if strings.Contains(response.Message, "[grounded]") {
 		response.Message = strings.Replace(response.Message, "[grounded]",
@@ -288,29 +289,29 @@ func FormatReply(m *hbot.Message, admin_speak bool, s_index int) Reply {
 		if strings.Contains(response.Message, replace) {
 			// Modify who the message is sent to if it includes "user:" before the cmd
 			if replace == "[repeat]" {
-				to := SetRecipient(m, s)
+				to := SetRecipient(message, s)
 				if len(to) > 0 {
 					reply.To = to
 				}
 			} else {
 				// Remove all non-variable parts of message content
 				m.Content = RemoveRegex(m.Content, s.Regex)
-				m.Content = GetVariableRegex(m.Content, s.Regex)
+				m.Content = strings.TrimWhitespace(GetVariableRegex(m.Content, s.Regex))
 			}
 			if replace == "[ground]" {
-				Ground(m.Content)
+				Ground(message.Content)
 			} else if replace == "[unground]" {
-				Unground(m.Content)
+				Unground(message.Content)
 			} else if replace == "[poof]" {
-				m.Content = AddArticle(m.Content)
+				message.Content = AddArticle(message.Content)
 			}
 			// Replace [...] element with what remains in the Content of the message
 			nonWord := regexp.MustCompile("^\\W+$")
-			if len(m.Content) == 0 || nonWord.MatchString(m.Content) {
+			if len(message.Content) == 0 || nonWord.MatchString(message.Content) {
 				response.Message = "" // Delete response if m.Content is empty
 			} else {
 				response.Message = strings.Replace(response.Message, replace,
-					m.Content, -1)
+					message.Content, -1)
 			}
 		}
 	}
@@ -328,9 +329,10 @@ func FormatReply(m *hbot.Message, admin_speak bool, s_index int) Reply {
 // was performed, return true.
 func PerformAction(irc *hbot.Bot, m *hbot.Message, admin_speak bool) bool {
 	speak := getSpeakData(admin_speak)
-	// Do not perform an action if either the sender is grounded, sufficient time
-	// has not passed, or the message is from the irc's IP
+	// Do not perform an action if either the sender is grounded, is mom/dad,
+	// sufficient time has not passed, or the message is from the irc's IP
 	if StringInSlice(m.From, Dbot.Conf.Grounded) != -1 ||
+	  StringInSlice(m.From, []string{Dbot.Conf.MomName, Dbot.Conf.DadName}) != -1 ||
 		MessageRateMet(m) == false ||
 		StringInSlice(m.From, []string{Dbot.Conf.Ip, "irc.awest.com"}) != -1 {
 		return false
