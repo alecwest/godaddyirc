@@ -19,11 +19,12 @@
 - Replace [...] blocks with something that can better capture target content
 - Determine whether dad/mom should respond to "dad?" or "mom?" since there's no actual question
 
+#### ISSUES
+- You can ~probably~ get around the "Im dad" denial response by adding punctuations in weird places.
+
 #### CONFIG
 - All responses and corresponding regex can be found in conf.json
 - All regex is tested with the case-insensitive flag
-
-\* At a limited rate. Dad can only tell so many jokes at one time.
 
 #### SETUP
 - Disclaimer: Dad Bot is built and maintained using go version 1.8.1.
@@ -49,3 +50,5 @@
     - Once Go is installed, run "go get github.com/alecwest/godaddyirc" and everything should download
     - If on windows, you'll get an additional error about some code in hellabot, which should just need a modification to recon_windows.go (lowercase the HijackSession function)
     - After making sure Dad Bot conf.json is set up to point to the right server and channel, run "go run dad.go" or "go run mom.go"
+
+    \* At a limited rate. Dad can only tell so many jokes at one time.

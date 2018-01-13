@@ -82,7 +82,7 @@ type IRCBot struct {
 // Dbot is the global variable that primarily allows for the config information
 // to be smoothly passed around and updated properly.
 var Dbot IRCBot
-var configFile = "test.json"
+var configFile = "conf.json"
 
 // Run starts an instance of the bot, with variable dad indicating whether
 // the bot should behave like a dad or a mom
@@ -232,8 +232,12 @@ func RemoveLiteralRegex(s string, regex string) string {
 	return r.ReplaceAllLiteralString(s, "")
 }
 
-func MustCompileRegexData(regex RegexData) (*regexp.Regexp, *regexp.Regexp, *regexp.Regexp) {
-	return regexp.MustCompile(regex.Before), regexp.MustCompile(regex.Variable), regexp.MustCompile(regex.After)
+func MustCompileRegexData(regex RegexData) (*regexp.Regexp,
+											*regexp.Regexp,
+											*regexp.Regexp) {
+	return 	regexp.MustCompile(regex.Before),
+			regexp.MustCompile(regex.Variable),
+			regexp.MustCompile(regex.After)
 }
 
 // SetRecipient modifies m's Content to no longer contain the regex command

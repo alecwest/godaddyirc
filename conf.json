@@ -2,16 +2,24 @@
     "Admin": "awest",
     "AdminSpeak": [
         {
-            "Regex": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), ground ",
+            "Regex": {
+                "Before": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), ground ",
+                "Variable": "\\S+",
+                "After": ""
+            },
             "Response": [
                 {
                     "Message": "That's it, you're grounded [ground]!",
-                    "Count": 15
+                    "Count": 22
                 }
             ]
         },
         {
-            "Regex": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), say ",
+            "Regex": {
+                "Before": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), say ",
+                "Variable": ".*",
+                "After": ""
+            },
             "Response": [
                 {
                     "Message": "[repeat]",
@@ -20,11 +28,15 @@
             ]
         },
         {
-            "Regex": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), unground ",
+            "Regex": {
+                "Before": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), unground ",
+                "Variable": "\\S+",
+                "After": ""
+            },
             "Response": [
                 {
                     "Message": "[unground], you're now ungrounded. Don't let me catch you misbehaving again.",
-                    "Count": 5
+                    "Count": 6
                 }
             ]
         }
@@ -39,27 +51,33 @@
         "Doge",
         "Magic_Conch",
         "Seahorse",
-        "l",
-        "jlong",
-        "noahsiano"
+        "l"
     ],
     "Ip": "localhost",
     "MessageRate": 10,
     "MomName": "mom",
     "MomSpeak": [
         {
-            "Regex": "(?i)(.*\\s+)?(mom(my|ma)?|mother|(ma){1,2}).*\\?\\s*$",
+            "Regex": {
+                "Before": "(?i)(.*\\s+)?(mom(my|ma)?|mother|(ma){1,2}),?\\s*",
+                "Variable": "[^?]*",
+                "After": "\\?\\s*"
+            },
             "Response": [
                 {
                     "Message": "Ask your father.",
-                    "Count": 3
+                    "Count": 7
                 }
             ]
         }
     ],
     "Speak": [
         {
-            "Regex": "(?i)^(good\\s+)?mornin(g|')?(,)?\\s+(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})($|\\W+)",
+            "Regex": {
+                "Before": "(?i)^(good\\s+)?mornin(g|')?(,)?\\s+(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})($|\\W+)",
+                "Variable": "",
+                "After": ""
+            },
             "Response": [
                 {
                     "Message": "good morning [from]!",
@@ -68,7 +86,11 @@
             ]
         },
         {
-            "Regex": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), grounded",
+            "Regex": {
+                "Before": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), grounded",
+                "Variable": "",
+                "After": ""
+            },
             "Response": [
                 {
                     "Message": "Here is a list of grounded users:\n[grounded]",
@@ -77,7 +99,11 @@
             ]
         },
         {
-            "Regex": "(?i)(.*\\s+)?i(')?m\\s+(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})",
+            "Regex": {
+                "Before": "(?i)(.*\\s+)?i(')?m\\s+(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})",
+                "Variable": "",
+                "After": ""
+            },
             "Response": [
                 {
                     "Message": "mmmmmmmmmm... no",
@@ -86,7 +112,11 @@
             ]
         },
         {
-            "Regex": "(?i)(.*\\s+)?i(')?m(\\s+a(n)?)?\\s*",
+            "Regex": {
+                "Before": "(?i)(.*\\s+)?i(')?m(\\s+a(n)?)?\\s*",
+                "Variable": "\\w[\\w\\s]*",
+                "After": ""
+            },
             "Response": [
                 {
                     "Message": "Hi [mock], I'm dad",
@@ -95,7 +125,11 @@
             ]
         },
         {
-            "Regex": "(?i)(.*\\s+)?i love(\\s+\\w+\\W*$)",
+            "Regex": {
+                "Before": "(?i)(.*\\s+)?i love\\s+",
+                "Variable": "\\w+",
+                "After": "\\W*$"
+            },
             "Response": [
                 {
                     "Message": "Well then why don't you marry it?",
@@ -104,7 +138,11 @@
             ]
         },
         {
-            "Regex": "(?i)(.*\\s+)?(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}).*\\?\\s*$",
+            "Regex": {
+                "Before": "(?i)(.*\\s+)?(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}).*\\?\\s*",
+                "Variable": "[^?]*",
+                "After": "\\?\\s*"
+            },
             "Response": [
                 {
                     "Message": "Ask your mother.",
@@ -113,7 +151,11 @@
             ]
         },
         {
-            "Regex": "(?i)(.*\\s+)?make\\s+me(\\s+a|\\s+an)\\s+",
+            "Regex": {
+                "Before": "(?i)(.*\\s+)?make\\s+me(\\s+a|\\s+an)\\s+",
+                "Variable": "\\w[\\w\\s]*",
+                "After": ""
+            },
             "Response": [
                 {
                     "Message": "Poof, you're [poof]!",
@@ -122,7 +164,11 @@
             ]
         },
         {
-            "Regex": "(?i)(.*\\s+)?(([s]+[h]+[u]+[t]+\\s*[u]+[p]+|[f]+[u]+[c]+[k]+\\s*[y]+[o]+[u]+)\\s*(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})|[d]+[a]{2,}[d]+)",
+            "Regex": {
+                "Before": "(?i)(.*\\s+)?(([s]+[h]+[u]+[t]+\\s*[u]+[p]+|[f]+[u]+[c]+[k]+\\s*[y]+[o]+[u]+)\\s*(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})|[d]+[a]{2,}[d]+)",
+                "Variable": "",
+                "After": ""
+            },
             "Response": [
                 {
                     "Message": ":v)",
@@ -131,7 +177,11 @@
             ]
         },
         {
-            "Regex": "(?i)(.*\\s+)?(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})($|\\W+)",
+            "Regex": {
+                "Before": "(?i)(.*\\s+)?(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})($|\\W+)",
+                "Variable": "",
+                "After": ""
+            },
             "Response": [
                 {
                     "Message": "\"I'll call you later.\"\nDon't call me later, call me Dad",
