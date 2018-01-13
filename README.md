@@ -27,7 +27,6 @@
 
 #### ISSUES
 - You can ~probably~ get around the "Im dad" denial response by adding punctuations in weird places.
-- Dad shouldn't tell jokes in response to IRC entry messages
 
 #### CONFIG
 - All responses and corresponding regex can be found in conf.json

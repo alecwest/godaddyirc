@@ -13,7 +13,6 @@ import (
 	"regexp"
 	"strings"
 	"time"
-	"unicode"
 
 	"github.com/whyrusleeping/hellabot"
 	log "gopkg.in/inconshreveable/log15.v2"
@@ -168,21 +167,21 @@ func TestMessage(regex RegexData, message *hbot.Message) bool {
 	var substring string
 	match := false
 	b, v, a := MustCompileRegexData(regex)
-	log.Debug(fmt.Sprintf("Before regex matched '%s' from '%s'", b.FindString(message.Content), message.Content))
+	// log.Debug(fmt.Sprintf("Before regex matched '%s' from '%s'", b.FindString(message.Content), message.Content))
 
 	if b.FindString(message.Content) != "" {
 		match = true
 	}
 	if match && regex.Variable != "" {
 		substring = b.ReplaceAllLiteralString(message.Content, "")
-		log.Debug(fmt.Sprintf("Repeat regex matched '%s' from '%s'", v.FindString(substring), substring))
+		// log.Debug(fmt.Sprintf("Repeat regex matched '%s' from '%s'", v.FindString(substring), substring))
 		if v.FindString(substring) == "" {
 			match = false
 		}
 	}
 	if match && regex.After != "" {
 		substring = v.ReplaceAllLiteralString(substring, "")
-		log.Debug(fmt.Sprintf("After regex matched '%s' from '%s'", a.FindString(message.Content), substring))
+		// log.Debug(fmt.Sprintf("After regex matched '%s' from '%s'", a.FindString(message.Content), substring))
 		if a.FindString(substring) == "" {
 			match = false
 		}
@@ -222,7 +221,7 @@ func RemoveRegex(s string, regex RegexData) string {
 // Variable portion of RegexData
 func GetVariableRegex(s string, regex RegexData) string {
 	v := regexp.MustCompile(regex.Variable)
-	log.Debug(fmt.Sprintf("Variable regex matched '%s' from '%s'", v.FindString(s), s))
+	// log.Debug(fmt.Sprintf("Variable regex matched '%s' from '%s'", v.FindString(s), s))
 	return v.FindString(s)
 }
 
@@ -295,8 +294,8 @@ func FormatReply(message *hbot.Message, admin_speak bool, s_index int) Reply {
 				}
 			} else {
 				// Remove all non-variable parts of message content
-				m.Content = RemoveRegex(m.Content, s.Regex)
-				m.Content = strings.TrimWhitespace(GetVariableRegex(m.Content, s.Regex))
+				message.Content = RemoveRegex(message.Content, s.Regex)
+				message.Content = strings.TrimSpace(GetVariableRegex(message.Content, s.Regex))
 			}
 			if replace == "[ground]" {
 				Ground(message.Content)
@@ -381,7 +380,7 @@ func GetRandomLeastUsedResponseIndex(speak SpeakData) int {
 	for speak.Response[chosenIndex].Count > minCount {
 		chosenIndex = rand.Intn(len(speak.Response))
 	}
-	log.Debug(fmt.Sprintf("Chosen response %d : %s", chosenIndex, speak.Response[chosenIndex].Message))
+	// log.Debug(fmt.Sprintf("Chosen response %d : %s", chosenIndex, speak.Response[chosenIndex].Message))
 	return chosenIndex
 }
 
