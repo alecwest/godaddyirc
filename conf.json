@@ -3,40 +3,37 @@
     "AdminSpeak": [
         {
             "Regex": {
-                "Before": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), ground ",
-                "Variable": "\\S+",
-                "After": ""
+                "Trigger": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), ground ",
+                "Variable": "\\S+"
             },
             "Response": [
                 {
                     "Message": "That's it, you're grounded [ground]!",
-                    "Count": 22
+                    "Count": 24
                 }
             ]
         },
         {
             "Regex": {
-                "Before": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), say ",
-                "Variable": ".*",
-                "After": ""
+                "Trigger": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), say ",
+                "Variable": ".*"
             },
             "Response": [
                 {
                     "Message": "[repeat]",
-                    "Count": 140
+                    "Count": 185
                 }
             ]
         },
         {
             "Regex": {
-                "Before": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), unground ",
-                "Variable": "\\S+",
-                "After": ""
+                "Trigger": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), unground ",
+                "Variable": "\\S+"
             },
             "Response": [
                 {
                     "Message": "[unground], you're now ungrounded. Don't let me catch you misbehaving again.",
-                    "Count": 12
+                    "Count": 14
                 }
             ]
         }
@@ -59,14 +56,13 @@
     "MomSpeak": [
         {
             "Regex": {
-                "Before": "(?i)(.*\\s+)?(mom(my|ma)?|mother|(ma){1,2}),?\\s*",
-                "Variable": "[^?]*",
-                "After": "\\?\\s*"
+                "Trigger": "(?i)(.*\\s+)?(mom(my|ma)?|mother|(ma){1,2})(\\W+[^?]*)?\\?\\s*$",
+                "Variable": ""
             },
             "Response": [
                 {
                     "Message": "Ask your father.",
-                    "Count": 7
+                    "Count": 10
                 }
             ]
         }
@@ -74,87 +70,80 @@
     "Speak": [
         {
             "Regex": {
-                "Before": "(?i)^(good\\s+)?mornin(g|')?(,)?\\s+(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})($|\\W+)",
-                "Variable": "",
-                "After": ""
+                "Trigger": "(?i)^(good\\s+)?mornin(g|')?(,)?\\s+(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})($|\\W+)",
+                "Variable": ""
             },
             "Response": [
                 {
                     "Message": "good morning [from]!",
-                    "Count": 12
+                    "Count": 16
                 }
             ]
         },
         {
             "Regex": {
-                "Before": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), grounded",
-                "Variable": "",
-                "After": ""
+                "Trigger": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), grounded",
+                "Variable": ""
             },
             "Response": [
                 {
                     "Message": "Here is a list of grounded users:\n[grounded]",
-                    "Count": 18
+                    "Count": 21
                 }
             ]
         },
         {
             "Regex": {
-                "Before": "(?i)(.*\\s+)?i(')?m\\s+(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})",
-                "Variable": "",
-                "After": ""
+                "Trigger": "(?i)(.*\\s+)?i(')?m\\s+(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})",
+                "Variable": ""
             },
             "Response": [
                 {
                     "Message": "mmmmmmmmmm... no",
-                    "Count": 5
+                    "Count": 6
                 }
             ]
         },
         {
             "Regex": {
-                "Before": "(?i)(.*\\s+)?i(')?m(\\s+a(n)?)?\\s*",
-                "Variable": "\\w[\\w\\s]*",
-                "After": ""
+                "Trigger": "(?i)(.*\\s+)?i(')?m(\\s+a(n)?)?\\s+",
+                "Variable": "(\\w[\\w\\s]*)"
             },
             "Response": [
                 {
                     "Message": "Hi [mock], I'm dad",
-                    "Count": 56
+                    "Count": 65
                 }
             ]
         },
         {
             "Regex": {
-                "Before": "(?i)(.*\\s+)?i love\\s+",
-                "Variable": "\\w+",
-                "After": "\\W*$"
+                "Trigger": "(?i)(.*\\s+)?i love\\s+\\w+\\W*$",
+                "Variable": ""
             },
             "Response": [
                 {
                     "Message": "Well then why don't you marry it?",
-                    "Count": 4
-                }
-            ]
-        },
-        {
-            "Regex": {
-                "Before": "(?i)(.*\\s+)?(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}).*\\?\\s*",
-                "Variable": "[^?]*",
-                "After": "\\?\\s*"
-            },
-            "Response": [
-                {
-                    "Message": "Ask your mother.",
                     "Count": 15
                 }
             ]
         },
         {
             "Regex": {
-                "Before": "(?i)(.*\\s+)?make\\s+me(\\s+a|\\s+an)\\s+",
-                "Variable": "\\w[\\w\\s]*",
-                "After": ""
+                "Trigger": "(?i)(.*\\s+)?(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})(\\W+[^?]*)?\\?\\s*$",
+                "Variable": ""
+            },
+            "Response": [
+                {
+                    "Message": "Ask your mother.",
+                    "Count": 26
+                }
+            ]
+        },
+        {
+            "Regex": {
+                "Trigger": "(?i)(.*\\s+)?make\\s+me(\\s+a|\\s+an)\\s+",
+                "Variable": "\\w[\\w\\s]*"
             },
             "Response": [
                 {
@@ -165,27 +154,25 @@
         },
         {
             "Regex": {
-                "Before": "(?i)(.*\\s+)?(([s]+[h]+[u]+[t]+\\s*[u]+[p]+|[f]+[u]+[c]+[k]+\\s*[y]+[o]+[u]+)\\s*(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})|[d]+[a]{2,}[d]+)",
-                "Variable": "",
-                "After": ""
+                "Trigger": "(?i)(.*\\s+)?(([s]+[h]+[u]+[t]+\\s*[u]+[p]+|[f]+[u]+[c]+[k]+\\s*[y]+[o]+[u]+)\\s*(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})|[d]+[a]{2,}[d]+)",
+                "Variable": ""
             },
             "Response": [
                 {
                     "Message": ":v)",
-                    "Count": 23
+                    "Count": 31
                 }
             ]
         },
         {
             "Regex": {
-                "Before": "(?i)(.*\\s+)?(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})($|\\W+)",
-                "Variable": "",
-                "After": ""
+                "Trigger": "(?i)(.*\\s+)?(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})($|\\W+)",
+                "Variable": ""
             },
             "Response": [
                 {
                     "Message": "\"I'll call you later.\"\nDon't call me later, call me Dad",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Can February March?\nNo, but April May",
@@ -217,7 +204,7 @@
                 },
                 {
                     "Message": "Don't trust atoms\nThey make up everything",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Have you heard of the band 1023MB?\nThey haven't got a gig yet",
@@ -241,7 +228,7 @@
                 },
                 {
                     "Message": "I just watched a program about beavers\nIt was the best dam program I've ever seen",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "I knew I shouldn't have had the seafood\nI'm feeling a little eel",
@@ -253,7 +240,7 @@
                 },
                 {
                     "Message": "I wouldn't buy anything with velcro\nIt's a total rip-off",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "I'd like to give a big shout out to all the sidewalks\nfor keeping me off the streets",
@@ -317,7 +304,7 @@
                 },
                 {
                     "Message": "What do prisoners use to call each other?\nCell phones",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What do you call a deer with no eyes?\nNo idear",
@@ -329,7 +316,7 @@
                 },
                 {
                     "Message": "What do you call a pony with a sore throat?\nA little horse",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What do you call a sketchy Italian neighbour hood?\nThe Spaghetto",
@@ -353,7 +340,7 @@
                 },
                 {
                     "Message": "What do you get when you cross a snowman with a vampire\nFrostbite",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What does an annoying pepper do?\nIt get's jalapeno face",
@@ -361,7 +348,7 @@
                 },
                 {
                     "Message": "What lies at the bottom of the ocean and twitches?\nA nervous wreck",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Where do you learn to make ice cream?\nSunday school",
@@ -377,7 +364,7 @@
                 },
                 {
                     "Message": "Why can't you hear a pterodactyl go to the bathroom?\nBecause the pee is silent",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Why couldn't the bicycle stand up by itself?\nIt was two tired",
@@ -429,7 +416,7 @@
                 },
                 {
                     "Message": "Today I found out that someone has been adding fertilizer to my front lawn.\nThe plot thickens...",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What do you call a non-skiing Inuit?\nAn emo",
@@ -449,7 +436,7 @@
                 },
                 {
                     "Message": "Why did the old lady fall in the well?\nShe couldn't see that well",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What's the difference between a coyote and a flea?\nOne howls on the prairie and the other prowls on the hairy.",
@@ -545,7 +532,7 @@
                 },
                 {
                     "Message": "Why do so many people invest in Ireland?\nBecause the capital is always Dublin!",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What do you call someone with a very colorful personality?\nA hue-man",
@@ -557,7 +544,7 @@
                 },
                 {
                     "Message": "RIP boiled water.\nYou will be mist.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "My gf told me she gets weirded out when I'm too literal.\nSo I gave her a piece of my mind.",
@@ -621,11 +608,11 @@
                 },
                 {
                     "Message": "Why is fatty acid the coolest carbon chain?\nBecause it's fat with a pH",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Today I threw my dog in the ocean.\nHe was a good buoy.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "A ham sandwich walks into a bar and orders a beer.\nBartender says \"Sorry, we don't serve food here\"",
@@ -685,7 +672,7 @@
                 },
                 {
                     "Message": "Did you hear about the mathematical breakthrough in algebra?\nIt was on the hypotenews",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "I bought a gallon of White Out.\nBig Mistake..",
@@ -729,7 +716,7 @@
                 },
                 {
                     "Message": "I'm not huge into puns.\nSometimes eye roll with it.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "How do subatomic pirates mutiny?\nThey make the captain walk the planck.",
@@ -765,7 +752,7 @@
                 },
                 {
                     "Message": "I broke my finger today..\n..but on the other hand I'm completely fine.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Have you heard the rumor going around about butter?\nNevermind, I really shouldn't spread it.",
@@ -849,7 +836,7 @@
                 },
                 {
                     "Message": "Your argument is like a naked banana\nIt simply lacks a peel",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Got the perfect title for the 10th fast and furious movie.\nFast 10: your seatbelts",
@@ -877,7 +864,7 @@
                 },
                 {
                     "Message": "Mary had a little lamb\nand a side of veggies for dinner.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Why do sharks swim in salt water?\nBecause pepper water makes them sneeze.",
@@ -897,7 +884,7 @@
                 },
                 {
                     "Message": "Did you hear about the kidnapping in Denver?\nHe woke up.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Why was the energizer bunny put in jail?\nHe was charged with battery",

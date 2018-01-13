@@ -29,8 +29,10 @@
 - You can ~probably~ get around the "Im dad" denial response by adding punctuations in weird places.
 
 #### CONFIG
-- All responses and corresponding regex can be found in conf.json
 - All regex is tested with the case-insensitive flag
+- All responses and corresponding regex can be found in conf.json
+- If text reuse is needed in a response, put the regex for the part to reuse in the Variable section of the Regex
+- If text reuse is not needed, leave everything inside the Trigger regex and the Variable section blank
 
 #### SETUP
 - Disclaimer: Dad Bot is built and maintained using go version 1.8.1.

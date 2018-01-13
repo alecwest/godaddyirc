@@ -50,15 +50,13 @@ type ResponseData struct {
 }
 
 // RegexData makes it a little easier to capture text by having
-// regex that seperates the message content into three sections. In the
-// Before and After sections, you'd specify any triggers that are generally
-// pretty constant, while Repeat is the variable part that would be repeated
-// by the bot. For a simple trigger, just fill in Before and leave
-// Repeat and After blank
+// regex that seperates the message content into two parts.
+// The Trigger section acts as the command that the bot responds to.
+// The Variable is what the bot will take and use in its response (if needed).
+// If no reuse of message content is needed in a response, leave Variable blank.
 type RegexData struct {
-	Before 		string
+	Trigger		string
 	Variable 	string
-	After 		string
 }
 
 // Reply includes the final formatted response (all text replacement blocks
@@ -166,23 +164,16 @@ func Unground(name string) {
 func TestMessage(regex RegexData, message *hbot.Message) bool {
 	var substring string
 	match := false
-	b, v, a := MustCompileRegexData(regex)
-	// log.Debug(fmt.Sprintf("Before regex matched '%s' from '%s'", b.FindString(message.Content), message.Content))
+	t, v := MustCompileRegexData(regex)
+	log.Debug(fmt.Sprintf("Before regex matched '%s' from '%s'", t.FindString(message.Content), message.Content))
 
-	if b.FindString(message.Content) != "" {
+	if t.FindString(message.Content) != "" {
 		match = true
 	}
 	if match && regex.Variable != "" {
-		substring = b.ReplaceAllLiteralString(message.Content, "")
-		// log.Debug(fmt.Sprintf("Repeat regex matched '%s' from '%s'", v.FindString(substring), substring))
+		substring = t.ReplaceAllLiteralString(message.Content, "")
+		log.Debug(fmt.Sprintf("Repeat regex matched '%s' from '%s'", v.FindString(substring), substring))
 		if v.FindString(substring) == "" {
-			match = false
-		}
-	}
-	if match && regex.After != "" {
-		substring = v.ReplaceAllLiteralString(substring, "")
-		// log.Debug(fmt.Sprintf("After regex matched '%s' from '%s'", a.FindString(message.Content), substring))
-		if a.FindString(substring) == "" {
 			match = false
 		}
 	}
@@ -207,13 +198,14 @@ func StringInSlice(a string, s []string) int {
 	return -1
 }
 
-// RemoveRegex removes all before/after matching substrings from
+// RemoveTriggerRegex removes Trigger matching substrings from
 // the given string
-func RemoveRegex(s string, regex RegexData) string {
+// This doesn't necessarily leave behind the Variable portion, as there could
+// be additional message content that matches neither the Trigger nor Variable.
+func RemoveTriggerRegex(s string, regex RegexData) string {
 	var substring string
-	b, _, a := MustCompileRegexData(regex)
-	substring = b.ReplaceAllLiteralString(s, "")
-	substring = a.ReplaceAllLiteralString(substring, "")
+	t, _ := MustCompileRegexData(regex)
+	substring = t.ReplaceAllLiteralString(s, "")
 	return substring
 }
 
@@ -233,11 +225,9 @@ func RemoveLiteralRegex(s string, regex string) string {
 }
 
 func MustCompileRegexData(regex RegexData) (*regexp.Regexp,
-											*regexp.Regexp,
 											*regexp.Regexp) {
-	return 	regexp.MustCompile(regex.Before),
-			regexp.MustCompile(regex.Variable),
-			regexp.MustCompile(regex.After)
+	return 	regexp.MustCompile(regex.Trigger),
+			regexp.MustCompile(regex.Variable)
 }
 
 // SetRecipient modifies m's Content to no longer contain the regex command
@@ -246,7 +236,7 @@ func MustCompileRegexData(regex RegexData) (*regexp.Regexp,
 // primary channel if a recipient was not specified.
 func SetRecipient(m *hbot.Message, s SpeakData) string {
 	to := ""
-	strWithoutCommand := RemoveRegex(m.Content, s.Regex)
+	strWithoutCommand := RemoveTriggerRegex(m.Content, s.Regex)
 	// log.Debug(strWithoutCommand)
 	to = RemoveLiteralRegex(strWithoutCommand, ":.*")
 	if to == strWithoutCommand {
@@ -294,7 +284,7 @@ func FormatReply(message *hbot.Message, admin_speak bool, s_index int) Reply {
 				}
 			} else {
 				// Remove all non-variable parts of message content
-				message.Content = RemoveRegex(message.Content, s.Regex)
+				message.Content = RemoveTriggerRegex(message.Content, s.Regex)
 				message.Content = strings.TrimSpace(GetVariableRegex(message.Content, s.Regex))
 			}
 			if replace == "[ground]" {
