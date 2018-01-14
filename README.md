@@ -20,12 +20,8 @@
 - "Ground/Unground" users so dad won't respond to them
 
 #### PLANNED
-- Refactor config or how config is passed through bot
-- Change how certain messages recycle message content
 - Command to change channels
-- #u = get sender's name
-- #a = add article "a" or "an"
-- #v = add variable caught by regex
+- Cleanup of FormatReply so actions and text replacement are handled separately
 
 #### ISSUES
 - Colon ":" can't be used in say command without specifying the destination due to how the destination is received
@@ -35,6 +31,11 @@
 - All responses and corresponding regex can be found in conf.json
 - If text reuse is needed in a response, put the regex for the part to reuse in the Variable section of the Regex
 - If text reuse is not needed, leave everything inside the Trigger regex and the Variable section blank
+- Four fill-ins exist for responses:
+    - #a -> adds an article "a" or "an" to the existing message
+    - #c -> adds a response generated from an action handler
+    - #u -> adds the name of the sender
+    - #v -> adds the content caught by the Variable regex
 
 #### SETUP
 - Disclaimer: Dad Bot is built and maintained using go version 1.8.1.

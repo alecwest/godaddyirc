@@ -37,16 +37,17 @@ type Configuration struct {
 // SpeakData is the regex-to-response pairing for each possible response.
 // There can be more than one response, and it will be chosen semi-randomly.
 type SpeakData struct {
-	Regex    RegexData
-	Response []ResponseData
+	Action		string
+	Regex    	RegexData
+	Response 	[]ResponseData
 }
 
 // ResponseData contains the bot's reply and the number of times the reply
 // has been sent. Message may contain [...] blocks for different types of
 // text replacement/manipulation.
 type ResponseData struct {
-	Message string
-	Count   int
+	Message 	string
+	Count   	int
 }
 
 // RegexData makes it a little easier to capture text by having
@@ -62,19 +63,19 @@ type RegexData struct {
 // Reply includes the final formatted response (all text replacement blocks
 // dealt with), the destination, and the time the message was sent at.
 type Reply struct {
-	Content []string
-	To      string
-	Sent    time.Time
+	Content 	[]string
+	To      	string
+	Sent    	time.Time
 }
 
 // IRCBot is an extension of hellabot's Bot that includes an indicator for
 // whether the bot is acting as mom or dad, the config information, and the
 // last reply sent by the bot
 type IRCBot struct {
-	Bot       *hbot.Bot
-	Dad       bool
-	Conf      Configuration
-	LastReply Reply
+	Bot       	*hbot.Bot
+	Dad       	bool
+	Conf      	Configuration
+	LastReply 	Reply
 }
 
 // Dbot is the global variable that primarily allows for the config information
@@ -165,14 +166,14 @@ func TestMessage(regex RegexData, message *hbot.Message) bool {
 	var substring string
 	match := false
 	t, v := MustCompileRegexData(regex)
-	log.Debug(fmt.Sprintf("Before regex matched '%s' from '%s'", t.FindString(message.Content), message.Content))
+	// log.Debug(fmt.Sprintf("Trigger regex matched '%s' from '%s'", t.FindString(message.Content), message.Content))
 
 	if t.FindString(message.Content) != "" {
 		match = true
 	}
 	if match && regex.Variable != "" {
 		substring = t.ReplaceAllLiteralString(message.Content, "")
-		log.Debug(fmt.Sprintf("Repeat regex matched '%s' from '%s'", v.FindString(substring), substring))
+		// log.Debug(fmt.Sprintf("Variable regex matched '%s' from '%s'", v.FindString(substring), substring))
 		if v.FindString(substring) == "" {
 			match = false
 		}
@@ -230,21 +231,19 @@ func MustCompileRegexData(regex RegexData) (*regexp.Regexp,
 			regexp.MustCompile(regex.Variable)
 }
 
-// SetRecipient modifies m's Content to no longer contain the regex command
-// match in s as well as removes the recipient of the bot's reply (formatted
-// as <cmd> <recipient>: <rest>). It returns the recipient, or the bot's
-// primary channel if a recipient was not specified.
-func SetRecipient(m *hbot.Message, s SpeakData) string {
+// FormatMessage splits message into its destination and message components
+// (formatted as <recipient>: <rest>). It returns the recipient,
+// or the bot's primary channel if a recipient was not specified,
+// and the actual message
+func FormatMessage(message string, s SpeakData) (string, string) {
 	to := ""
-	strWithoutCommand := RemoveTriggerRegex(m.Content, s.Regex)
-	// log.Debug(strWithoutCommand)
-	to = RemoveLiteralRegex(strWithoutCommand, ":.*")
-	if to == strWithoutCommand {
+	message = RemoveTriggerRegex(message, s.Regex)
+	to = RemoveLiteralRegex(message, ":.*")
+	if to == message {
 		to = Dbot.Conf.Channels[0]
 	}
-	m.Content = strWithoutCommand
-	m.Content = RemoveLiteralRegex(m.Content, ".*:\\s")
-	return to
+	message = RemoveLiteralRegex(message, ".*:\\s")
+	return to, message
 }
 
 // FormatReply formulates the bot's response given the message, whether or
@@ -252,61 +251,64 @@ func SetRecipient(m *hbot.Message, s SpeakData) string {
 // to format the reply to (s_index). It returns the reply with set content and
 // destination (but not the time).
 func FormatReply(message *hbot.Message, admin_speak bool, s_index int) Reply {
-	s := getSpeakData(admin_speak)[s_index]
+	speakData := getSpeakData(admin_speak)[s_index]
 	var reply Reply
 	// Choose random response from list of responses (mostly used for jokes)
-	var rand_index = rand.Intn(len(s.Response))
-	rand_index = GetRandomLeastUsedResponseIndex(s)
-	response := s.Response[rand_index]
-	// Stolen from Bot.Reply to init reply.To
+	var rand_index = rand.Intn(len(speakData.Response))
+	rand_index = GetRandomLeastUsedResponseIndex(speakData)
+	response := speakData.Response[rand_index]
+	// If message was sent to a channel, send it back to the channel,
+	// otherwise, send it back to who sent it.
 	if strings.Contains(message.To, "#") {
 		reply.To = message.To
 	} else {
 		reply.To = message.From
 	}
-	if strings.Contains(response.Message, "[from]") {
-		response.Message = strings.Replace(response.Message, "[from]", message.From, -1)
+	variable := RemoveTriggerRegex(message.Content, speakData.Regex)
+	variable = strings.TrimSpace(GetVariableRegex(variable, speakData.Regex))
+	var actionVariable string
+
+	// TODO move to separate function
+	// Handle any included action
+	if strings.Contains(speakData.Action, "ground") {
+		Ground(variable)
+		actionVariable = variable
 	}
-	if strings.Contains(response.Message, "[grounded]") {
-		response.Message = strings.Replace(response.Message, "[grounded]",
-			strings.Join(Dbot.Conf.Grounded, ", "),
-			-1)
+	if strings.Contains(speakData.Action, "unground") {
+		Unground(variable)
+		actionVariable = variable
 	}
-	// Manages all responses that reuse any content from the original message
-	for _, replace := range []string{"[mock]", "[repeat]", "[ground]",
-		"[unground]", "[poof]"} {
-		if strings.Contains(response.Message, replace) {
-			// Modify who the message is sent to if it includes "user:" before the cmd
-			if replace == "[repeat]" {
-				to := SetRecipient(message, s)
-				if len(to) > 0 {
-					reply.To = to
-				}
-			} else {
-				// Remove all non-variable parts of message content
-				message.Content = RemoveTriggerRegex(message.Content, s.Regex)
-				message.Content = strings.TrimSpace(GetVariableRegex(message.Content, s.Regex))
-			}
-			if replace == "[ground]" {
-				Ground(message.Content)
-			} else if replace == "[unground]" {
-				Unground(message.Content)
-			} else if replace == "[poof]" {
-				message.Content = AddArticle(message.Content)
-			}
-			// Replace [...] element with what remains in the Content of the message
-			nonWord := regexp.MustCompile("^\\W+$")
-			if len(message.Content) == 0 || nonWord.MatchString(message.Content) {
-				response.Message = "" // Delete response if m.Content is empty
-			} else {
-				response.Message = strings.Replace(response.Message, replace,
-					message.Content, -1)
-			}
+	if strings.Contains(speakData.Action, "grounded") {
+		actionVariable = strings.Join(Dbot.Conf.Grounded, ", ")
+	}
+	if strings.Contains(speakData.Action, "message") {
+		to, msg := FormatMessage(variable, speakData)
+		if len(to) > 0 {
+			reply.To = to
 		}
+		actionVariable = msg
 	}
-	// If message is non-empty, then bot will send it, so increment response count
+
+	// TODO move to separate function
+	// Handle different types of text replacement
+	if strings.Contains(response.Message, "#a") {
+		// message.Content = AddArticle(message.Content)
+		variable = AddArticle(variable)
+		response.Message = strings.Replace(response.Message, "#a ", "", -1)
+	}
+	if strings.Contains(response.Message, "#c") {
+		response.Message = strings.Replace(response.Message, "#c", actionVariable, -1)
+	}
+	if strings.Contains(response.Message, "#u") {
+		response.Message = strings.Replace(response.Message, "#u", message.From, -1)
+	}
+	if strings.Contains(response.Message, "#v") {
+		response.Message = strings.Replace(response.Message, "#v", variable, -1)
+	}
+
+	// If reply is non-empty, then bot will send it, so increment response count
 	if response.Message != "" {
-		s.Response[rand_index].Count++
+		speakData.Response[rand_index].Count++
 	}
 	reply.Content = strings.Split(response.Message, "\n")
 	return reply

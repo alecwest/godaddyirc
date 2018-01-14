@@ -2,38 +2,41 @@
     "Admin": "awest",
     "AdminSpeak": [
         {
+            "Action": "ground",
             "Regex": {
                 "Trigger": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), ground ",
                 "Variable": "\\S+"
             },
             "Response": [
                 {
-                    "Message": "That's it, you're grounded [ground]!",
-                    "Count": 24
+                    "Message": "That's it, you're grounded #c!",
+                    "Count": 27
                 }
             ]
         },
         {
+            "Action": "message",
             "Regex": {
                 "Trigger": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), say ",
                 "Variable": ".*"
             },
             "Response": [
                 {
-                    "Message": "[repeat]",
-                    "Count": 190
+                    "Message": "#c",
+                    "Count": 235
                 }
             ]
         },
         {
+            "Action": "unground",
             "Regex": {
                 "Trigger": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), unground ",
                 "Variable": "\\S+"
             },
             "Response": [
                 {
-                    "Message": "[unground], you're now ungrounded. Don't let me catch you misbehaving again.",
-                    "Count": 14
+                    "Message": "#c, you're now ungrounded. Don't let me catch you misbehaving again.",
+                    "Count": 17
                 }
             ]
         }
@@ -48,13 +51,15 @@
         "Doge",
         "Magic_Conch",
         "Seahorse",
-        "l"
+        "l",
+        ""
     ],
     "Ip": "localhost",
     "MessageRate": 10,
     "MomName": "mom",
     "MomSpeak": [
         {
+            "Action": "none",
             "Regex": {
                 "Trigger": "(?i)(^|.*[^\\w])(mom(my|ma)?|mother|(ma){1,2})(\\W+[^?]*)?\\?\\s*$",
                 "Variable": ""
@@ -69,30 +74,33 @@
     ],
     "Speak": [
         {
+            "Action": "none",
             "Regex": {
                 "Trigger": "(?i)^(good\\s+)?mornin(g|')?(,)?\\s+(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})($|\\W+)",
                 "Variable": ""
             },
             "Response": [
                 {
-                    "Message": "good morning [from]!",
-                    "Count": 16
+                    "Message": "good morning #u!",
+                    "Count": 20
                 }
             ]
         },
         {
+            "Action": "grounded",
             "Regex": {
                 "Trigger": "(?i)(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2}), grounded",
                 "Variable": ""
             },
             "Response": [
                 {
-                    "Message": "Here is a list of grounded users:\n[grounded]",
-                    "Count": 21
+                    "Message": "Here is a list of grounded users:\n#c",
+                    "Count": 23
                 }
             ]
         },
         {
+            "Action": "none",
             "Regex": {
                 "Trigger": "(?i)(^|.*[^\\w])i(')?m\\W+(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})",
                 "Variable": ""
@@ -100,23 +108,25 @@
             "Response": [
                 {
                     "Message": "mmmmmmmmmm... no",
-                    "Count": 10
+                    "Count": 12
                 }
             ]
         },
         {
+            "Action": "none",
             "Regex": {
                 "Trigger": "(?i)(^|.*[^\\w])i(')?m(\\W+a(n)?)?\\W+",
                 "Variable": "(\\w.*)"
             },
             "Response": [
                 {
-                    "Message": "Hi [mock], I'm dad",
-                    "Count": 85
+                    "Message": "Hi #v, I'm dad",
+                    "Count": 89
                 }
             ]
         },
         {
+            "Action": "none",
             "Regex": {
                 "Trigger": "(?i)(^|.*[^\\w])i love\\s+\\w+\\W*$",
                 "Variable": ""
@@ -124,11 +134,12 @@
             "Response": [
                 {
                     "Message": "Well then why don't you marry it?",
-                    "Count": 16
+                    "Count": 17
                 }
             ]
         },
         {
+            "Action": "none",
             "Regex": {
                 "Trigger": "(?i)(^|.*[^\\w])(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})(\\W+[^?]*)?\\?\\s*$",
                 "Variable": ""
@@ -136,23 +147,25 @@
             "Response": [
                 {
                     "Message": "Ask your mother.",
-                    "Count": 32
+                    "Count": 34
                 }
             ]
         },
         {
+            "Action": "none",
             "Regex": {
                 "Trigger": "(?i)(^|.*[^\\w])make\\W+me(\\W+a|\\W+an)\\W+",
                 "Variable": "\\w[\\w\\s]*"
             },
             "Response": [
                 {
-                    "Message": "Poof, you're [poof]!",
-                    "Count": 10
+                    "Message": "Poof, you're #a #v!",
+                    "Count": 12
                 }
             ]
         },
         {
+            "Action": "none",
             "Regex": {
                 "Trigger": "(?i)(^|.*[^\\w])(([s]+[h]+[u]+[t]+\\s*[u]+[p]+|[f]+[u]+[c]+[k]+\\s*[y]+[o]+[u]+)\\s*(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})|[d]+[a]{2,}[d]+)",
                 "Variable": ""
@@ -160,11 +173,12 @@
             "Response": [
                 {
                     "Message": ":v)",
-                    "Count": 31
+                    "Count": 36
                 }
             ]
         },
         {
+            "Action": "none",
             "Regex": {
                 "Trigger": "(?i)(^|.*[^\\w])(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})($|\\W+)",
                 "Variable": ""
@@ -208,7 +222,7 @@
                 },
                 {
                     "Message": "Have you heard of the band 1023MB?\nThey haven't got a gig yet",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "How many apples grow on a tree?\nAll of them",
@@ -256,7 +270,7 @@
                 },
                 {
                     "Message": "I've just been diagnosed as colorblind\nI know, it certainly has come out of the purple",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "If prisoners could take their own mug shots,\nthey'd be called cellfies",
@@ -264,11 +278,11 @@
                 },
                 {
                     "Message": "Is this pool safe for diving?\nIt deep ends",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Last night I dreamt I was a muffler\nI woke up exhausted",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "My wife is on a tropical food diet, the house is full of the stuff\nIt's enough to make a mango crazy",
@@ -292,7 +306,7 @@
                 },
                 {
                     "Message": "What did the buffalo say to his son when he left for college?\nBison",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What did the grape do when he got stepped on?\nHe let out a little wine",
@@ -344,7 +358,7 @@
                 },
                 {
                     "Message": "What does an annoying pepper do?\nIt get's jalapeno face",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What lies at the bottom of the ocean and twitches?\nA nervous wreck",
@@ -368,7 +382,7 @@
                 },
                 {
                     "Message": "Why couldn't the bicycle stand up by itself?\nIt was two tired",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Why did the can-crusher quit his job?\nBecause it was soda-pressing",
@@ -384,7 +398,7 @@
                 },
                 {
                     "Message": "Why do bees hum?\nBecause they don't know the words",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Why do crabs never give to charity?\nBecause they're shellfish.",
@@ -508,7 +522,7 @@
                 },
                 {
                     "Message": "What did the green grape say to the purple grape?\nBREATHE!",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "My wife visited a holy city\nShe completely fell through it all.",
@@ -732,7 +746,7 @@
                 },
                 {
                     "Message": "My girlfriend is so good at drawing straight lines that she would thrive in an anarchist society...\n...because she doesn't need a ruler.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What's the opposite of cinnamon toast crunch?\nAntonym toast crunch",
@@ -756,7 +770,7 @@
                 },
                 {
                     "Message": "Have you heard the rumor going around about butter?\nNevermind, I really shouldn't spread it.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "The people at my hair salon make me wanna..\nCurl up and dye.",
@@ -820,7 +834,7 @@
                 },
                 {
                     "Message": "Why do cows have hooves instead of feet?\nBecause they lactose.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Do you know what the first thing a couple says when they're married?\nI do",
@@ -828,7 +842,7 @@
                 },
                 {
                     "Message": "I'd love to get into gardening...\n...now that I have more thyme on my hands.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "In the annual scientistific track and field meet, the geologists always lose\nProving once again that gneiss guys finish last.",
@@ -916,7 +930,7 @@
                 },
                 {
                     "Message": "I don't think I can trust my pillow.\nIt's always lying behind my back.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What's red and smells like green paint\nRed paint",
