@@ -16,17 +16,19 @@
 #### ADMIN FEATURES
 - Dad will say what you want it to, who you want it to
   - Just say "dad, say <target user/channel>: <message>"
+  - Without location specified, it speaks to the channel it's connected to
 - "Ground/Unground" users so dad won't respond to them
 
 #### PLANNED
 - Refactor config or how config is passed through bot
 - Change how certain messages recycle message content
-- Replace [...] blocks with something that can better capture target content
-- Determine whether dad/mom should respond to "dad?" or "mom?" since there's no actual question
 - Command to change channels
+- #u = get sender's name
+- #a = add article "a" or "an"
+- #v = add variable caught by regex
 
 #### ISSUES
-- You can ~probably~ get around the "Im dad" denial response by adding punctuations in weird places.
+- Colon ":" can't be used in say command without specifying the destination due to how the destination is received
 
 #### CONFIG
 - All regex is tested with the case-insensitive flag

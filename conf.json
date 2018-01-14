@@ -21,7 +21,7 @@
             "Response": [
                 {
                     "Message": "[repeat]",
-                    "Count": 185
+                    "Count": 190
                 }
             ]
         },
@@ -56,7 +56,7 @@
     "MomSpeak": [
         {
             "Regex": {
-                "Trigger": "(?i)(.*\\s+)?(mom(my|ma)?|mother|(ma){1,2})(\\W+[^?]*)?\\?\\s*$",
+                "Trigger": "(?i)(^|.*[^\\w])(mom(my|ma)?|mother|(ma){1,2})(\\W+[^?]*)?\\?\\s*$",
                 "Variable": ""
             },
             "Response": [
@@ -94,67 +94,67 @@
         },
         {
             "Regex": {
-                "Trigger": "(?i)(.*\\s+)?i(')?m\\s+(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})",
+                "Trigger": "(?i)(^|.*[^\\w])i(')?m\\W+(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})",
                 "Variable": ""
             },
             "Response": [
                 {
                     "Message": "mmmmmmmmmm... no",
-                    "Count": 6
+                    "Count": 10
                 }
             ]
         },
         {
             "Regex": {
-                "Trigger": "(?i)(.*\\s+)?i(')?m(\\s+a(n)?)?\\s+",
-                "Variable": "(\\w[\\w\\s]*)"
+                "Trigger": "(?i)(^|.*[^\\w])i(')?m(\\W+a(n)?)?\\W+",
+                "Variable": "(\\w.*)"
             },
             "Response": [
                 {
                     "Message": "Hi [mock], I'm dad",
-                    "Count": 65
+                    "Count": 85
                 }
             ]
         },
         {
             "Regex": {
-                "Trigger": "(?i)(.*\\s+)?i love\\s+\\w+\\W*$",
+                "Trigger": "(?i)(^|.*[^\\w])i love\\s+\\w+\\W*$",
                 "Variable": ""
             },
             "Response": [
                 {
                     "Message": "Well then why don't you marry it?",
-                    "Count": 15
+                    "Count": 16
                 }
             ]
         },
         {
             "Regex": {
-                "Trigger": "(?i)(.*\\s+)?(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})(\\W+[^?]*)?\\?\\s*$",
+                "Trigger": "(?i)(^|.*[^\\w])(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})(\\W+[^?]*)?\\?\\s*$",
                 "Variable": ""
             },
             "Response": [
                 {
                     "Message": "Ask your mother.",
-                    "Count": 26
+                    "Count": 32
                 }
             ]
         },
         {
             "Regex": {
-                "Trigger": "(?i)(.*\\s+)?make\\s+me(\\s+a|\\s+an)\\s+",
+                "Trigger": "(?i)(^|.*[^\\w])make\\W+me(\\W+a|\\W+an)\\W+",
                 "Variable": "\\w[\\w\\s]*"
             },
             "Response": [
                 {
                     "Message": "Poof, you're [poof]!",
-                    "Count": 7
+                    "Count": 10
                 }
             ]
         },
         {
             "Regex": {
-                "Trigger": "(?i)(.*\\s+)?(([s]+[h]+[u]+[t]+\\s*[u]+[p]+|[f]+[u]+[c]+[k]+\\s*[y]+[o]+[u]+)\\s*(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})|[d]+[a]{2,}[d]+)",
+                "Trigger": "(?i)(^|.*[^\\w])(([s]+[h]+[u]+[t]+\\s*[u]+[p]+|[f]+[u]+[c]+[k]+\\s*[y]+[o]+[u]+)\\s*(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})|[d]+[a]{2,}[d]+)",
                 "Variable": ""
             },
             "Response": [
@@ -166,7 +166,7 @@
         },
         {
             "Regex": {
-                "Trigger": "(?i)(.*\\s+)?(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})($|\\W+)",
+                "Trigger": "(?i)(^|.*[^\\w])(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})($|\\W+)",
                 "Variable": ""
             },
             "Response": [
@@ -308,7 +308,7 @@
                 },
                 {
                     "Message": "What do you call a deer with no eyes?\nNo idear",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What do you call a fake noodle?\nAn Impasta",
@@ -448,7 +448,7 @@
                 },
                 {
                     "Message": "How do you shoot a rocket?\nFire works",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What time did the man go to the dentist?\nTooth Hurty",
@@ -564,7 +564,7 @@
                 },
                 {
                     "Message": "What would Forrest Gumps email password be?\n1Forrest1",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "I don't usually tell tell dad jokes\n.............",
@@ -620,7 +620,7 @@
                 },
                 {
                     "Message": "My boy asked me to hand him his sunglasses.\nI told him I'd do it as soon as he handed me my dadglasses",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Why did the melons have a formal wedding?\nBecause they cantaloupe.",
@@ -724,7 +724,7 @@
                 },
                 {
                     "Message": "What happens on a clear day in Los Angeles?\nUCLA.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Why did the ragdoll change her mind?\nIt was suede!",

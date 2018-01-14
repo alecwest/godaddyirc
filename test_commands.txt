@@ -1,14 +1,13 @@
-dad, say speaking to current channel and expecting message to current channel
+dad, say receiving a say command without direction and expecting a response through #main channel 
 dad, say Hello current channel!
 
-dad, say speaking to awest privately and expecting a private greeting
+dad, say receiving a say command with awest as direction and expecting a greeting in private message
 dad, say awest: Hello awest!
 
-*** went through #main instead
-dad, say receiving a private say command and expecting response through private message
+dad, say receiving a private say command without direction and expecting a response through main channel
 /msg dad dad, say jlong sucks
 
-dad, say receiving a private say command and expecting response through main channel
+dad, say receiving a private say command with #main as direction and expecting response through main channel
 /msg dad dad, say #main: jlong sucks
 
 dad, say saying good morning and expecting good morning in return
@@ -23,48 +22,39 @@ good mornin' dad
 dad, say saying im cooler than jlong and expecting mocking response
 im cooler than jlong
 
-*** hi hcooler than jlong
 dad, say saying him cooler than jlong and expecting nothing back
 him cooler than jlong
 
 dad, say saying hello im and expecting nothing back
 hello im
 
-*** hi j long, im dad
 dad, say saying hello i'mj long and expecting nothing back
 hello i'mj long
 
 dad, say saying I'm cooler than jlong and expecting mocking response
 I'm cooler than jlong
 
-*** hi cooler than jlong, Im dad
-dad, say saying im .cooler than jlong and expecting nothing back
+dad, say saying im .cooler than jlong and expecting response with . removed
 im .cooler than jlong
 
-*** hi cooler than jlong, I'm dad
-dad, say sayimg im. cooler than jlong and expecting nothing back
+dad, say sayimg im. cooler than jlong and expecting response with . removed
 im. cooler than jlong
 
 dad, say saying im dad and expecting denial
 im dad
 
-*** hi dad, im dad
-dad, say saying im .dad and expecting a joke
+dad, say saying im .dad and expecting denial
 im .dad
 
-*** nothing
 dad, say saying i love jlong and expecting a marry response
 i love jlong
 
-*** then why dont you marry it?
 dad, say saying i love jlong and jnguyen and expecting nothing back
 i love jlong and jnguyen
 
-*** joke
 dad, say asking a question and expecting ask your mother response
 dad am I cooler than jlong?
 
-*** joke
 dad, say asking another question and expecting ask your mother response
 am I cooler than jlong, dad?
 
@@ -86,28 +76,29 @@ dad, unground jlong
 dad, say checking for ungrounded user and expecting list of users without grounded user
 dad, grounded
 
-dad, say saying dad, pops, papa, poppop, daddy, daddio, and dad'o and expecting 7 jokes
+dad, say saying dad, dada, daddy, father, pop, pops, poppop, poppops, pa, and papa and expecting 10 jokes
 dad
-pops
-papa
-poppop
+dada
 daddy
-***
-daddio
-dad'o
+father
+pop
+pops
+poppop
+poppops
+pa
+papa
 
-*** say command doesnt work
-dad, say saying long shut up and expecting a :v) response
+dad, say #main: saying long shut up and expecting a :v) response
 ssssshhhhhuuuuttttt     uuuuuupppp dad
 
-dad, say saying short shut up and expecting a :v) response
+dad, say #main: saying short shut up and expecting a :v) response
 shutup dad
 
-dad, say saying long fuck you and expecting a :v) response
+dad, say #main: saying long fuck you and expecting a :v) response
 ffffuuuuccckkk     yyyyoooouuu dad
 
-dad, say saying short fuck you and expecting a :v) response
+dad, say #main: saying short fuck you and expecting a :v) response
 fuckyou dad
 
-dad, say saying long dad and expecting a :v) response
+dad, say #main: saying long dad and expecting a :v) response
 ddaaadd
