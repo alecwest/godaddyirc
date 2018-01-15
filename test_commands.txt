@@ -1,4 +1,4 @@
-dad, say receiving a say command without direction and expecting a response through #main channel 
+dad, say receiving a say command without direction and expecting a response through #main channel
 dad, say Hello current channel!
 
 dad, say receiving a say command with awest as direction and expecting a greeting in private message
@@ -102,3 +102,12 @@ fuckyou dad
 
 dad, say #main: saying long dad and expecting a :v) response
 ddaaadd
+
+dad, say saying make me a jlong and expecting poof you're a jlong
+make me a jlong
+
+dad, say saying make me an cooler jlong and expecting poof you're a cooler jlong
+make me an cooler jlong
+
+dad, say saying make me jlong and expecting nothing
+make me jlong

@@ -246,58 +246,46 @@ func FormatMessage(message string, s SpeakData) (string, string) {
 	return to, message
 }
 
-// FormatReply formulates the bot's response given the message, whether or
-// not the sender was an admin (admin_speak), and the index of the SpeakData
-// to format the reply to (s_index). It returns the reply with set content and
-// destination (but not the time).
-func FormatReply(message *hbot.Message, admin_speak bool, s_index int) Reply {
-	speakData := getSpeakData(admin_speak)[s_index]
-	var reply Reply
-	// Choose random response from list of responses (mostly used for jokes)
-	var rand_index = rand.Intn(len(speakData.Response))
-	rand_index = GetRandomLeastUsedResponseIndex(speakData)
-	response := speakData.Response[rand_index]
-	// If message was sent to a channel, send it back to the channel,
-	// otherwise, send it back to who sent it.
-	if strings.Contains(message.To, "#") {
-		reply.To = message.To
-	} else {
-		reply.To = message.From
-	}
-	variable := RemoveTriggerRegex(message.Content, speakData.Regex)
-	variable = strings.TrimSpace(GetVariableRegex(variable, speakData.Regex))
-	var actionVariable string
-
-	// TODO move to separate function
+// PerformAction evaluates the action associated with the response (speak)
+// and performs any necessary actions. Any content that needs to be used in
+// the response will be returned.
+func PerformAction(reply Reply, speak SpeakData,
+				   variable string) (Reply, string) {
 	// Handle any included action
-	if strings.Contains(speakData.Action, "ground") {
+	if strings.Contains(speak.Action, "ground") {
 		Ground(variable)
-		actionVariable = variable
 	}
-	if strings.Contains(speakData.Action, "unground") {
+	if strings.Contains(speak.Action, "unground") {
 		Unground(variable)
-		actionVariable = variable
 	}
-	if strings.Contains(speakData.Action, "grounded") {
-		actionVariable = strings.Join(Dbot.Conf.Grounded, ", ")
+	if strings.Contains(speak.Action, "grounded") {
+		variable = strings.Join(Dbot.Conf.Grounded, ", ")
 	}
-	if strings.Contains(speakData.Action, "message") {
-		to, msg := FormatMessage(variable, speakData)
+	if strings.Contains(speak.Action, "message") {
+		to, msg := FormatMessage(variable, speak)
 		if len(to) > 0 {
 			reply.To = to
 		}
-		actionVariable = msg
+		variable = msg
 	}
+	return reply, variable
+}
 
-	// TODO move to separate function
-	// Handle different types of text replacement
+// HandleTextReplacement determines what to do with each flag in a response
+// #a indicates an article "a" or "an"
+// #u indicates the name of the user who sent the trigger message
+// #v indicates the string captured by the Variable regex
+// Other conditionals can be added here. A string with all flags replaced is
+// returned.
+func HandleTextReplacement(message *hbot.Message, response ResponseData,
+						   variable string) string {
 	if strings.Contains(response.Message, "#a") {
 		// message.Content = AddArticle(message.Content)
 		variable = AddArticle(variable)
 		response.Message = strings.Replace(response.Message, "#a ", "", -1)
 	}
 	if strings.Contains(response.Message, "#c") {
-		response.Message = strings.Replace(response.Message, "#c", actionVariable, -1)
+		response.Message = strings.Replace(response.Message, "#c", variable, -1)
 	}
 	if strings.Contains(response.Message, "#u") {
 		response.Message = strings.Replace(response.Message, "#u", message.From, -1)
@@ -305,7 +293,41 @@ func FormatReply(message *hbot.Message, admin_speak bool, s_index int) Reply {
 	if strings.Contains(response.Message, "#v") {
 		response.Message = strings.Replace(response.Message, "#v", variable, -1)
 	}
+	return response.Message
+}
 
+// ChooseDestination determines the target for the bot's reply
+// purely based on who sent the trigger message and where they sent it
+// Returns the destination
+func ChooseDestination(message *hbot.Message) string {
+	var to string
+	if strings.Contains(message.To, "#") {
+		to = message.To
+	} else {
+		to = message.From
+	}
+	return to
+}
+
+// FormatReply formulates the bot's response given the message, whether or
+// not the sender was an admin (admin_speak), and the index of the SpeakData
+// to format the reply to (s_index). It returns the reply with set content and
+// destination (but not the time).
+func FormatReply(message *hbot.Message, admin_speak bool, s_index int) Reply {
+	var reply Reply
+	var speakData = getSpeakData(admin_speak)[s_index]
+	var rand_index = GetRandomLeastUsedResponseIndex(speakData)
+	var response = speakData.Response[rand_index]
+	var variable = RemoveTriggerRegex(message.Content, speakData.Regex)
+	variable = strings.TrimSpace(GetVariableRegex(variable, speakData.Regex))
+	reply.To = ChooseDestination(message)
+
+	if !strings.Contains(speakData.Action, "none") {
+		reply, variable = PerformAction(reply, speakData, variable)
+		log.Debug(variable)
+	}
+	response.Message = HandleTextReplacement(message, response, variable)
+	log.Debug(response.Message)
 	// If reply is non-empty, then bot will send it, so increment response count
 	if response.Message != "" {
 		speakData.Response[rand_index].Count++
@@ -314,11 +336,11 @@ func FormatReply(message *hbot.Message, admin_speak bool, s_index int) Reply {
 	return reply
 }
 
-// PerformAction determines whether or not a reply should be formulated and then
+// PerformReply determines whether or not a reply should be formulated and then
 // performs it by passing it the bot in use (irc), the message just sent (m),
 // and whether or not the sender was the admin (admin_speak). If an action
 // was performed, return true.
-func PerformAction(irc *hbot.Bot, m *hbot.Message, admin_speak bool) bool {
+func PerformReply(irc *hbot.Bot, m *hbot.Message, admin_speak bool) bool {
 	speak := getSpeakData(admin_speak)
 	// Do not perform an action if either the sender is grounded, is mom/dad,
 	// sufficient time has not passed, or the message is from the irc's IP
@@ -405,7 +427,7 @@ var UserTrigger = hbot.Trigger{
 		return (m.From != Dbot.Conf.Admin)
 	},
 	func(irc *hbot.Bot, m *hbot.Message) bool {
-		PerformAction(irc, m, false)
+		PerformReply(irc, m, false)
 		UpdateConfig()
 		return false
 	},
@@ -418,9 +440,9 @@ var AdminTrigger = hbot.Trigger{
 		return (m.From == Dbot.Conf.Admin)
 	},
 	func(irc *hbot.Bot, m *hbot.Message) bool {
-		responded := PerformAction(irc, m, true)
+		responded := PerformReply(irc, m, true)
 		if !responded {
-			PerformAction(irc, m, false)
+			PerformReply(irc, m, false)
 		}
 		UpdateConfig()
 		return false

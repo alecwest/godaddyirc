@@ -10,7 +10,7 @@
             "Response": [
                 {
                     "Message": "That's it, you're grounded #c!",
-                    "Count": 27
+                    "Count": 28
                 }
             ]
         },
@@ -23,7 +23,7 @@
             "Response": [
                 {
                     "Message": "#c",
-                    "Count": 235
+                    "Count": 284
                 }
             ]
         },
@@ -36,7 +36,7 @@
             "Response": [
                 {
                     "Message": "#c, you're now ungrounded. Don't let me catch you misbehaving again.",
-                    "Count": 17
+                    "Count": 18
                 }
             ]
         }
@@ -82,7 +82,7 @@
             "Response": [
                 {
                     "Message": "good morning #u!",
-                    "Count": 20
+                    "Count": 25
                 }
             ]
         },
@@ -95,7 +95,7 @@
             "Response": [
                 {
                     "Message": "Here is a list of grounded users:\n#c",
-                    "Count": 23
+                    "Count": 25
                 }
             ]
         },
@@ -108,7 +108,7 @@
             "Response": [
                 {
                     "Message": "mmmmmmmmmm... no",
-                    "Count": 12
+                    "Count": 14
                 }
             ]
         },
@@ -121,7 +121,7 @@
             "Response": [
                 {
                     "Message": "Hi #v, I'm dad",
-                    "Count": 89
+                    "Count": 93
                 }
             ]
         },
@@ -134,7 +134,7 @@
             "Response": [
                 {
                     "Message": "Well then why don't you marry it?",
-                    "Count": 17
+                    "Count": 18
                 }
             ]
         },
@@ -147,7 +147,7 @@
             "Response": [
                 {
                     "Message": "Ask your mother.",
-                    "Count": 34
+                    "Count": 37
                 }
             ]
         },
@@ -160,7 +160,7 @@
             "Response": [
                 {
                     "Message": "Poof, you're #a #v!",
-                    "Count": 12
+                    "Count": 20
                 }
             ]
         },
@@ -173,7 +173,7 @@
             "Response": [
                 {
                     "Message": ":v)",
-                    "Count": 36
+                    "Count": 41
                 }
             ]
         },
@@ -290,7 +290,7 @@
                 },
                 {
                     "Message": "Our wedding was so beautiful,\neven the cake was in tiers",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "This graveyard looks overcrowded,\npeople must be dying to get in there",
@@ -490,7 +490,7 @@
                 },
                 {
                     "Message": "Where do belly buttons go to college\nNaval Academy",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Took my kids out to a Plane Factory for a tour.\nThey said it was Boeing.",
@@ -538,7 +538,7 @@
                 },
                 {
                     "Message": "What do you call a genie made of asbestos?\nA carcinojinn.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "My friend threatened to turn me into the police for bludgeoning his wife to death with a Super Nintendo\nSo I had to console him as well.",
@@ -566,7 +566,7 @@
                 },
                 {
                     "Message": "What is the difference between a fly and a bird?\nA bird can fly but a fly can't bird",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "I just bought a vintage Rolls Royce, but the budget didn't cover a driver.\nSo I spent all that money, and I've got nothing to chauffeur it.",
@@ -582,7 +582,7 @@
                 },
                 {
                     "Message": "I don't usually tell tell dad jokes\n.............",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What type of dog can do magic tricks?\nA labracadabrador",
@@ -590,7 +590,7 @@
                 },
                 {
                     "Message": "I used to collect cacti...\nbut agave that up years ago.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "I heard a beaver lost its home today.\nDam shame, too.",
@@ -642,11 +642,11 @@
                 },
                 {
                     "Message": "Was Noah an...\n...ark-itect?",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Why did the 2 Egyptian farters get along so well?\nBecause they had a Tutankhamen.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "I said to my wife, \"They say that childbirth is the most painful thing someone can experience...\"\nNow, maybe I was too young to remember, but I didn't think it hurt that much.",
@@ -682,7 +682,7 @@
                 },
                 {
                     "Message": "Did you hear about the man who got hit in the head by a can of soda?\nDon't worry, he's fine. It was a soft drink.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Did you hear about the mathematical breakthrough in algebra?\nIt was on the hypotenews",
@@ -690,7 +690,7 @@
                 },
                 {
                     "Message": "I bought a gallon of White Out.\nBig Mistake..",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "My Dad and I sighed at the same time today.\nHe said \"Wow, that was sighmultaneous.\"",
@@ -742,7 +742,7 @@
                 },
                 {
                     "Message": "Why did the ragdoll change her mind?\nIt was suede!",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "My girlfriend is so good at drawing straight lines that she would thrive in an anarchist society...\n...because she doesn't need a ruler.",
@@ -750,7 +750,7 @@
                 },
                 {
                     "Message": "What's the opposite of cinnamon toast crunch?\nAntonym toast crunch",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "I was arrested for telling my dad the best joke ever...\nPolice said manslaughter was illegal",
@@ -894,7 +894,7 @@
                 },
                 {
                     "Message": "I like the theory of the death penalty\nBut I have a problem with the execution.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "Did you hear about the kidnapping in Denver?\nHe woke up.",
