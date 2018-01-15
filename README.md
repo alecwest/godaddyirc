@@ -21,7 +21,8 @@
 
 #### PLANNED
 - Command to change channels
-- Cleanup of FormatReply so actions and text replacement are handled separately
+- Cleanup of dadbot.go overall
+- Add dad, help for list of admin commands
 
 #### ISSUES
 - Colon ":" can't be used in say command without specifying the destination due to how the destination is received
