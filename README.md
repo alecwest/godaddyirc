@@ -4,7 +4,7 @@
 
 ### This bot mimics the behavior of everyone's favorite person... dad.
 ### Bot uses [hellabot](https://github.com/whyrusleeping/hellabot) as its base.
-### Credit to jokes goes to [niceonedad](http://niceonedad.com/) and [r/dadJokes](https://www.reddit.com/r/dadjokes/)
+### Credit for jokes goes to [niceonedad](http://niceonedad.com/) and [r/dadJokes](https://www.reddit.com/r/dadjokes/)
 
 #### FEATURES
 - Will respond to most common english forms of the word "dad"
@@ -23,9 +23,19 @@
 - Command to change channels
 - Cleanup of dadbot.go overall
 - Add dad, help for list of admin commands
+- Better way to save config?
+- Bring back joke getting scripts
+- Respond to "?!" questions
+- Attempt reconnect on drop
+- Make mom more cynical. ex: "I love mom" -> "Ok"
+- Use more \\b in regex
+- Listen briefly before speaking to see if any other bots were triggered by the message first, and ignore if one was
+- Add a list to track bots
+- Track users by name and IP
 
 #### ISSUES
-- Colon ":" can't be used in say command without specifying the destination due to how the destination is received
+- Ungrounding leaves an empty string behind
+- I'm panicking returns 'mmmmmmmmmm no'
 
 #### CONFIG
 - All regex is tested with the case-insensitive flag
