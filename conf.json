@@ -10,7 +10,7 @@
             "Response": [
                 {
                     "Message": "That's it, you're grounded #c!",
-                    "Count": 28
+                    "Count": 35
                 }
             ]
         },
@@ -36,7 +36,7 @@
             "Response": [
                 {
                     "Message": "#c, you're now ungrounded. Don't let me catch you misbehaving again.",
-                    "Count": 18
+                    "Count": 21
                 }
             ]
         }
@@ -51,8 +51,7 @@
         "Doge",
         "Magic_Conch",
         "Seahorse",
-        "l",
-        ""
+        "l"
     ],
     "IP": "localhost",
     "MessageRate": 10,
@@ -61,7 +60,7 @@
         {
             "Action": "none",
             "Regex": {
-                "Trigger": "(?i)(^|.*[^\\w])(mom(my|ma)?|mother|(ma){1,2})(\\W+[^?]*)?\\?\\s*$",
+                "Trigger": "(?i)(^|.*[^\\w])(mom(my|ma)?|mother|(ma){1,2})(\\W+[^?]*)?\\?[!]*\\s*$",
                 "Variable": ""
             },
             "Response": [
@@ -95,7 +94,7 @@
             "Response": [
                 {
                     "Message": "Here is a list of grounded users:\n#c",
-                    "Count": 25
+                    "Count": 35
                 }
             ]
         },
@@ -141,7 +140,7 @@
         {
             "Action": "none",
             "Regex": {
-                "Trigger": "(?i)(^|.*[^\\w])(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})(\\W+[^?]*)?\\?\\s*$",
+                "Trigger": "(?i)(^|.*[^\\w])(dad(dy|a)?|father|(pop){1,2}(s)?|(pa){1,2})(\\W+[^?]*)?\\?[!]*\\s*$",
                 "Variable": ""
             },
             "Response": [
@@ -338,7 +337,7 @@
                 },
                 {
                     "Message": "What do you call an Argentinian with a rubber toe?\nRoberto",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "What do you call cheese by itself?\nProvolone",
@@ -470,7 +469,7 @@
                 },
                 {
                     "Message": "Thought taking my shell of my racing snail would make it faster.\nTurns out that just made it more sluggish.",
-                    "Count": 0
+                    "Count": 1
                 },
                 {
                     "Message": "If anybody knows any salad jokes.\nLettuce know......",

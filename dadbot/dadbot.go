@@ -159,9 +159,8 @@ func Unground(name string) {
 	if i == -1 {
 		return
 	}
-	Dbot.Conf.Grounded[len(Dbot.Conf.Grounded)-1], Dbot.Conf.Grounded[i] =
-		Dbot.Conf.Grounded[i], Dbot.Conf.Grounded[len(Dbot.Conf.Grounded)-1]
-	Dbot.Conf.Grounded = Dbot.Conf.Grounded[:len(Dbot.Conf.Grounded)-1]
+	Dbot.Conf.Grounded = append(Dbot.Conf.Grounded[:i], Dbot.Conf.Grounded[i+1:]...)
+	log.Debug(fmt.Sprintf("%s", Dbot.Conf.Grounded))
 }
 
 // TestMessage tests the passed message against the passed regex and returns
@@ -189,8 +188,6 @@ func TestMessage(regex RegexData, message *hbot.Message) bool {
 // reply was sent. If the message just sent was from an admin, ignore
 // time passed.
 func MessageRateMet(message *hbot.Message) bool {
-	log.Debug(fmt.Sprintf("messageRateMet? %s", (time.Since(Dbot.LastReply.Sent) > (time.Duration(Dbot.Conf.MessageRate)*time.Second) || message.From == Dbot.Conf.Admin)))
-	log.Debug(fmt.Sprintf("timeSince lastReply %s", time.Since(Dbot.LastReply.Sent)))
 	return (time.Since(Dbot.LastReply.Sent) > (time.Duration(Dbot.Conf.MessageRate)*time.Second) || message.From == Dbot.Conf.Admin)
 }
 
@@ -259,16 +256,23 @@ func FormatMessage(message string, s SpeakData) (string, string) {
 func PerformAction(reply Reply, speak SpeakData,
 	variable string) (Reply, string) {
 	// Handle any included action
-	if strings.Contains(speak.Action, "ground") {
+	ground := regexp.MustCompile("(?i)^ground$")
+	unground := regexp.MustCompile("(?i)^unground$")
+	grounded := regexp.MustCompile("(?i)^grounded$")
+	message := regexp.MustCompile("(?i)^message$")
+	if ground.MatchString(speak.Action) {
+		log.Debug(fmt.Sprintf("Grounding %s", variable))
 		Ground(variable)
 	}
-	if strings.Contains(speak.Action, "unground") {
+	if unground.MatchString(speak.Action) {
+		log.Debug(fmt.Sprintf("ungrounding %s", variable))
 		Unground(variable)
 	}
-	if strings.Contains(speak.Action, "grounded") {
+	if grounded.MatchString(speak.Action) {
+		log.Debug(fmt.Sprintf("Listing grounded users"))
 		variable = strings.Join(Dbot.Conf.Grounded, ", ")
 	}
-	if strings.Contains(speak.Action, "message") {
+	if message.MatchString(speak.Action) {
 		to, msg := FormatMessage(variable, speak)
 		if len(to) > 0 {
 			reply.To = to
