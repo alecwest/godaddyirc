@@ -160,7 +160,6 @@ func Unground(name string) {
 		return
 	}
 	Dbot.Conf.Grounded = append(Dbot.Conf.Grounded[:i], Dbot.Conf.Grounded[i+1:]...)
-	log.Debug(fmt.Sprintf("%s", Dbot.Conf.Grounded))
 }
 
 // TestMessage tests the passed message against the passed regex and returns
@@ -261,15 +260,12 @@ func PerformAction(reply Reply, speak SpeakData,
 	grounded := regexp.MustCompile("(?i)^grounded$")
 	message := regexp.MustCompile("(?i)^message$")
 	if ground.MatchString(speak.Action) {
-		log.Debug(fmt.Sprintf("Grounding %s", variable))
 		Ground(variable)
 	}
 	if unground.MatchString(speak.Action) {
-		log.Debug(fmt.Sprintf("ungrounding %s", variable))
 		Unground(variable)
 	}
 	if grounded.MatchString(speak.Action) {
-		log.Debug(fmt.Sprintf("Listing grounded users"))
 		variable = strings.Join(Dbot.Conf.Grounded, ", ")
 	}
 	if message.MatchString(speak.Action) {
@@ -335,7 +331,7 @@ func FormatReply(message *hbot.Message, adminSpeak bool, sIndex int) Reply {
 
 	if !strings.Contains(speakData.Action, "none") {
 		reply, variable = PerformAction(reply, speakData, variable)
-		log.Debug(variable)
+		// log.Debug(variable)
 	}
 	response.Message = HandleTextReplacement(message, response, variable)
 	// If reply is non-empty, then bot will send it, so increment response count
